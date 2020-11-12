@@ -34,8 +34,8 @@ class _HomeState extends State<Home> {
         showUnselectedLabels: false, // Hide labels
         items: [
           new BottomNavigationBarItem(
-            icon: new Icon(Icons.map_outlined, color: Colors.black),
-            activeIcon: new Icon(Icons.map, color: Colors.black),
+            icon: new Icon(Icons.explore_outlined, color: Colors.black),
+            activeIcon: new Icon(Icons.explore_rounded, color: Colors.black),
             label: 'Explorer',
           ),
           new BottomNavigationBarItem(
