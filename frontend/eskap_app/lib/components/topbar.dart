@@ -1,4 +1,7 @@
+import 'package:eskap_app/models/suggestion.dart';
 import 'package:flutter/material.dart';
+import 'package:eskap_app/components/address_search.dart';
+import 'package:uuid/uuid.dart';
 
 class TopBar extends StatelessWidget {
   @override
@@ -19,12 +22,15 @@ class TopBar extends StatelessWidget {
                           Icons.search,
                           color: Colors.black,
                         ),
-                        hintText: "Location",
+                        hintText: "Entrer une adresse ...",
                         border: InputBorder.none,
                       ),
-                      readOnly: false, // On peut écrire ou non
+                      readOnly: true, // On peut écrire ou non
                       onTap: () async {
-                        //TODO
+                        final sessionToken = Uuid().v4();
+                        final Suggestion result = await showSearch(
+                            context: context,
+                            delegate: AddressSearch(sessionToken));
                       },
                     ),
                   ),
