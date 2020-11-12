@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eskap_app/components/components.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,7 +8,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
-  final List<Widget> _widgets = [];
+  final List<Widget> _widgets = [
+    Explorer(),
+    Favorite(),
+    Profile(),
+  ];
 
   void onTabTapped(int index) {
     setState(() {
