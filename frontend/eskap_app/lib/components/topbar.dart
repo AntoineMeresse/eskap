@@ -4,14 +4,14 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.10,
+        height: MediaQuery.of(context).size.height * 0.075,
         child: Container(
           child: Column(
             children: [
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.only(left: 6, right: 5),
                     width: MediaQuery.of(context).size.width * 0.80,
                     child: TextField(
                       decoration: InputDecoration(
@@ -39,11 +39,12 @@ class TopBar extends StatelessWidget {
                     },
                   ),
                 ],
+                // )
               ),
-              Divider(
-                thickness: 0,
-                color: Colors.black,
-              ),
+              // Divider(
+              //   thickness: 0,
+              //   color: Colors.black,
+              // ),
             ],
           ),
         ));

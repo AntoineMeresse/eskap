@@ -38,7 +38,7 @@ class _EskapMapState extends State<EskapMap> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.75,
+        height: MediaQuery.of(context).size.height * 0.811,
         child: GoogleMap(
           onMapCreated: _onMapCreated,
           markers: _markers,
