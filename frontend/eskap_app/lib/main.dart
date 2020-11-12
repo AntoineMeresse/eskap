@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eskap_app/screens/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: Text("My app"),
+          child: Home(),
         ),
       ),
     );
