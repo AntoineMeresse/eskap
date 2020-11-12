@@ -1,4 +1,5 @@
 import 'package:eskap_app/models/suggestion.dart';
+import 'package:eskap_app/services/place_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
 import 'package:uuid/uuid.dart';
@@ -31,6 +32,17 @@ class TopBar extends StatelessWidget {
                         final Suggestion result = await showSearch(
                             context: context,
                             delegate: AddressSearch(sessionToken));
+                        if (result != null) {
+                          print("======================================");
+                          //print(result);
+                          final place = await PlaceApiProvider()
+                              .getPlaceDetailFromCompleteAdress(
+                                  result.description);
+                          print(place.addresse.toString());
+                          print(place.id.toString());
+                          print(place.lat.toString());
+                          print(place.long.toString());
+                        }
                       },
                     ),
                   ),
