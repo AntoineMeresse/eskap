@@ -22,6 +22,34 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: IndexedStack(
+        children: _widgets,
+        index: _currentIndex,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        showSelectedLabels: false, // Hide labels
+        showUnselectedLabels: false, // Hide labels
+        items: [
+          new BottomNavigationBarItem(
+            icon: new Icon(Icons.map_outlined, color: Colors.black),
+            activeIcon: new Icon(Icons.map, color: Colors.black),
+            label: 'Explorer',
+          ),
+          new BottomNavigationBarItem(
+            icon: new Icon(Icons.favorite_outline, color: Colors.black),
+            activeIcon: new Icon(Icons.favorite, color: Colors.black),
+            label: 'Favorite',
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline, color: Colors.black),
+            activeIcon: new Icon(Icons.person, color: Colors.black),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
   }
 }
