@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/topbar.dart';
+import 'package:eskap_app/components/map.dart';
 
 class Explorer extends StatelessWidget {
   @override
@@ -8,6 +9,7 @@ class Explorer extends StatelessWidget {
       child: Column(
         children: [
           TopBar(),
+          EskapMap(),
         ],
       ),
     );
