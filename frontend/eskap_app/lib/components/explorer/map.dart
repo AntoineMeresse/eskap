@@ -1,8 +1,13 @@
+import 'package:eskap_app/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class EskapMap extends StatefulWidget {
+  final Place currentPlace;
+
+  EskapMap({Key key, this.currentPlace}) : super(key: key);
+
   @override
   _EskapMapState createState() => _EskapMapState();
 }
@@ -11,10 +16,22 @@ class _EskapMapState extends State<EskapMap> {
   GoogleMapController mapController;
 
   // Map => France
-  final LatLng _center = const LatLng(46.52863469527167, 2.43896484375);
+  //LatLng _center;
   final double _zoom = 5;
 
   Location location = new Location();
+
+  Future<void> _goToNewPosition() async {
+    await mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            zoom: 12,
+            target:
+                LatLng(widget.currentPlace.long, widget.currentPlace.lat))));
+  }
+
+  void moveCamera(LatLng l) {
+    _goToNewPosition();
+  }
 
   // Markers
   final Set<Marker> _markers = {};
@@ -35,17 +52,27 @@ class _EskapMapState extends State<EskapMap> {
     mapController = controller;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget eskapMap() {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.811,
+        height: MediaQuery.of(context).size.height * 0.70,
         child: GoogleMap(
           onMapCreated: _onMapCreated,
           markers: _markers,
           initialCameraPosition: CameraPosition(
-            target: _center,
+            target: LatLng(widget.currentPlace.lat, widget.currentPlace.long),
             zoom: _zoom,
           ),
+          onTap: moveCamera,
         ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(children: [
+        eskapMap(),
+        Text(widget.currentPlace.toString()),
+      ]),
+    );
   }
 }

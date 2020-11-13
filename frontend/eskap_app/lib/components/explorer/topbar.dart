@@ -5,6 +5,9 @@ import 'package:eskap_app/components/address_search.dart';
 import 'package:uuid/uuid.dart';
 
 class TopBar extends StatefulWidget {
+  final setCurrentPlace;
+  TopBar({Key key, this.setCurrentPlace}) : super(key: key);
+
   @override
   _TopBarState createState() => _TopBarState();
 }
@@ -56,6 +59,7 @@ class _TopBarState extends State<TopBar> {
                           print(place.lat.toString());
                           print(place.long.toString());
                           setSearchText(place.addresse);
+                          widget.setCurrentPlace(place);
                         }
                       },
                     ),
