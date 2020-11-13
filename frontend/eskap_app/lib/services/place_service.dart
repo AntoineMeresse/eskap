@@ -13,7 +13,7 @@ class PlaceApiProvider {
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result != null) {
-        //print(result["features"][0]); display the result
+        print(result["features"][0]); //display the result
         return result['features']
             .map<Suggestion>((p) =>
                 Suggestion(p["properties"]["id"], p["properties"]["label"]))
@@ -36,7 +36,7 @@ class PlaceApiProvider {
         place.addresse = result["features"][0]["properties"]["label"];
         place.lat = result["features"][0]["geometry"]["coordinates"][0];
         place.long = result["features"][0]["geometry"]["coordinates"][1];
-        place.id = int.parse(result["features"][0]["properties"]["id"]);
+        place.id = (result["features"][0]["properties"]["id"]);
         // C'est le code postal pour l'instant :/
         print(place);
         return place;
