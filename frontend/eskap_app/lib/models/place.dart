@@ -2,7 +2,7 @@ class Place {
   String addresse;
   double lat;
   double long;
-  int id;
+  String id;
 
   Place({
     this.addresse,
