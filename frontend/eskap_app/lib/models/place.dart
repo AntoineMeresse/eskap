@@ -10,4 +10,9 @@ class Place {
     this.long,
     this.id,
   });
+
+  @override
+  String toString() {
+    return 'Place{addresse: $addresse, lat: $lat, Lng: $long, id: $id}';
+  }
 }
