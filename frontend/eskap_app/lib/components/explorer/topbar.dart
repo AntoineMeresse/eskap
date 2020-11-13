@@ -4,7 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
 import 'package:uuid/uuid.dart';
 
-class TopBar extends StatelessWidget {
+class TopBar extends StatefulWidget {
+  @override
+  _TopBarState createState() => _TopBarState();
+}
+
+class _TopBarState extends State<TopBar> {
+  String searchText = "";
+
+  void setSearchText(String newText) {
+    setState(() {
+      searchText = newText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +36,7 @@ class TopBar extends StatelessWidget {
                           Icons.search,
                           color: Colors.black,
                         ),
-                        hintText: "Entrer une adresse ...",
+                        hintText: searchText,
                         border: InputBorder.none,
                       ),
                       readOnly: true, // On peut écrire ou non
@@ -42,6 +55,7 @@ class TopBar extends StatelessWidget {
                           print(place.id.toString());
                           print(place.lat.toString());
                           print(place.long.toString());
+                          setSearchText(place.addresse);
                         }
                       },
                     ),
