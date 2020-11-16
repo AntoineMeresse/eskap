@@ -26,17 +26,30 @@ class _EskapMapState extends State<EskapMap> {
         Place(addresse: "France", lat: 46.52863469527167, long: 2.43896484375);
   }
 
+  void setZoom(Place place) {
+    if (place.id.length >= 6) {
+      setState(() {
+        this.zoom = 18;
+      });
+    } else {
+      setState(() {
+        this.zoom = 12;
+      });
+    }
+  }
+
   void setCurrentPlace(Place place) {
     setState(() {
       this.currentPlace = place;
     });
+    setZoom(place);
     _goToNewPosition();
   }
 
   Future<void> _goToNewPosition() async {
     await mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
-            zoom: 12, target: LatLng(currentPlace.long, currentPlace.lat))));
+            zoom: zoom, target: LatLng(currentPlace.long, currentPlace.lat))));
   }
 
   void moveCamera(LatLng l) {
