@@ -52,22 +52,27 @@ class _EskapMapState extends State<EskapMap> {
             zoom: zoom, target: LatLng(currentPlace.lat, currentPlace.long))));
   }
 
+  void addMarker(String markerId, double lat, double long,
+      {String title: "MarkerDefaultTitle",
+      String snippet: "MarkerDefaultSnippet"}) {
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId(markerId),
+          position: LatLng(lat, long),
+          infoWindow: InfoWindow(title: title, snippet: snippet),
+          icon: BitmapDescriptor.defaultMarker,
+        ),
+      );
+    });
+  }
+
   // Markers
   final Set<Marker> _markers = {};
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: MarkerId("1"),
-          position: LatLng(50.46563, 3.253729),
-          infoWindow: InfoWindow(title: 'Maison', snippet: 'Antoine'),
-          icon: BitmapDescriptor.defaultMarker,
-        ),
-      );
-      print("===========> ");
-      print(_markers.length);
-    });
+    addMarker("1", 50.46563, 3.253729, title: 'Maison', snippet: 'Antoine');
+    addMarker("2", 50.630206, 3.04584);
     mapController = controller;
   }
 
