@@ -1,12 +1,11 @@
+import 'package:eskap_app/components/explorer/topbar.dart';
 import 'package:eskap_app/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class EskapMap extends StatefulWidget {
-  final Place currentPlace;
-
-  EskapMap({Key key, this.currentPlace}) : super(key: key);
+  EskapMap({Key key}) : super(key: key);
 
   @override
   _EskapMapState createState() => _EskapMapState();
@@ -14,19 +13,30 @@ class EskapMap extends StatefulWidget {
 
 class _EskapMapState extends State<EskapMap> {
   GoogleMapController mapController;
-
-  // Map => France
-  //LatLng _center;
-  final double _zoom = 5;
-
   Location location = new Location();
+
+  Place currentPlace;
+  double zoom;
+
+  @override
+  void initState() {
+    super.initState();
+    zoom = 5;
+    currentPlace =
+        Place(addresse: "France", lat: 46.52863469527167, long: 2.43896484375);
+  }
+
+  void setCurrentPlace(Place place) {
+    setState(() {
+      this.currentPlace = place;
+    });
+    _goToNewPosition();
+  }
 
   Future<void> _goToNewPosition() async {
     await mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
-            zoom: 12,
-            target:
-                LatLng(widget.currentPlace.long, widget.currentPlace.lat))));
+            zoom: 12, target: LatLng(currentPlace.long, currentPlace.lat))));
   }
 
   void moveCamera(LatLng l) {
@@ -59,8 +69,8 @@ class _EskapMapState extends State<EskapMap> {
           onMapCreated: _onMapCreated,
           markers: _markers,
           initialCameraPosition: CameraPosition(
-            target: LatLng(widget.currentPlace.lat, widget.currentPlace.long),
-            zoom: _zoom,
+            target: LatLng(currentPlace.lat, currentPlace.long),
+            zoom: zoom,
           ),
           onTap: moveCamera,
         ));
@@ -70,8 +80,9 @@ class _EskapMapState extends State<EskapMap> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(children: [
+        TopBar(setCurrentPlace: setCurrentPlace),
         eskapMap(),
-        Text(widget.currentPlace.toString()),
+        Text(currentPlace.toString()),
       ]),
     );
   }
