@@ -36,7 +36,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return null;
+    return buildSuggestions(context);
   }
 
   @override
