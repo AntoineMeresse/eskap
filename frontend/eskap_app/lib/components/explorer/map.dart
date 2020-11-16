@@ -52,10 +52,6 @@ class _EskapMapState extends State<EskapMap> {
             zoom: zoom, target: LatLng(currentPlace.long, currentPlace.lat))));
   }
 
-  void moveCamera(LatLng l) {
-    _goToNewPosition();
-  }
-
   // Markers
   final Set<Marker> _markers = {};
 
@@ -85,7 +81,6 @@ class _EskapMapState extends State<EskapMap> {
             target: LatLng(currentPlace.lat, currentPlace.long),
             zoom: zoom,
           ),
-          onTap: moveCamera,
         ));
   }
 

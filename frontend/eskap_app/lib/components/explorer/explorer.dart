@@ -12,11 +12,7 @@ class _ExplorerState extends State<Explorer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          EskapMap(),
-        ],
-      ),
+      child: EskapMap(),
     );
   }
 }
