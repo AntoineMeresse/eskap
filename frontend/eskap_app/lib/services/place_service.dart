@@ -34,8 +34,8 @@ class PlaceApiProvider {
       if (result != null) {
         final Place place = Place();
         place.addresse = result["features"][0]["properties"]["label"];
-        place.lat = result["features"][0]["geometry"]["coordinates"][0];
-        place.long = result["features"][0]["geometry"]["coordinates"][1];
+        place.long = result["features"][0]["geometry"]["coordinates"][0];
+        place.lat = result["features"][0]["geometry"]["coordinates"][1];
         place.id = (result["features"][0]["properties"]["id"]);
         // C'est le code postal pour l'instant :/
         print(place);

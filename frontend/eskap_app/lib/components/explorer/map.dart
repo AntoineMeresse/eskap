@@ -49,7 +49,7 @@ class _EskapMapState extends State<EskapMap> {
   Future<void> _goToNewPosition() async {
     await mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
-            zoom: zoom, target: LatLng(currentPlace.long, currentPlace.lat))));
+            zoom: zoom, target: LatLng(currentPlace.lat, currentPlace.long))));
   }
 
   // Markers
