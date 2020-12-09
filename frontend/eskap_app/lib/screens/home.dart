@@ -49,18 +49,22 @@ class _HomeState extends State<Home> {
         showUnselectedLabels: false, // Hide labels
         items: [
           new BottomNavigationBarItem(
-            icon: new Icon(Icons.explore_outlined, color: Colors.black),
-            activeIcon: new Icon(Icons.explore_rounded, color: Colors.black),
+            icon: _map
+                ? Icon(Icons.explore_outlined, color: Colors.black)
+                : Icon(Icons.list_alt_outlined, color: Colors.black),
+            activeIcon: _map
+                ? Icon(Icons.explore_rounded, color: Colors.black)
+                : Icon(Icons.list_alt, color: Colors.black),
             label: 'Explorer',
           ),
           new BottomNavigationBarItem(
-            icon: new Icon(Icons.favorite_outline, color: Colors.black),
-            activeIcon: new Icon(Icons.favorite, color: Colors.black),
+            icon: Icon(Icons.favorite_outline, color: Colors.black),
+            activeIcon: Icon(Icons.favorite, color: Colors.black),
             label: 'Favorite',
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.person_outline, color: Colors.black),
-            activeIcon: new Icon(Icons.person, color: Colors.black),
+            activeIcon: Icon(Icons.person, color: Colors.black),
             label: 'Profile',
           ),
         ],
