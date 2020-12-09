@@ -8,14 +8,29 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+  int _widgetIndex = 0;
+
+  bool _map = false;
+
   final List<Widget> _widgets = [
-    Explorer(),
+    EskapMap(),
+    EskapList(),
     Favorite(),
     Profile(),
   ];
 
   void onTabTapped(int index) {
     setState(() {
+      if (index == 0) {
+        if (_map) {
+          _widgetIndex = index;
+        } else {
+          _widgetIndex = index + 1;
+        }
+        _map = !_map;
+      } else {
+        _widgetIndex = index + 1;
+      }
       _currentIndex = index;
     });
   }
@@ -25,7 +40,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: IndexedStack(
         children: _widgets,
-        index: _currentIndex,
+        index: _widgetIndex,
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
