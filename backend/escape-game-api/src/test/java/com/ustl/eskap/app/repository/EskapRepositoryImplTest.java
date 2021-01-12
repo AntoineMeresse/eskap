@@ -11,6 +11,7 @@ public class EskapRepositoryImplTest {
     void findEskapById_withId_1(){
         var eskap = repository.findEskapById(1);
         assertNotNull(eskap);
+        assertEquals("Eskap 1", eskap.getName());
     }
 
     @Test

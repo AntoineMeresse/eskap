@@ -4,12 +4,16 @@ public class EscapeGame {
 
     private int id;
     private String name;
-    private Address address;
-    private Theme theme;
-    private Difficulty difficulty;
-    private Price price;
+    //private Address address;
+    //private Theme theme;
+    //private Difficulty difficulty;
+    //private Price price;
 
+    public EscapeGame() {
 
+    }
+
+    /*
     public EscapeGame(int id, String name, Address address, Theme theme, Difficulty difficulty, Price price) {
         this.id = id;
         this.name = name;
@@ -18,7 +22,7 @@ public class EscapeGame {
         this.difficulty = difficulty;
         this.price = price;
     }
-
+    */
 
     public int getId() {
         return id;
@@ -36,6 +40,7 @@ public class EscapeGame {
         this.name = name;
     }
 
+    /*
     public Address getAddress() {
         return address;
     }
@@ -67,4 +72,5 @@ public class EscapeGame {
     public void setPrice(Price price) {
         this.price = price;
     }
+     */
 }
