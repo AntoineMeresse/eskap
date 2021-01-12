@@ -1,4 +1,4 @@
-package com.ustl.eskpa.app.bo;
+package com.ustl.eskap.app.bo;
 
 public class Theme {
 
