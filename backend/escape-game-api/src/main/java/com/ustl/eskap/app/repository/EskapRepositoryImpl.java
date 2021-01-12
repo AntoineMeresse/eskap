@@ -2,11 +2,13 @@ package com.ustl.eskap.app.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ustl.eskap.app.bo.EscapeGame;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class EskapRepositoryImpl implements EskapRepository{
 
     private List<EscapeGame> eskaps;
