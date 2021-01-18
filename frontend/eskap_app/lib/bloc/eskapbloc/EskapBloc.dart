@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 
@@ -39,12 +38,13 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         await httpClient.get("https://eskaps.herokuapp.com/eskaps/");
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
+      print(data);
       return data.map((eskap) {
         return EscapeGame(
-          id: eskap['id'],
+          id: eskap['id'].toString(),
           name: eskap['name'],
-          lat: eskap['addresse']['latitude'],
-          long: eskap['addresse']['longitude'],
+          lat: eskap['address']['latitude'],
+          long: eskap['address']['longitude'],
         );
       }).toList();
     } else {

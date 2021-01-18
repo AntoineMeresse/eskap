@@ -1,65 +1,81 @@
-import 'package:flutter/material.dart';
 import 'package:eskap_app/models/escapeGame.dart';
-import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
+import 'package:eskap_app/bloc/bloc.dart';
 
-class EskapList extends StatefulWidget {
+class EskapList extends StatelessWidget {
   @override
-  _EskapListState createState() => _EskapListState();
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocProvider(
+        create: (context) =>
+            EskapBloc(httpClient: http.Client())..add(EskapFetched()),
+        child: EskapListBloc(),
+      ),
+    );
+  }
 }
 
-class _EskapListState extends State<EskapList> {
-  var eg = [];
+class EskapListBloc extends StatefulWidget {
+  @override
+  _EskapListBlocState createState() => _EskapListBlocState();
+}
 
-  final _saved = Set<String>();
-  Random r = new Random();
-
-  void addEscapeGame(String addresse, double lat, double long, String id) {
-    setState(() {
-      eg.add(new EscapeGame(addresse: addresse, lat: lat, long: long, id: id));
-    });
-  }
+class _EskapListBlocState extends State<EskapListBloc> {
+  EskapBloc _eskapBloc;
 
   @override
   void initState() {
     super.initState();
-    addEscapeGame("test", 2.0, 2.0, "1");
-    addEscapeGame("test2", 2.0, 2.0, "2");
-    print(eg);
-  }
-
-  Widget _buildRow(EscapeGame eg) {
-    final alreadySaved = _saved.contains(eg.id);
-
-    return ListTile(
-      leading: Icon(Icons.home),
-      title: Text("Escape Game"),
-      subtitle: Text(eg.addresse),
-      onLongPress: () =>
-          (addEscapeGame("NEW EG", 4.0, 4.0, r.nextInt(10000).toString())),
-      trailing: IconButton(
-        icon: Icon(alreadySaved ? Icons.favorite : Icons.favorite_border),
-        onPressed: () {
-          setState(() {
-            if (alreadySaved) {
-              _saved.remove(eg.id);
-            } else
-              _saved.add(eg.id);
-          });
-        },
-      ),
-    );
+    _eskapBloc = BlocProvider.of<EskapBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.70,
-      child: ListView.builder(
-        itemCount: eg.length,
-        itemBuilder: (context, index) {
-          return _buildRow(eg[index]);
-        },
-      ),
+    return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
+      if (state is EskapInitial) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (state is EskapFailure) {
+        return Center(child: Text('Failed to fetch datas'));
+      }
+      if (state is EskapSuccess) {
+        if (state.eskaps.isEmpty)
+          return Center(child: Text('No data'));
+        else {
+          return ListView.builder(
+              itemCount: state.eskaps.length,
+              itemBuilder: (BuildContext context, int index) {
+                return EskapWidget(eg: state.eskaps[index]);
+              });
+        }
+      }
+      return null;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _eskapBloc.close();
+  }
+}
+
+class EskapWidget extends StatelessWidget {
+  final EscapeGame eg;
+
+  const EskapWidget({Key key, @required this.eg}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(Icons.home),
+      title: Text(eg.name),
+      subtitle: Text(eg.id),
+      trailing: Icon(Icons.favorite),
     );
   }
 }
