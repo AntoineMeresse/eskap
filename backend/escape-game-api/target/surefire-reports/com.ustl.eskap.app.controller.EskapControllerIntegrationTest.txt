@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.ustl.eskap.app.controller.EskapControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.5 s - in com.ustl.eskap.app.controller.EskapControllerIntegrationTest

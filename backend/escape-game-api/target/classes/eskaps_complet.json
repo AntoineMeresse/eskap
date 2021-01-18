@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Eskap 1",
+    "address": {
+      "number": "1",
+      "street": "street",
+      "city": "Lille",
+      "state" : "aaa",
+      "zipCode" : 59000,
+      "latitude" : 50.630206,
+      "longitude" : 3.04584
+    },
+    "theme" : "Prison",
+    "difficulty" : "easy",
+    "price" : 20.00
+  }
+]
