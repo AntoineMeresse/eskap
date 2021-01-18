@@ -7,7 +7,9 @@
       "street": "street",
       "city": "Lille",
       "state" : "aaa",
-      "zipCode" : 59000
+      "zipCode" : 59000,
+      "latitude" : 50.630206,
+      "longitude" : 3.04584
     },
     "theme" : "Prison",
     "difficulty" : "easy",
