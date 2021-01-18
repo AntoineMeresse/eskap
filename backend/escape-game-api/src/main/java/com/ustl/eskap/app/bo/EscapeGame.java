@@ -4,25 +4,17 @@ public class EscapeGame {
 
     private int id;
     private String name;
-    //private Address address;
-    //private Theme theme;
-    //private Difficulty difficulty;
-    //private Price price;
+    private Address address;
+
+    private String theme;
+
+    private String difficulty;
+
+    private float price;
 
     public EscapeGame() {
 
     }
-
-    /*
-    public EscapeGame(int id, String name, Address address, Theme theme, Difficulty difficulty, Price price) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.theme = theme;
-        this.difficulty = difficulty;
-        this.price = price;
-    }
-    */
 
     public int getId() {
         return id;
@@ -40,37 +32,35 @@ public class EscapeGame {
         this.name = name;
     }
 
-    /*
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     public Address getAddress() {
         return address;
     }
 
-    public void setAddress(Address adress) {
-        this.address = adress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
-
-    public Theme getTheme() {
-        return theme;
-    }
-
-    public void setTheme(Theme theme) {
-        this.theme = theme;
-    }
-
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public Price getPrice() {
-        return price;
-    }
-
-    public void setPrice(Price price) {
-        this.price = price;
-    }
-     */
 }

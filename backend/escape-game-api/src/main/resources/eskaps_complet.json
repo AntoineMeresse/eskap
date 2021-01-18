@@ -6,17 +6,11 @@
       "number": "1",
       "street": "street",
       "city": "Lille",
-      "stare" : "aaa",
-      "zipCode" : "59000"
+      "state" : "aaa",
+      "zipCode" : 59000
     },
-    "theme" : {
-      "theme" : "Espion"
-    },
-    "difficulty": {
-      "difficulty" : "easy"
-    },
-    "price": {
-      "price" : 20.00
-    }
+    "theme" : "Prison",
+    "difficulty" : "easy",
+    "price" : 20.00
   }
 ]

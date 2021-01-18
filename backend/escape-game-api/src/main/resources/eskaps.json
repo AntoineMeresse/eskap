@@ -2,5 +2,9 @@
   {
     "id": 1,
     "name": "Eskap 1"
+  },
+  {
+    "id" : 2,
+    "name" : "Eskap 2"
   }
 ]

@@ -5,15 +5,19 @@ public class Address {
     private String number;
     private String street;
     private String city;
-    private String stare;
+    private String state;
     private int zipCode;
 
-    public Address(String number, String street, String city, String stare, int zipCode) {
+    public Address(String number, String street, String city, String state, int zipCode) {
         this.number = number;
         this.street = street;
         this.city = city;
-        this.stare = stare;
+        this.state = state;
         this.zipCode = zipCode;
+    }
+
+    public Address(){
+
     }
 
     public String getNumber() {
@@ -40,12 +44,12 @@ public class Address {
         this.city = city;
     }
 
-    public String getStare() {
-        return stare;
+    public String getState() {
+        return state;
     }
 
-    public void setStare(String stare) {
-        this.stare = stare;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public int getZipCode() {

@@ -15,7 +15,7 @@ public class EskapRepositoryImpl implements EskapRepository{
 
     public EskapRepositoryImpl() {
          try {
-             var eskapsStream = this.getClass().getResourceAsStream("/eskaps.json");
+             var eskapsStream = this.getClass().getResourceAsStream("/eskaps_complet.json");
              var objectMapper = new ObjectMapper();
              var eskapsArray = objectMapper.readValue(eskapsStream, EscapeGame[].class);
              this.eskaps = Arrays.asList(eskapsArray);
