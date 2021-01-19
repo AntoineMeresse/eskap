@@ -1,21 +1,7 @@
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:eskap_app/bloc/bloc.dart';
-
-class EskapList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: BlocProvider(
-        create: (context) =>
-            EskapBloc(httpClient: http.Client())..add(EskapFetched()),
-        child: EskapListBloc(),
-      ),
-    );
-  }
-}
 
 class EskapListBloc extends StatefulWidget {
   @override

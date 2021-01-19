@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/components.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
+import 'package:eskap_app/bloc/bloc.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -14,7 +18,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _widgets = [
     EskapMap(),
-    EskapList(),
+    EskapListBloc(),
     Favorite(),
     Profile(),
   ];
@@ -68,6 +72,19 @@ class _HomeState extends State<Home> {
             label: 'Profile',
           ),
         ],
+      ),
+    );
+  }
+}
+
+class HomeWithEskapBloc extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocProvider(
+        create: (context) =>
+            EskapBloc(httpClient: http.Client())..add(EskapFetched()),
+        child: Home(),
       ),
     );
   }

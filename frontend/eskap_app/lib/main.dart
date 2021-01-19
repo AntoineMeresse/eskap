@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: Home(),
+          child: HomeWithEskapBloc(),
         ),
       ),
     );
