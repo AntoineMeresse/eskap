@@ -65,7 +65,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           Marker(
             markerId: MarkerId(eskap.id),
             position: LatLng(eskap.lat, eskap.long),
-            infoWindow: InfoWindow(title: "Title", snippet: "snippet"),
+            infoWindow:
+                InfoWindow(title: eskap.name, snippet: 'Id : ${eskap.id}'),
             icon: BitmapDescriptor.defaultMarker,
           ),
         );
