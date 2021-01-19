@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:eskap_app/models/escapeGame.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class EskapState extends Equatable {
   const EskapState();
@@ -15,10 +16,12 @@ class EskapFailure extends EskapState {}
 class EskapSuccess extends EskapState {
   final List<EscapeGame> eskaps;
   final bool hasReachedMax;
+  final Set<Marker> markers;
 
   const EskapSuccess({
     this.eskaps,
     this.hasReachedMax,
+    this.markers,
   });
 
   EskapSuccess copyWith({
@@ -32,7 +35,7 @@ class EskapSuccess extends EskapState {
   }
 
   @override
-  List<Object> get props => [eskaps, hasReachedMax];
+  List<Object> get props => [eskaps, hasReachedMax, markers];
 
   @override
   String toString() =>

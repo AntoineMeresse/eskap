@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
@@ -20,7 +21,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       try {
         if (currentState is EskapInitial) {
           final eskaps = await _fetchEskap();
-          yield EskapSuccess(eskaps: eskaps, hasReachedMax: true);
+          final markers = _transformMarkers(eskaps);
+          yield EskapSuccess(
+              eskaps: eskaps, hasReachedMax: true, markers: markers);
           return;
         }
         // Here, if want to load 20 by 20
@@ -50,5 +53,24 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     } else {
       throw Exception("Error fetching eskap list");
     }
+  }
+
+  Set<Marker> _transformMarkers(List<EscapeGame> eskaps) {
+    Set<Marker> res = {};
+    if (eskaps.isNotEmpty && eskaps != null) {
+      print("TRANSFORM");
+      eskaps.forEach((eskap) {
+        //print(eskap.toString());
+        res.add(
+          Marker(
+            markerId: MarkerId(eskap.id),
+            position: LatLng(eskap.lat, eskap.long),
+            infoWindow: InfoWindow(title: "Title", snippet: "snippet"),
+            icon: BitmapDescriptor.defaultMarker,
+          ),
+        );
+      });
+    }
+    return res;
   }
 }
