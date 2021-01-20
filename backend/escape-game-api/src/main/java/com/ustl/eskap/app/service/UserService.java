@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserService {
     User getUser(int id);
     List<User> getAllUsers();
+    List<Integer> getFavEskapFromUser(int id);
 }

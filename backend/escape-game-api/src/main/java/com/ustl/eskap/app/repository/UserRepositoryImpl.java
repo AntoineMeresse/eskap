@@ -37,4 +37,12 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> findAllUsers() {
         return users;
     }
+
+    @Override
+    public List<Integer> findFavEskapFromUserById(int id) {
+        for (User user : users) {
+            if (user.getId() == id) return user.getEskapinfos().getFavlist();
+        }
+        return null;
+    }
 }

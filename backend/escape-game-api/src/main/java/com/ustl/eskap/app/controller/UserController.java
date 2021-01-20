@@ -28,4 +28,9 @@ public class UserController {
     public List<User> getAllUsers() {
         return this.userService.getAllUsers();
     }
+
+    @GetMapping("/{id}/favs")
+    public List<Integer> getFavEskapFromUser(@PathVariable int id) {
+        return this.userService.getFavEskapFromUser(id);
+    }
 }

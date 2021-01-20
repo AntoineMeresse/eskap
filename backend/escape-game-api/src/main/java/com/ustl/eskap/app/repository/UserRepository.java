@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserRepository {
     User findUserById(int id);
     List<User> findAllUsers();
+    List<Integer> findFavEskapFromUserById(int id);
 }

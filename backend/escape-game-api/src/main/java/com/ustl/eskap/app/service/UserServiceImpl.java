@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService{
         return this.userRepository.findAllUsers();
     }
 
+    @Override
+    public List<Integer> getFavEskapFromUser(int id) {
+        return this.userRepository.findFavEskapFromUserById(id);
+    }
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
