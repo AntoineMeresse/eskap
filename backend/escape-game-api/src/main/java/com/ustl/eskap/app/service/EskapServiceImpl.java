@@ -1,6 +1,6 @@
 package com.ustl.eskap.app.service;
 
-import com.ustl.eskap.app.bo.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.EscapeGame;
 import com.ustl.eskap.app.repository.EskapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

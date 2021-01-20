@@ -1,6 +1,6 @@
 package com.ustl.eskap.app.controller;
 
-import com.ustl.eskap.app.bo.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.EscapeGame;
 import com.ustl.eskap.app.service.EskapService;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.bind.annotation.GetMapping;

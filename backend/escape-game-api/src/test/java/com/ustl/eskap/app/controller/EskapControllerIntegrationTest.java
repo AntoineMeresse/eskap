@@ -1,6 +1,6 @@
 package com.ustl.eskap.app.controller;
 
-import com.ustl.eskap.app.bo.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.EscapeGame;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

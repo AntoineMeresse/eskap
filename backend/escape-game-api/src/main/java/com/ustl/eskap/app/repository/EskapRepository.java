@@ -1,6 +1,6 @@
 package com.ustl.eskap.app.repository;
 
-import com.ustl.eskap.app.bo.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.EscapeGame;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.ustl.eskap.app.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ustl.eskap.app.bo.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.EscapeGame;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.ustl.eskap.app.bo;
+package com.ustl.eskap.app.bo.eskap;
 
 public class Address {
 
