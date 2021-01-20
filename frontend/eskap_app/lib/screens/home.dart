@@ -82,8 +82,8 @@ class HomeWithEskapBloc extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
-        create: (context) =>
-            EskapBloc(httpClient: http.Client())..add(EskapFetched()),
+        create: (context) => EskapBloc(httpClient: http.Client(), userId: 1)
+          ..add(EskapFetched()),
         child: Home(),
       ),
     );

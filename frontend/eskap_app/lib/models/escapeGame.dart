@@ -6,6 +6,7 @@ class EscapeGame extends Equatable {
   final double lat;
   final double long;
   final String name;
+  final bool isFav;
 
   EscapeGame({
     this.id,
@@ -13,6 +14,7 @@ class EscapeGame extends Equatable {
     this.lat,
     this.long,
     this.name,
+    this.isFav,
   });
 
   @override

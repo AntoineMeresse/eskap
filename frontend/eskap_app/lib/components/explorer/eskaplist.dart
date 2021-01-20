@@ -61,7 +61,15 @@ class EskapWidget extends StatelessWidget {
       leading: Icon(Icons.home),
       title: Text(eg.name),
       subtitle: Text(eg.id),
-      trailing: Icon(Icons.favorite),
+      trailing: IconButton(
+        icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
+        onPressed: () {
+          if (eg.isFav)
+            print("ISFAV");
+          else
+            print("ISNOTFAV");
+        },
+      ),
     );
   }
 }
