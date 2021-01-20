@@ -1,9 +1,0 @@
-[
-  {
-    "name" : "Antoine Méresse",
-    "id" : 1,
-    "friend_list": [2,3,4],
-    "eskaps_done_list" : [1,2],
-    "eskaps_fav_list" : [1]
-  }
-]
