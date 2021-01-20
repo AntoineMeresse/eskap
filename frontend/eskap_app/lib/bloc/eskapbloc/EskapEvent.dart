@@ -6,3 +6,15 @@ abstract class EskapEvent extends Equatable {
 }
 
 class EskapFetched extends EskapEvent {}
+
+class EskapAddFav extends EskapEvent {
+  final int eskapId;
+
+  EskapAddFav(this.eskapId);
+}
+
+class EskapRemoveFav extends EskapEvent {
+  final int eskapId;
+
+  EskapRemoveFav(this.eskapId);
+}

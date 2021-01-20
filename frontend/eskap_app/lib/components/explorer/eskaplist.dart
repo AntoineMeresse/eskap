@@ -64,10 +64,13 @@ class EskapWidget extends StatelessWidget {
       trailing: IconButton(
         icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
-          if (eg.isFav)
-            print("ISFAV");
-          else
-            print("ISNOTFAV");
+          if (eg.isFav) {
+            BlocProvider.of<EskapBloc>(context)
+                .add(EskapRemoveFav(int.parse(eg.id)));
+          } else {
+            BlocProvider.of<EskapBloc>(context)
+                .add(EskapAddFav(int.parse(eg.id)));
+          }
         },
       ),
     );

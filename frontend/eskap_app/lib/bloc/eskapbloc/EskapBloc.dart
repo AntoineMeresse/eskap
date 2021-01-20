@@ -36,6 +36,38 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         yield EskapFailure();
       }
     }
+    if (event is EskapAddFav) {
+      var eskapId = event.eskapId;
+      print("This item is going to be added to fav ( $eskapId )");
+      if (currentState is EskapSuccess) {
+        if (!currentState.favs.contains(eskapId)) {
+          var newFav = [...currentState.favs, event.eskapId];
+          print("Current favs : " + newFav.toString());
+          var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, true);
+          yield EskapSuccess(
+              eskaps: newEskaps,
+              hasReachedMax: true,
+              markers: currentState.markers,
+              favs: newFav);
+        }
+        return;
+      }
+    }
+    if (event is EskapRemoveFav) {
+      var eskapId = event.eskapId;
+      print("This item is going to be deleted to fav ( $eskapId )");
+      if (currentState is EskapSuccess) {
+        var newFav = [...currentState.favs];
+        newFav.remove(eskapId);
+        var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, false);
+        yield EskapSuccess(
+            eskaps: newEskaps,
+            hasReachedMax: true,
+            markers: currentState.markers,
+            favs: newFav);
+        return;
+      }
+    }
   }
 
   bool _hasReachedMax(EskapState state) =>
@@ -82,13 +114,25 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   Future<List<int>> _fetchFavs() async {
-    final response = await httpClient
-        .get('https://eskaps.herokuapp.com/users/${userId}/favs');
+    final response =
+        await httpClient.get('https://eskaps.herokuapp.com/users/$userId/favs');
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       return data.cast<int>();
     } else {
       throw Exception("Error fetching fav list");
     }
+  }
+
+  List<EscapeGame> replaceIsFavEskap(
+      List<EscapeGame> eskaps, int id, bool newState) {
+    var eskapsCpy = [...eskaps];
+    for (int i = 0; i < eskapsCpy.length; i++) {
+      if (id.toString() == eskapsCpy[i].id) {
+        print(i);
+        eskapsCpy[i].isFav = newState;
+      }
+    }
+    return eskapsCpy;
   }
 }
