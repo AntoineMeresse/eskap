@@ -13,7 +13,9 @@ public class Application {
     public static void main(String... args){
         SpringApplication.run(Application.class, args);
         printLine();
-        System.out.println("Eskap Api : ---> http://localhost:8080/eskaps/");
+        System.out.println("Eskap Api :");
+        System.out.println("            ---> 1) Eskaps : http://localhost:8080/eskaps/");
+        System.out.println("            ---> 2) Users  : http://localhost:8080/users/");
         printLine();
     }
 }
