@@ -14,8 +14,9 @@ public class Application {
         SpringApplication.run(Application.class, args);
         printLine();
         System.out.println("Eskap Api :");
-        System.out.println("            ---> 1) Eskaps : http://localhost:8080/eskaps/");
-        System.out.println("            ---> 2) Users  : http://localhost:8080/users/");
+        System.out.println("            ---> 1) Eskaps   : http://localhost:8080/eskaps/");
+        System.out.println("            ---> 2) Users    : http://localhost:8080/users/");
+        System.out.println("            ---> 3) Outings  : http://localhost:8080/outings/");
         printLine();
     }
 }
