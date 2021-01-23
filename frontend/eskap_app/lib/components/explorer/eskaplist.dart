@@ -9,14 +9,6 @@ class EskapListBloc extends StatefulWidget {
 }
 
 class _EskapListBlocState extends State<EskapListBloc> {
-  EskapBloc _eskapBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _eskapBloc = BlocProvider.of<EskapBloc>(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
@@ -41,12 +33,6 @@ class _EskapListBlocState extends State<EskapListBloc> {
       }
       return null;
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _eskapBloc.close();
   }
 }
 
