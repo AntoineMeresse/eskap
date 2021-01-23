@@ -19,13 +19,12 @@ class Favorite extends StatelessWidget {
         if (state.favs.isEmpty)
           return Center(child: Text('No favorites escaps'));
         else {
-          print("RERENDER FAV");
           return ListView.builder(
               itemCount: state.eskaps.length,
               itemBuilder: (BuildContext context, int index) {
                 EscapeGame escapeGame = state.eskaps[index];
                 if (escapeGame.isFav)
-                  return EskapWidget2(eg: escapeGame);
+                  return EskapFavoriteItem(eg: escapeGame);
                 // ! Verify if there is a better way of doing this !
                 else
                   return Container(width: 0, height: 0);
@@ -37,10 +36,10 @@ class Favorite extends StatelessWidget {
   }
 }
 
-class EskapWidget2 extends StatelessWidget {
+class EskapFavoriteItem extends StatelessWidget {
   final EscapeGame eg;
 
-  const EskapWidget2({Key key, @required this.eg}) : super(key: key);
+  const EskapFavoriteItem({Key key, @required this.eg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +57,6 @@ class EskapWidget2 extends StatelessWidget {
   }
 
   showAlertDialog(BuildContext context) {
-    // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text(
         "Cancel",
@@ -83,7 +81,7 @@ class EskapWidget2 extends StatelessWidget {
         Navigator.of(context).pop();
       },
     );
-    // set up the AlertDialog
+
     AlertDialog alert = AlertDialog(
       title: Text(
         "Delete Escape",
@@ -92,13 +90,13 @@ class EskapWidget2 extends StatelessWidget {
         ),
       ),
       content: Text(
-          "Would you like to remove this escape game from your favorite list?"),
+          "Would you like to remove this escape game from your favorite list ?"),
       actions: [
         cancelButton,
         continueButton,
       ],
     );
-    // show the dialog
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
