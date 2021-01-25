@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
@@ -23,12 +24,14 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         if (currentState is EskapInitial) {
           final favs = await _fetchFavs();
           final eskaps = await _fetchEskap(favs);
-          final markers = _transformMarkers(eskaps);
+          final bitmapDescriptor = await loadEskapIcon();
+          final markers = _transformMarkers(eskaps, bitmapDescriptor);
           yield EskapSuccess(
-              eskaps: eskaps,
-              hasReachedMax: true,
-              markers: markers,
-              favs: favs);
+            eskaps: eskaps,
+            hasReachedMax: true,
+            markers: markers,
+            favs: favs,
+          );
           return;
         }
         // Here, if want to load 20 by 20
@@ -93,7 +96,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
   }
 
-  Set<Marker> _transformMarkers(List<EscapeGame> eskaps) {
+  Set<Marker> _transformMarkers(
+      List<EscapeGame> eskaps, BitmapDescriptor markerIcon) {
     Set<Marker> res = {};
     if (eskaps.isNotEmpty && eskaps != null) {
       print("TRANSFORM");
@@ -105,7 +109,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
             position: LatLng(eskap.lat, eskap.long),
             infoWindow:
                 InfoWindow(title: eskap.name, snippet: 'Id : ${eskap.id}'),
-            icon: BitmapDescriptor.defaultMarker,
+            icon: markerIcon,
           ),
         );
       });
@@ -134,5 +138,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       }
     }
     return eskapsCpy;
+  }
+
+  Future<BitmapDescriptor> loadEskapIcon() async {
+    BitmapDescriptor bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/eskap-resize.png');
+    return bitmapDescriptor;
   }
 }
