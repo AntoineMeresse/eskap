@@ -1,0 +1,14 @@
+[
+  {
+    "id" : 1,
+    "infos" : {
+      "firstname": "Antoine",
+      "lastname" : "Meresse"
+    },
+    "friendlist": [2,3,4],
+    "eskapinfos" : {
+      "donelist" : [1,2],
+      "favlist" : [1]
+    }
+  }
+]

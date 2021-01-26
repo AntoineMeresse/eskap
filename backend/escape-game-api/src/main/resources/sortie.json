@@ -1,0 +1,17 @@
+[
+  {
+    "id" : 1,
+    "name" : "Sortie 1",
+    "date" : "10/02/2021",
+    "eskapslist" : [
+      {
+        "id" : 1,
+        "usersvote" : [0]
+      },
+      {
+        "id" : 2,
+        "usersvote" : [1]
+      }
+    ]
+  }
+]

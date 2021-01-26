@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Eskap 1",
+    "address": {
+      "number": "1",
+      "street": "street",
+      "city": "Lille",
+      "state" : "",
+      "zipCode" : 59000,
+      "latitude" : 50.630206,
+      "longitude" : 3.04584
+    },
+    "theme" : "Prison",
+    "difficulty" : "easy",
+    "price" : 20.00
+  },
+  {
+    "id": 2,
+    "name": "Eskap Paris",
+    "address": {
+      "number": "12",
+      "street": "street",
+      "city": "Paris",
+      "state" : "",
+      "zipCode" : 75000,
+      "latitude" : 48.866667,
+      "longitude" : 2.333333
+    },
+    "theme" : "Espace",
+    "difficulty" : "medium",
+    "price" : 22.00
+  },
+  {
+    "id": 3,
+    "name": "Eskap Brest",
+    "address": {
+      "number": "7",
+      "street": "street",
+      "city": "Brest",
+      "state" : "",
+      "zipCode" : 29000,
+      "latitude" : 48.3905283,
+      "longitude" : -4.4860088
+    },
+    "theme" : "Sea",
+    "difficulty" : "easy",
+    "price" : 26.00
+  },
+  {
+    "id": 4,
+    "name": "Eskap Lyon",
+    "address": {
+      "number": "111",
+      "street": "street",
+      "city": "Lyon",
+      "state" : "",
+      "zipCode" : 69000,
+      "latitude" : 45.75,
+      "longitude" : 4.85
+    },
+    "theme" : "Horreur",
+    "difficulty" : "hard",
+    "price" : 19.00
+  },
+  {
+    "id": 5,
+    "name": "Eskap Marseille",
+    "address": {
+      "number": "2",
+      "street": "street",
+      "city": "Marseille",
+      "state" : "",
+      "zipCode" : 13000,
+      "latitude" : 43.3,
+      "longitude" : 5.4
+    },
+    "theme" : "Egypt",
+    "difficulty" : "medium",
+    "price" : 32.00
+  }
+]
