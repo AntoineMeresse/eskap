@@ -1,3 +1,4 @@
+import 'package:eskap_app/components/explorer/eskapInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eskap_app/bloc/bloc.dart';
@@ -44,16 +45,21 @@ class EskapFavoriteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.home),
-      title: Text(eg.name),
-      subtitle: Text(eg.id),
-      trailing: IconButton(
-        icon: Icon(Icons.favorite),
-        onPressed: () {
-          showAlertDialog(context);
-        },
-      ),
-    );
+        leading: Icon(Icons.home),
+        title: Text(eg.name),
+        subtitle: Text(eg.id),
+        trailing: IconButton(
+          icon: Icon(Icons.favorite),
+          onPressed: () {
+            showAlertDialog(context);
+          },
+        ),
+        onTap: () {
+          if (eg != null) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EskapInfo(eg: eg)));
+          }
+        });
   }
 
   showAlertDialog(BuildContext context) {
