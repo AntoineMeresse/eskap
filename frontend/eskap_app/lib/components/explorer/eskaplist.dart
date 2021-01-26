@@ -1,3 +1,4 @@
+import 'package:eskap_app/components/explorer/eskapInfo.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,6 +60,12 @@ class EskapWidget extends StatelessWidget {
           }
         },
       ),
+      onTap: () {
+        if (eg != null) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EskapInfo(eg: eg)));
+        }
+      },
     );
   }
 }
