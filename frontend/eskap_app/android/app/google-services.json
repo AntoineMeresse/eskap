@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "661877184506",
+    "project_id": "eskap-295415",
+    "storage_bucket": "eskap-295415.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661877184506:android:5409c6e9326a7d4524b643",
+        "android_client_info": {
+          "package_name": "com.example.eskap_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661877184506-e3ag2m81n5q9urc1f0d6vo8nskro86ra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNpLIa2VDdWVPP906GBdk685LovFcODKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661877184506-e3ag2m81n5q9urc1f0d6vo8nskro86ra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
