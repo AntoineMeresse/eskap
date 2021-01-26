@@ -87,7 +87,7 @@ class _EskapMapState extends State<EskapMap> {
       child: Column(children: [
         TopBar(setCurrentPlace: setCurrentPlace),
         eskapBloc(),
-        Text(currentPlace.toString()),
+        //Text(currentPlace.toString()),
       ]),
     );
   }
