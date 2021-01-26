@@ -1,5 +1,4 @@
-import 'package:eskap_app/screens/sign_in_page.dart';
-import 'package:eskap_app/screens/sign_up_page.dart';
+import 'package:eskap_app/components/authentification/authentification.dart';
 import 'package:flutter/material.dart';
 
 class AuthentificationScreen extends StatelessWidget {
