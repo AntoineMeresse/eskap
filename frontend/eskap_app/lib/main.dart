@@ -1,4 +1,4 @@
-import 'package:eskap_app/components/sign_in_page.dart';
+import 'package:eskap_app/screens/sign_in_page.dart';
 import 'package:eskap_app/services/authentification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,36 +26,18 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
         home: AuthenticationWrapper(),
       ),
     );
   }
 }
 
-/*
-
-Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: HomeWithEskapBloc(),
-        ),
-      ),
-    );
-  }
-*/
-
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-
     if (firebaseUser != null) {
+      print("----------> User id : " + firebaseUser.uid);
       return Scaffold(
           body: SafeArea(
         child: HomeWithEskapBloc(),
