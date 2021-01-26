@@ -16,13 +16,11 @@ class EskapFailure extends EskapState {}
 class EskapSuccess extends EskapState {
   final List<EscapeGame> eskaps;
   final bool hasReachedMax;
-  final Set<Marker> markers;
   final List<int> favs;
 
   const EskapSuccess({
     this.eskaps,
     this.hasReachedMax,
-    this.markers,
     this.favs,
   });
 
@@ -37,7 +35,7 @@ class EskapSuccess extends EskapState {
   }
 
   @override
-  List<Object> get props => [eskaps, hasReachedMax, markers, favs];
+  List<Object> get props => [eskaps, hasReachedMax, favs];
 
   @override
   String toString() =>

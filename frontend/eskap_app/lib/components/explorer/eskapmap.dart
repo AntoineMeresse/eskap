@@ -1,3 +1,4 @@
+import 'package:eskap_app/components/explorer/eskapInfo.dart';
 import 'package:eskap_app/components/explorer/topbar.dart';
 import 'package:eskap_app/models/place.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +22,20 @@ class _EskapMapState extends State<EskapMap> {
   Place currentPlace;
   double zoom;
 
+  BitmapDescriptor bitmapDescriptor;
+
   @override
   void initState() {
     super.initState();
+    loadEskapIcon();
     zoom = 5;
     currentPlace =
         Place(addresse: "France", lat: 46.52863469527167, long: 2.43896484375);
+  }
+
+  void loadEskapIcon() async {
+    bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/eskap-resize.png');
   }
 
   void setZoom(Place place) {
@@ -75,7 +84,29 @@ class _EskapMapState extends State<EskapMap> {
   Widget eskapBloc() {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
       if (state is EskapSuccess) {
-        return eskapMap(state.markers);
+        Set<Marker> res = {};
+        state.eskaps.forEach(
+          (eskap) => res.add(
+            Marker(
+              markerId: MarkerId(eskap.id),
+              position: LatLng(eskap.lat, eskap.long),
+              infoWindow: InfoWindow(
+                title: eskap.name,
+                snippet: 'Id : ${eskap.id}',
+                onTap: () {
+                  if (eskap != null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EskapInfo(eg: eskap)));
+                  }
+                },
+              ),
+              icon: bitmapDescriptor,
+            ),
+          ),
+        );
+        return eskapMap(res);
       }
       return eskapMap({});
     });

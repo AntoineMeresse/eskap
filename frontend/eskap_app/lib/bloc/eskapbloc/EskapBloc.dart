@@ -24,12 +24,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         if (currentState is EskapInitial) {
           final favs = await _fetchFavs();
           final eskaps = await _fetchEskap(favs);
-          final bitmapDescriptor = await loadEskapIcon();
-          final markers = _transformMarkers(eskaps, bitmapDescriptor);
           yield EskapSuccess(
             eskaps: eskaps,
             hasReachedMax: true,
-            markers: markers,
             favs: favs,
           );
           return;
@@ -48,10 +45,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           print("Current favs : " + newFav.toString());
           var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, true);
           yield EskapSuccess(
-              eskaps: newEskaps,
-              hasReachedMax: true,
-              markers: currentState.markers,
-              favs: newFav);
+              eskaps: newEskaps, hasReachedMax: true, favs: newFav);
         }
         return;
       }
@@ -64,10 +58,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         newFav.remove(eskapId);
         var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, false);
         yield EskapSuccess(
-            eskaps: newEskaps,
-            hasReachedMax: true,
-            markers: currentState.markers,
-            favs: newFav);
+            eskaps: newEskaps, hasReachedMax: true, favs: newFav);
         return;
       }
     }
@@ -96,27 +87,6 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
   }
 
-  Set<Marker> _transformMarkers(
-      List<EscapeGame> eskaps, BitmapDescriptor markerIcon) {
-    Set<Marker> res = {};
-    if (eskaps.isNotEmpty && eskaps != null) {
-      print("TRANSFORM");
-      eskaps.forEach((eskap) {
-        //print(eskap.toString());
-        res.add(
-          Marker(
-            markerId: MarkerId(eskap.id),
-            position: LatLng(eskap.lat, eskap.long),
-            infoWindow:
-                InfoWindow(title: eskap.name, snippet: 'Id : ${eskap.id}'),
-            icon: markerIcon,
-          ),
-        );
-      });
-    }
-    return res;
-  }
-
   Future<List<int>> _fetchFavs() async {
     final response =
         await httpClient.get('https://eskaps.herokuapp.com/users/$userId/favs');
@@ -138,11 +108,5 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       }
     }
     return eskapsCpy;
-  }
-
-  Future<BitmapDescriptor> loadEskapIcon() async {
-    BitmapDescriptor bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/eskap-resize.png');
-    return bitmapDescriptor;
   }
 }
