@@ -2,9 +2,11 @@ import 'package:eskap_app/services/authentification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignInPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordControllerVerification =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +28,26 @@ class SignInPage extends StatelessWidget {
               labelText: "Password",
             ),
           ),
+          TextField(
+            controller: passwordControllerVerification,
+            enableSuggestions: false,
+            obscureText: true,
+            autocorrect: false,
+            decoration: InputDecoration(
+              labelText: "Password Confirmation",
+            ),
+          ),
           RaisedButton(
             onPressed: () {
-              context.read<AuthenticationService>().signIn(
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim(),
-                  );
+              if (passwordController.text.trim() ==
+                  passwordControllerVerification.text.trim()) {
+                context.read<AuthenticationService>().signUp(
+                      email: emailController.text.trim(),
+                      password: passwordController.text.trim(),
+                    );
+              }
             },
-            child: Text("Sign in"),
+            child: Text("Sign Up"),
           )
         ],
       ),
