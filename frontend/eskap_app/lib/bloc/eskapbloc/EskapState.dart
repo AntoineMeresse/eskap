@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:eskap_app/models/escapeGame.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class EskapState extends Equatable {
   const EskapState();
