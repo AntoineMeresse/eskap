@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _widgets = [
     EskapMap(),
-    EskapListBloc(),
+    EskapList(),
     Favorite(),
     Profile(),
   ];

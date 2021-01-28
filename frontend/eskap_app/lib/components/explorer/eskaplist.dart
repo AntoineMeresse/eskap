@@ -4,6 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eskap_app/bloc/bloc.dart';
 
+class EskapList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: EskapListBloc(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print("Add eskap");
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.black,
+      ),
+    );
+  }
+}
+
 class EskapListBloc extends StatefulWidget {
   @override
   _EskapListBlocState createState() => _EskapListBlocState();
