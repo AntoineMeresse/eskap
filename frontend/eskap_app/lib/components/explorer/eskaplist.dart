@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eskap_app/bloc/bloc.dart';
 
+import 'eskapAdd.dart';
+
 class EskapList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,8 @@ class EskapList extends StatelessWidget {
       body: EskapListBloc(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("Add eskap");
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EskapAdd()));
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.black,
