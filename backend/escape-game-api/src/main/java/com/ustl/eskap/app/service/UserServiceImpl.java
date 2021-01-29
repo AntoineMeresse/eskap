@@ -44,8 +44,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User createUser(User user) {
+    public User saveUser(User user) {
         return this.userRepository.save(user);
+    }
+
+    @Override
+    public User favEskap(String id, int eskapId, boolean add){
+        var user = this.userRepository.findByUserId(id);
+        var userFav = user.getFavlist();
+        if (add) {
+            if(!userFav.contains(eskapId)) userFav.add(eskapId);
+        }
+        else {
+            for (int i=0; i < userFav.size(); i++) {
+                if(userFav.get(i) == eskapId) userFav.remove(i);
+            }
+        }
+        return saveUser(user);
     }
 
     @Autowired

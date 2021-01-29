@@ -8,5 +8,7 @@ public interface UserService {
     User getUser(String id);
     List<User> getAllUsers();
     List<Integer> getFavEskapFromUser(String id);
-    User createUser(User user);
+    User saveUser(User user);
+
+    User favEskap(String id, int eskapId, boolean add);
 }

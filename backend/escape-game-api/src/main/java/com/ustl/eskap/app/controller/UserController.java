@@ -36,6 +36,22 @@ public class UserController {
 
     @PostMapping("/")
     public User postUser(@RequestBody User user){
-        return this.userService.createUser(user);
+        return this.userService.saveUser(user);
+    }
+
+    // --------------------------------- PUT MAPPING ------------------------------------------------- //
+    @PutMapping("/")
+    public User updateUser(@RequestBody User user){
+        return this.userService.saveUser(user);
+    }
+
+    @PutMapping("/{id}/fav/add/{eskapId}")
+    public User addFavEskap(@PathVariable String id,@PathVariable int eskapId) {
+        return this.userService.favEskap(id,eskapId,true);
+    }
+
+    @PutMapping("/{id}/fav/delete/{eskapId}")
+    public User deleteFavEskap(@PathVariable String id,@PathVariable int eskapId) {
+        return this.userService.favEskap(id,eskapId,false);
     }
 }
