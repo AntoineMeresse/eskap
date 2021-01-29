@@ -26,7 +26,7 @@ class EskapInfo extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  eg.address ?? "Null",
+                  eg.addressToString() ?? "Null",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 20,

@@ -5,6 +5,9 @@ class EscapeGame extends Equatable {
   final int id;
   final String name;
   final String difficulty;
+  final double price;
+  final String imgurl;
+  final String description;
   // Address
   final int number;
   final String street;
@@ -12,7 +15,6 @@ class EscapeGame extends Equatable {
   final String country;
   final double latitude;
   final double longitude;
-  String address;
   //
   final List<String> themes;
   final List<Review> reviews;
@@ -23,6 +25,9 @@ class EscapeGame extends Equatable {
     this.id,
     this.name,
     this.difficulty,
+    this.price,
+    this.imgurl,
+    this.description,
     this.number,
     this.street,
     this.city,
@@ -32,9 +37,7 @@ class EscapeGame extends Equatable {
     this.themes,
     this.reviews,
     this.isFav,
-  }) {
-    this.address = addressToString();
-  }
+  });
 
   @override
   String toString() {
@@ -42,7 +45,7 @@ class EscapeGame extends Equatable {
   }
 
   String addressToString() {
-    return '$number $street $city $country';
+    return 'Address : $number $street $city $country';
   }
 
   @override
