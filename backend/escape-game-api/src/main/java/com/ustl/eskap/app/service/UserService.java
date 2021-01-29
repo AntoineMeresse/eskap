@@ -5,7 +5,8 @@ import com.ustl.eskap.app.bo.user.User;
 import java.util.List;
 
 public interface UserService {
-    User getUser(int id);
+    User getUser(String id);
     List<User> getAllUsers();
-    List<Integer> getFavEskapFromUser(int id);
+    List<Integer> getFavEskapFromUser(String id);
+    User createUser(User user);
 }

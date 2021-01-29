@@ -1,11 +1,9 @@
 package com.ustl.eskap.app.controller;
 
+import com.ustl.eskap.app.bo.eskap.EscapeGame;
 import com.ustl.eskap.app.bo.user.User;
 import com.ustl.eskap.app.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserFromId(@PathVariable int id) {
+    public User getUserFromId(@PathVariable String id) {
         return this.userService.getUser(id);
     }
 
@@ -30,7 +28,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}/favs")
-    public List<Integer> getFavEskapFromUser(@PathVariable int id) {
+    public List<Integer> getFavEskapFromUser(@PathVariable String id) {
         return this.userService.getFavEskapFromUser(id);
+    }
+
+    // --------------------------------- POST MAPPING ------------------------------------------------ //
+
+    @PostMapping("/")
+    public User postUser(@RequestBody User user){
+        return this.userService.createUser(user);
     }
 }

@@ -1,13 +1,20 @@
 package com.ustl.eskap.app.bo.user;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class User {
 
-    private String id;
+    @Id
+    private String userId;
     private String firstname;
     private String lastname;
+
+    @ElementCollection
     private List<Integer> donelist;
+
+    @ElementCollection
     private List<Integer> favlist;
 
     public User() {
@@ -15,7 +22,7 @@ public class User {
     }
 
     public User(String id, String firstname, String lastname, List<Integer> donelist, List<Integer> favlist) {
-        this.id = id;
+        this.userId = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.donelist = donelist;
@@ -23,11 +30,11 @@ public class User {
     }
 
     public String getId() {
-        return id;
+        return userId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getFirstname() {
