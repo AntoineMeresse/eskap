@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 
-    public static int PORT = 8081;
+    public static int PORT = 8080;
     public static void printLine(){
         System.out.println("=================================================");
     }
