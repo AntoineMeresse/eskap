@@ -37,6 +37,10 @@ public class EskapController {
 
     // --------------------------------  Delete MAPPING ---------------------------------------------- //
 
+    @DeleteMapping("/{id}")
+    public void deleteEskap(@PathVariable int id) {
+        this.eskapService.deleteEskap(id);
+    }
 
     // --------------------------------- PUT MAPPING ------------------------------------------------- //
 }

@@ -35,6 +35,11 @@ public class EskapServiceImpl implements EskapService{
         return this.eskapRepository.save(escapeGame);
     }
 
+    @Override
+    public void deleteEskap(int id) {
+        this.eskapRepository.deleteById(id);
+    }
+
     @Autowired
     public void setEskapRepository(EskapRepository eskapRepository){
         this.eskapRepository = eskapRepository;

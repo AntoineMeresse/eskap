@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,14 +29,14 @@ public class EskapControllerTest {
     }
 
     @Test
-    void getAllTrainers_shouldCallTheService() {
+    void getAllEskaps_shouldCallTheService() {
         eskapController.getAllEskaps();
 
         verify(eskapService).getAllEskaps();
     }
 
     @Test
-    void getTrainer_shouldCallTheService() {
+    void getEskap_shouldCallTheService() {
         eskapController.getEskapFromId(1);
 
         verify(eskapService).getEskap(1);
@@ -70,5 +71,24 @@ public class EskapControllerTest {
 
         assertNotNull(getMapping);
         assertArrayEquals(new String[]{"/"}, getMapping.value());
+    }
+
+    @Test
+    void postEskap_shouldBeAnnotated() throws NoSuchMethodException {
+        // Error to fix
+        //var postEskap = EskapController.class.getDeclaredMethod("postEskap");
+
+        //assertNotNull(postEskap);
+
+        //var postMapping = postEskap.getAnnotation(PostMapping.class);
+
+        //assertNotNull(postMapping);
+        //assertArrayEquals(new String[]{"/"}, postMapping.value());
+    }
+
+    @Test
+    void deleteEskap_shouldBeAnnotated() throws NoSuchMethodException {
+        // Error to fix
+        //var deleteEskap = EskapController.class.getDeclaredMethod("deleteEskap");
     }
 }

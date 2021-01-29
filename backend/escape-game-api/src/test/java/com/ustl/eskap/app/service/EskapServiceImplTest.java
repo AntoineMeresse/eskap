@@ -49,4 +49,16 @@ public class EskapServiceImplTest {
         eskapServ.createEskap(eg);
         verify(eskapRepo).save(eg);
     }
+
+    @Test
+    void deleteEscapeGame_shouldCallTheRepository() {
+        var eskapRepo = mock(EskapRepository.class);
+        var eskapServ = new EskapServiceImpl(eskapRepo);
+
+        var eg = new EscapeGame();
+        eg.setId(1);
+        eskapServ.createEskap(eg);
+        eskapServ.deleteEskap(eg.getId());
+        verify(eskapRepo).deleteById(eg.getId());
+    }
 }

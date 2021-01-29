@@ -14,4 +14,7 @@ public interface EskapRepository extends CrudRepository<EscapeGame, Integer> {
 
     // POST
     EscapeGame save(EscapeGame escapeGame);
+
+    // Delete
+    void deleteById(int id);
 }
