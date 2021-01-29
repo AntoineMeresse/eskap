@@ -45,13 +45,13 @@ public class UserController {
         return this.userService.saveUser(user);
     }
 
-    @PutMapping("/{id}/fav/add/{eskapId}")
-    public User addFavEskap(@PathVariable String id,@PathVariable int eskapId) {
+    @PutMapping("/{id}/favs/add/{eskapId}")
+    public List<Integer> addFavEskap(@PathVariable String id,@PathVariable int eskapId) {
         return this.userService.favEskap(id,eskapId,true);
     }
 
-    @PutMapping("/{id}/fav/delete/{eskapId}")
-    public User deleteFavEskap(@PathVariable String id,@PathVariable int eskapId) {
+    @PutMapping("/{id}/favs/delete/{eskapId}")
+    public List<Integer> deleteFavEskap(@PathVariable String id,@PathVariable int eskapId) {
         return this.userService.favEskap(id,eskapId,false);
     }
 }

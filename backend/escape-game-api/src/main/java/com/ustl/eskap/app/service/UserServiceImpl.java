@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User favEskap(String id, int eskapId, boolean add){
+    public List<Integer> favEskap(String id, int eskapId, boolean add){
         var user = this.userRepository.findByUserId(id);
         var userFav = user.getFavlist();
         if (add) {
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService{
                 if(userFav.get(i) == eskapId) userFav.remove(i);
             }
         }
-        return saveUser(user);
+        return saveUser(user).getFavlist();
     }
 
     @Autowired
