@@ -4,44 +4,61 @@ import java.util.List;
 
 public class User {
 
-    private int id;
-    private PersonnalInfos infos;
-    private List<Integer> friendlist;
-    private EskapInfos eskapinfos;
+    private String id;
+    private String firstname;
+    private String lastname;
+    private List<Integer> donelist;
+    private List<Integer> favlist;
 
     public User() {
 
     }
 
-    public int getId() {
+    public User(String id, String firstname, String lastname, List<Integer> donelist, List<Integer> favlist) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.donelist = donelist;
+        this.favlist = favlist;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public PersonnalInfos getInfos() {
-        return infos;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setInfos(PersonnalInfos infos) {
-        this.infos = infos;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public List<Integer> getFriendlist() {
-        return friendlist;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setFriendlist(List<Integer> friendlist) {
-        this.friendlist = friendlist;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public EskapInfos getEskapinfos() {
-        return eskapinfos;
+    public List<Integer> getDonelist() {
+        return donelist;
     }
 
-    public void setEskapinfos(EskapInfos eskapinfos) {
-        this.eskapinfos = eskapinfos;
+    public void setDonelist(List<Integer> donelist) {
+        this.donelist = donelist;
+    }
+
+    public List<Integer> getFavlist() {
+        return favlist;
+    }
+
+    public void setFavlist(List<Integer> favlist) {
+        this.favlist = favlist;
     }
 }
