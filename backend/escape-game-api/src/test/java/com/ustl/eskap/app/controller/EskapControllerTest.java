@@ -2,7 +2,11 @@ package com.ustl.eskap.app.controller;
 
 import com.ustl.eskap.app.bo.eskap.EscapeGame;
 import com.ustl.eskap.app.service.EskapService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,30 +16,29 @@ import static org.mockito.Mockito.*;
 
 public class EskapControllerTest {
 
-    @Test
-    void getEscapeGame_shouldCallTheService(){
-        var service = mock(EskapService.class);
-        var controller = new EskapController(service);
+    @Mock
+    private EskapService eskapService;
 
-        var eskap1 = new EscapeGame();
-        eskap1.setId(1);
-        eskap1.setName("Eskap 1");
-        when(service.getEskap(1)).thenReturn(eskap1);
+    @InjectMocks
+    private EskapController eskapController;
 
-        var eskap = controller.getEskapFromId(1);
-        assertEquals("Eskap 1", eskap.getName());
-
-        verify(service).getEskap(1);
+    @BeforeEach
+    void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void getAllEscapeGames_shouldCallTheService(){
-        var service = mock(EskapService.class);
-        var controller = new EskapController(service);
+    void getAllTrainers_shouldCallTheService() {
+        eskapController.getAllEskaps();
 
-        controller.getAllEskaps();
+        verify(eskapService).getAllEskaps();
+    }
 
-        verify(service).getAllEskaps();
+    @Test
+    void getTrainer_shouldCallTheService() {
+        eskapController.getEskapFromId(1);
+
+        verify(eskapService).getEskap(1);
     }
 
     @Test
