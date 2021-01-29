@@ -13,17 +13,17 @@ public class EscapeGame {
     //EscapeGameInfos
     private String name;
     private String difficulty;
-    private float price;
+    private double price;
     private String imgurl;
     private String description;
 
     // Address
-    private String number;
+    private int number;
     private String street;
     private String city;
     private String country;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
     // Collections
     @ElementCollection
@@ -34,6 +34,23 @@ public class EscapeGame {
 
     public EscapeGame() {
 
+    }
+
+    public EscapeGame(int id, String name, String difficulty, double price, String imgurl, String description, int number, String street, String city, String country, double latitude, double longitude, List<String> themes, List<Review> reviews) {
+        this.id = id;
+        this.name = name;
+        this.difficulty = difficulty;
+        this.price = price;
+        this.imgurl = imgurl;
+        this.description = description;
+        this.number = number;
+        this.street = street;
+        this.city = city;
+        this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.themes = themes;
+        this.reviews = reviews;
     }
 
     public int getId() {
@@ -60,11 +77,11 @@ public class EscapeGame {
         this.difficulty = difficulty;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -84,11 +101,11 @@ public class EscapeGame {
         this.description = description;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -116,19 +133,19 @@ public class EscapeGame {
         this.country = country;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

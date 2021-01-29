@@ -18,7 +18,7 @@ public class EskapServiceImplTest {
 
         eskapService.getEskap(1);
 
-        verify(eskapRepository).findEskapById(1);
+        verify(eskapRepository).findById(1);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class EskapServiceImplTest {
 
         eskapService.getAllEskaps();
 
-        verify(eskapRepository).findAllEskaps();
+        verify(eskapRepository).findAll();
     }
 
     @Test

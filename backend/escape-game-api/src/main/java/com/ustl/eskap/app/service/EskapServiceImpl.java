@@ -22,12 +22,12 @@ public class EskapServiceImpl implements EskapService{
 
     @Override
     public EscapeGame getEskap(int id) {
-        return this.eskapRepository.findEskapById(id);
+        return this.eskapRepository.findById(id);
     }
 
     @Override
     public List<EscapeGame> getAllEskaps() {
-        return this.eskapRepository.findAllEskaps();
+        return this.eskapRepository.findAll();
     }
 
     @Autowired
