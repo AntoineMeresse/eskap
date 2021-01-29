@@ -25,7 +25,7 @@ public class EskapController {
     }
 
     @GetMapping("/")
-    public List<EscapeGame> getAllEskaps(){
+    public Iterable<EscapeGame> getAllEskaps(){
         return this.eskapService.getAllEskaps();
     }
 }

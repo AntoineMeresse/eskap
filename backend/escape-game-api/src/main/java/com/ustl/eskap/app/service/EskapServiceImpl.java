@@ -26,8 +26,13 @@ public class EskapServiceImpl implements EskapService{
     }
 
     @Override
-    public List<EscapeGame> getAllEskaps() {
+    public Iterable<EscapeGame> getAllEskaps() {
         return this.eskapRepository.findAll();
+    }
+
+    @Override
+    public EscapeGame createEskap(EscapeGame escapeGame) {
+        return this.eskapRepository.save(escapeGame);
     }
 
     @Autowired
