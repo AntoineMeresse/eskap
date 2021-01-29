@@ -66,16 +66,14 @@ class EskapWidget extends StatelessWidget {
     return ListTile(
       leading: Icon(Icons.home),
       title: Text(eg.name),
-      subtitle: Text(eg.id),
+      subtitle: Text(eg.id.toString()),
       trailing: IconButton(
         icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
           if (eg.isFav) {
-            BlocProvider.of<EskapBloc>(context)
-                .add(EskapRemoveFav(int.parse(eg.id)));
+            BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
           } else {
-            BlocProvider.of<EskapBloc>(context)
-                .add(EskapAddFav(int.parse(eg.id)));
+            BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
           }
         },
       ),

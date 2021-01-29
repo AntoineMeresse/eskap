@@ -47,7 +47,7 @@ class EskapFavoriteItem extends StatelessWidget {
     return ListTile(
         leading: Icon(Icons.home),
         title: Text(eg.name),
-        subtitle: Text(eg.id),
+        subtitle: Text(eg.id.toString()),
         trailing: IconButton(
           icon: Icon(Icons.favorite),
           onPressed: () {
@@ -82,8 +82,7 @@ class EskapFavoriteItem extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        BlocProvider.of<EskapBloc>(context)
-            .add(EskapRemoveFav(int.parse(eg.id)));
+        BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
         Navigator.of(context).pop();
       },
     );

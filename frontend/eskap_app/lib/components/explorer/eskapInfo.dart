@@ -1,7 +1,5 @@
-import 'package:eskap_app/bloc/bloc.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EskapInfo extends StatelessWidget {
   final EscapeGame eg;
@@ -28,7 +26,7 @@ class EskapInfo extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  eg.addresse ?? "Null",
+                  eg.address ?? "Null",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 20,

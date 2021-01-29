@@ -88,8 +88,8 @@ class _EskapMapState extends State<EskapMap> {
         state.eskaps.forEach(
           (eskap) => res.add(
             Marker(
-              markerId: MarkerId(eskap.id),
-              position: LatLng(eskap.lat, eskap.long),
+              markerId: MarkerId(eskap.id.toString()),
+              position: LatLng(eskap.latitude, eskap.longitude),
               infoWindow: InfoWindow(
                 title: eskap.name,
                 snippet: 'Id : ${eskap.id}',

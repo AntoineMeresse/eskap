@@ -73,10 +73,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       print(data);
       return data.map((eskap) {
         return EscapeGame(
-          id: eskap['id'].toString(),
+          id: eskap['id'],
           name: eskap['name'],
-          lat: eskap['address']['latitude'],
-          long: eskap['address']['longitude'],
+          latitude: eskap['latitude'],
+          longitude: eskap['longitude'],
           isFav: favs.contains(eskap['id']),
         );
       }).toList();
@@ -100,7 +100,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       List<EscapeGame> eskaps, int id, bool newState) {
     var eskapsCpy = [...eskaps];
     for (int i = 0; i < eskapsCpy.length; i++) {
-      if (id.toString() == eskapsCpy[i].id) {
+      if (id == eskapsCpy[i].id) {
         print(i);
         eskapsCpy[i].isFav = newState;
       }
