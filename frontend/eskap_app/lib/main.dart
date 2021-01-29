@@ -40,7 +40,7 @@ class AuthenticationWrapper extends StatelessWidget {
       print("----------> User id : " + firebaseUser.uid);
       return Scaffold(
           body: SafeArea(
-        child: HomeWithEskapBloc(),
+        child: HomeWithEskapBloc(firebaseUser.uid),
       ));
     }
     return Scaffold(

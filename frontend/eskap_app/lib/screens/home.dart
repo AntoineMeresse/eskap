@@ -79,13 +79,16 @@ class _HomeState extends State<Home> {
 
 class HomeWithEskapBloc extends StatelessWidget {
   final String url = "https://eskaps.herokuapp.com";
+  final String userId;
+
+  HomeWithEskapBloc(this.userId);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
         create: (context) =>
-            EskapBloc(httpClient: http.Client(), userId: 1, url: url)
+            EskapBloc(httpClient: http.Client(), userId: userId, url: url)
               ..add(EskapFetched()),
         child: Home(),
       ),

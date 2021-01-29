@@ -10,7 +10,7 @@ import 'package:eskap_app/models/escapeGame.dart';
 
 class EskapBloc extends Bloc<EskapEvent, EskapState> {
   final http.Client httpClient;
-  final int userId;
+  final String userId;
   final String url;
 
   EskapBloc({@required this.httpClient, this.userId, @required this.url})
@@ -41,6 +41,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       print("This item is going to be added to fav ( $eskapId )");
       if (currentState is EskapSuccess) {
         if (!currentState.favs.contains(eskapId)) {
+          final nFav = await _updateFav(userId, eskapId, true);
           var newFav = [...currentState.favs, event.eskapId];
           print("Current favs : " + newFav.toString());
           var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, true);
@@ -54,6 +55,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       var eskapId = event.eskapId;
       print("This item is going to be deleted to fav ( $eskapId )");
       if (currentState is EskapSuccess) {
+        final nFav = await _updateFav(userId, eskapId, false);
         var newFav = [...currentState.favs];
         newFav.remove(eskapId);
         var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, false);
@@ -116,5 +118,17 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       }
     }
     return eskapsCpy;
+  }
+
+  Future<List<int>> _updateFav(String userId, int eskapId, bool add) async {
+    String op = add ? "add" : "delete";
+    String request = '$url/users/$userId/fav/$op/$eskapId';
+    print(request);
+    final response = await httpClient.put(request);
+    if (response.statusCode == 200) {
+      //final data = json.decode(response.body) as List;
+    }
+    print(response.statusCode);
+    return [];
   }
 }
