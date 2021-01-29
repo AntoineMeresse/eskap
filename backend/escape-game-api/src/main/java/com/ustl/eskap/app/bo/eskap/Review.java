@@ -8,11 +8,19 @@ public class Review {
     private int reviewId;
     private String userId;
     private String text;
-    private float rate;
+    private double rate;
     private String date;
 
     public Review () {
 
+    }
+
+    public Review(int reviewId, String userId, String text, double rate, String date) {
+        this.reviewId = reviewId;
+        this.userId = userId;
+        this.text = text;
+        this.rate = rate;
+        this.date = date;
     }
 
     public int getReviewId() {
@@ -39,11 +47,11 @@ public class Review {
         this.text = text;
     }
 
-    public float getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(float rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
