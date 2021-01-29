@@ -11,8 +11,10 @@ import 'package:eskap_app/models/escapeGame.dart';
 class EskapBloc extends Bloc<EskapEvent, EskapState> {
   final http.Client httpClient;
   final int userId;
+  final String url;
 
-  EskapBloc({@required this.httpClient, this.userId}) : super(EskapInitial());
+  EskapBloc({@required this.httpClient, this.userId, @required this.url})
+      : super(EskapInitial());
 
   @override
   Stream<EskapState> mapEventToState(EskapEvent event) async* {
@@ -66,8 +68,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       state is EskapSuccess && state.hasReachedMax;
 
   Future<List<EscapeGame>> _fetchEskap(favs) async {
-    final response =
-        await httpClient.get("https://eskaps.herokuapp.com/eskaps/");
+    final response = await httpClient.get('$url/eskaps/');
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       print(data);
@@ -75,8 +76,18 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         return EscapeGame(
           id: eskap['id'],
           name: eskap['name'],
+          difficulty: eskap['difficulty'],
+          price: eskap['price'],
+          imgurl: eskap['imgurl'],
+          description: eskap['description'],
+          number: eskap['number'],
+          street: eskap['street'],
+          city: eskap['city'],
+          country: eskap['country'],
           latitude: eskap['latitude'],
           longitude: eskap['longitude'],
+          //themes: eskap['themes'],
+          //reviews: eskap['reviews'],
           isFav: favs.contains(eskap['id']),
         );
       }).toList();
@@ -86,8 +97,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   Future<List<int>> _fetchFavs() async {
-    final response =
-        await httpClient.get('https://eskaps.herokuapp.com/users/$userId/favs');
+    final response = await httpClient.get('$url/users/$userId/favs');
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       return data.cast<int>();

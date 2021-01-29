@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:eskap_app/models/review.dart';
 
-class EscapeGame extends Equatable {
+class EscapeGame {
   final int id;
   final String name;
   final String difficulty;
@@ -48,6 +47,7 @@ class EscapeGame extends Equatable {
     return 'Address : $number $street $city $country';
   }
 
+  /*
   @override
   List<Object> get props => [
         id,
@@ -63,4 +63,5 @@ class EscapeGame extends Equatable {
         reviews,
         isFav
       ];
+      */
 }
