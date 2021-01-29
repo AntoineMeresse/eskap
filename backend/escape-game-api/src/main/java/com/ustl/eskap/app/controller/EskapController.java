@@ -2,10 +2,7 @@ package com.ustl.eskap.app.controller;
 
 import com.ustl.eskap.app.bo.eskap.EscapeGame;
 import com.ustl.eskap.app.service.EskapService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +16,8 @@ public class EskapController {
         this.eskapService = eskapService;
     }
 
+    // --------------------------------- GET MAPPING ------------------------------------------------ //
+
     @GetMapping("/{id}")
     public EscapeGame getEskapFromId(@PathVariable int id){
         return this.eskapService.getEskap(id);
@@ -28,4 +27,16 @@ public class EskapController {
     public Iterable<EscapeGame> getAllEskaps(){
         return this.eskapService.getAllEskaps();
     }
+
+    // --------------------------------- POST MAPPING ------------------------------------------------ //
+
+    @PostMapping("/")
+    public EscapeGame postEskap(@RequestBody EscapeGame eskap){
+        return this.eskapService.createEskap(eskap);
+    }
+
+    // --------------------------------  Delete MAPPING ---------------------------------------------- //
+
+
+    // --------------------------------- PUT MAPPING ------------------------------------------------- //
 }
