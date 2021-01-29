@@ -41,12 +41,13 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       print("This item is going to be added to fav ( $eskapId )");
       if (currentState is EskapSuccess) {
         if (!currentState.favs.contains(eskapId)) {
-          final nFav = await _updateFav(userId, eskapId, true);
-          var newFav = [...currentState.favs, event.eskapId];
-          print("Current favs : " + newFav.toString());
-          var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, true);
-          yield EskapSuccess(
-              eskaps: newEskaps, hasReachedMax: true, favs: newFav);
+          try {
+            final newFav = await _updateFav(userId, eskapId, true);
+            var newEskaps =
+                replaceIsFavEskap(currentState.eskaps, eskapId, true);
+            yield EskapSuccess(
+                eskaps: newEskaps, hasReachedMax: true, favs: newFav);
+          } catch (_) {}
         }
         return;
       }
@@ -55,12 +56,13 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       var eskapId = event.eskapId;
       print("This item is going to be deleted to fav ( $eskapId )");
       if (currentState is EskapSuccess) {
-        final nFav = await _updateFav(userId, eskapId, false);
-        var newFav = [...currentState.favs];
-        newFav.remove(eskapId);
-        var newEskaps = replaceIsFavEskap(currentState.eskaps, eskapId, false);
-        yield EskapSuccess(
-            eskaps: newEskaps, hasReachedMax: true, favs: newFav);
+        try {
+          final newFav = await _updateFav(userId, eskapId, false);
+          var newEskaps =
+              replaceIsFavEskap(currentState.eskaps, eskapId, false);
+          yield EskapSuccess(
+              eskaps: newEskaps, hasReachedMax: true, favs: newFav);
+        } catch (_) {}
         return;
       }
     }
@@ -122,13 +124,13 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
 
   Future<List<int>> _updateFav(String userId, int eskapId, bool add) async {
     String op = add ? "add" : "delete";
-    String request = '$url/users/$userId/fav/$op/$eskapId';
-    print(request);
+    String request = '$url/users/$userId/favs/$op/$eskapId';
     final response = await httpClient.put(request);
     if (response.statusCode == 200) {
-      //final data = json.decode(response.body) as List;
+      final data = json.decode(response.body) as List;
+      return data.cast<int>();
+    } else {
+      throw Exception("Error fetching fav list");
     }
-    print(response.statusCode);
-    return [];
   }
 }
