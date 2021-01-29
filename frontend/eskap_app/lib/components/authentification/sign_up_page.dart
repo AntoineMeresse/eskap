@@ -7,6 +7,8 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordControllerVerification =
       TextEditingController();
+  final TextEditingController firstnameController = TextEditingController();
+  final TextEditingController lastnameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +39,27 @@ class SignUpPage extends StatelessWidget {
               labelText: "Password Confirmation",
             ),
           ),
+          TextField(
+            controller: firstnameController,
+            decoration: InputDecoration(
+              labelText: "Prenom",
+            ),
+          ),
+          TextField(
+            controller: lastnameController,
+            decoration: InputDecoration(
+              labelText: "Nom",
+            ),
+          ),
           RaisedButton(
             onPressed: () {
               if (passwordController.text.trim() ==
                   passwordControllerVerification.text.trim()) {
                 context.read<AuthenticationService>().signUp(
-                      email: emailController.text.trim(),
-                      password: passwordController.text.trim(),
-                    );
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                    firstname: firstnameController.text.trim(),
+                    lastname: lastnameController.text.trim());
               }
             },
             child: Text("Sign Up"),
