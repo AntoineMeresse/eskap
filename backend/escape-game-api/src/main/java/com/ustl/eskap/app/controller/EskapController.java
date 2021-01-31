@@ -28,6 +28,16 @@ public class EskapController {
         return this.eskapService.getAllEskaps();
     }
 
+    @GetMapping("/officials/")
+    public Iterable<EscapeGame> getAllOfficialEskaps(){
+        return this.eskapService.getOfficialEskaps();
+    }
+
+    @GetMapping("/nonofficials/")
+    public Iterable<EscapeGame> getAllNonOfficialEskaps(){
+        return this.eskapService.getNonOfficialEskaps();
+    }
+
     // --------------------------------- POST MAPPING ------------------------------------------------ //
 
     @PostMapping("/")

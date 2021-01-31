@@ -5,6 +5,7 @@ import com.ustl.eskap.app.repository.EskapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +39,16 @@ public class EskapServiceImpl implements EskapService{
     @Override
     public void deleteEskap(int id) {
         this.eskapRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<EscapeGame> getNonOfficialEskaps() {
+        return this.eskapRepository.findAllNonOfficial();
+    }
+
+    @Override
+    public Iterable<EscapeGame> getOfficialEskaps() {
+        return this.eskapRepository.findAllOfficial();
     }
 
     @Autowired

@@ -38,7 +38,7 @@ class EskapRepositoryTest {
 
         EscapeGame eg = new EscapeGame(
                 1, "Eskap Test", "Easy", 20.0, "urltest", "descriptiontest",
-                1, "rue", "Orchies","France",3.0,2.0, themes, reviews);
+                1, "rue", "Orchies","France",3.0,2.0, themes, reviews, true);
 
         eskapRepository.save(eg);
 
@@ -54,7 +54,7 @@ class EskapRepositoryTest {
 
         EscapeGame eg = new EscapeGame(
                 1, "Eskap Test", "Easy", 20.0, "urltest", "descriptiontest",
-                1, "rue", "Orchies","France",3.0,2.0, themes, reviews);
+                1, "rue", "Orchies","France",3.0,2.0, themes, reviews, true);
 
         eskapRepository.save(eg);
 

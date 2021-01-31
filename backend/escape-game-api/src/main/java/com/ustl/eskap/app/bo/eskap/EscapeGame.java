@@ -32,11 +32,16 @@ public class EscapeGame {
     @ElementCollection
     private List<Review> reviews;
 
+    // Official
+    private Boolean isOfficial;
+
     public EscapeGame() {
 
     }
 
-    public EscapeGame(int id, String name, String difficulty, double price, String imgurl, String description, int number, String street, String city, String country, double latitude, double longitude, List<String> themes, List<Review> reviews) {
+    public EscapeGame(int id, String name, String difficulty, double price, String imgurl, String description,
+                      int number, String street, String city, String country, double latitude, double longitude,
+                      List<String> themes, List<Review> reviews, Boolean isOfficial) {
         this.id = id;
         this.name = name;
         this.difficulty = difficulty;
@@ -51,6 +56,7 @@ public class EscapeGame {
         this.longitude = longitude;
         this.themes = themes;
         this.reviews = reviews;
+        this.isOfficial = isOfficial;
     }
 
     public int getId() {
@@ -163,5 +169,13 @@ public class EscapeGame {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Boolean getOfficial() {
+        return isOfficial;
+    }
+
+    public void setOfficial(Boolean official) {
+        isOfficial = official;
     }
 }
