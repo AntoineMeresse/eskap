@@ -9,6 +9,8 @@ public interface EskapService {
     Iterable<EscapeGame> getAllEskaps();
     Iterable<EscapeGame> getOfficialEskaps();
     Iterable<EscapeGame> getNonOfficialEskaps();
-    EscapeGame createEskap(EscapeGame escapeGame);
+    EscapeGame saveEskap(EscapeGame escapeGame);
     void deleteEskap(int id);
+
+    EscapeGame setEskapToOfficial(int id);
 }

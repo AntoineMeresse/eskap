@@ -42,7 +42,7 @@ public class EskapController {
 
     @PostMapping("/")
     public EscapeGame postEskap(@RequestBody EscapeGame eskap){
-        return this.eskapService.createEskap(eskap);
+        return this.eskapService.saveEskap(eskap);
     }
 
     // --------------------------------  Delete MAPPING ---------------------------------------------- //
@@ -53,4 +53,14 @@ public class EskapController {
     }
 
     // --------------------------------- PUT MAPPING ------------------------------------------------- //
+
+    @PutMapping("/")
+    public EscapeGame putEskap(@RequestBody EscapeGame eskap){
+        return this.eskapService.saveEskap(eskap);
+    }
+
+    @PutMapping("/setofficial/{id}")
+    public EscapeGame putEskap(@PathVariable int id){
+        return this.eskapService.setEskapToOfficial(id);
+    }
 }

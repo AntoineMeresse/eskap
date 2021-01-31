@@ -46,7 +46,7 @@ public class EskapServiceImplTest {
         var eskapServ = new EskapServiceImpl(eskapRepo);
 
         var eg = new EscapeGame();
-        eskapServ.createEskap(eg);
+        eskapServ.saveEskap(eg);
         verify(eskapRepo).save(eg);
     }
 
@@ -57,7 +57,7 @@ public class EskapServiceImplTest {
 
         var eg = new EscapeGame();
         eg.setId(1);
-        eskapServ.createEskap(eg);
+        eskapServ.saveEskap(eg);
         eskapServ.deleteEskap(eg.getId());
         verify(eskapRepo).deleteById(eg.getId());
     }

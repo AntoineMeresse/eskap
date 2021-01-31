@@ -32,7 +32,7 @@ public class EskapServiceImpl implements EskapService{
     }
 
     @Override
-    public EscapeGame createEskap(EscapeGame escapeGame) {
+    public EscapeGame saveEskap(EscapeGame escapeGame) {
         return this.eskapRepository.save(escapeGame);
     }
 
@@ -49,6 +49,20 @@ public class EskapServiceImpl implements EskapService{
     @Override
     public Iterable<EscapeGame> getOfficialEskaps() {
         return this.eskapRepository.findAllOfficial();
+    }
+
+    @Override
+    public EscapeGame setEskapToOfficial(int id) {
+        EscapeGame escapeGame = getEskap(id);
+        if (escapeGame != null) {
+            Boolean isOfficial = escapeGame.getOfficial();
+            if (!isOfficial) {
+                escapeGame.setOfficial(!isOfficial);
+                saveEskap(escapeGame);
+            }
+            return escapeGame;
+        }
+        return null;
     }
 
     @Autowired
