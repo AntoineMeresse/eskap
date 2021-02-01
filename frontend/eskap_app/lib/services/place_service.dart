@@ -33,10 +33,15 @@ class PlaceApiProvider {
       final result = json.decode(response.body);
       if (result != null) {
         final Place place = Place();
-        place.addresse = result["features"][0]["properties"]["label"];
-        place.long = result["features"][0]["geometry"]["coordinates"][0];
-        place.lat = result["features"][0]["geometry"]["coordinates"][1];
-        place.id = (result["features"][0]["properties"]["id"]);
+        var infos = result["features"][0];
+        place.address = infos["properties"]["label"];
+        place.number = infos["properties"]["housenumber"] ?? "";
+        place.street = infos["properties"]["street"] ?? "";
+        place.city = infos["properties"]["city"] ?? "";
+        place.country = "France";
+        place.longitude = infos["geometry"]["coordinates"][0];
+        place.latitude = infos["geometry"]["coordinates"][1];
+        place.id = infos["properties"]["id"];
         // C'est le code postal pour l'instant :/
         print(place);
         return place;

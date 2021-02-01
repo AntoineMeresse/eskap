@@ -29,8 +29,10 @@ class _EskapMapState extends State<EskapMap> {
     super.initState();
     loadEskapIcon();
     zoom = 5;
-    currentPlace =
-        Place(addresse: "France", lat: 46.52863469527167, long: 2.43896484375);
+    currentPlace = Place(
+        address: "France",
+        latitude: 46.52863469527167,
+        longitude: 2.43896484375);
   }
 
   void loadEskapIcon() async {
@@ -59,9 +61,13 @@ class _EskapMapState extends State<EskapMap> {
   }
 
   Future<void> _goToNewPosition() async {
-    await mapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-            zoom: zoom, target: LatLng(currentPlace.lat, currentPlace.long))));
+    await mapController
+        .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+            zoom: zoom,
+            target: LatLng(
+              currentPlace.latitude,
+              currentPlace.longitude,
+            ))));
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -75,7 +81,7 @@ class _EskapMapState extends State<EskapMap> {
           onMapCreated: _onMapCreated,
           markers: markers,
           initialCameraPosition: CameraPosition(
-            target: LatLng(currentPlace.lat, currentPlace.long),
+            target: LatLng(currentPlace.latitude, currentPlace.longitude),
             zoom: zoom,
           ),
         ));

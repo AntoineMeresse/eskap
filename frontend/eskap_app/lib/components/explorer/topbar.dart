@@ -54,7 +54,7 @@ class _TopBarState extends State<TopBar> {
                           final place = await PlaceApiProvider()
                               .getPlaceDetailFromCompleteAdress(
                                   result.description);
-                          setSearchText(place.addresse);
+                          setSearchText(place.address);
                           widget.setCurrentPlace(place);
                         }
                       },
