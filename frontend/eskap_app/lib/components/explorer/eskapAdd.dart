@@ -3,6 +3,8 @@ import 'package:eskap_app/models/suggestion.dart';
 import 'package:eskap_app/services/place_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
+import "dart:convert";
+import 'package:http/http.dart' as http;
 
 class EskapAdd extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -11,21 +13,45 @@ class EskapAdd extends StatelessWidget {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController themeController = TextEditingController();
   final TextEditingController difficultyController = TextEditingController();
+  Place currentPlace;
 
   static const double sidePadding = 30;
   static const padding =
       EdgeInsets.only(top: 10, left: sidePadding, right: sidePadding);
 
-  void add(BuildContext context) {
+  void add(BuildContext context) async {
     print("add");
+    Map data = {
+      "name": nameController.text,
+      "difficulty": difficultyController.text,
+      "price": double.parse(priceController.text),
+      "imgurl": "",
+      "description": descriptionController.text,
+      "number": currentPlace.number,
+      "street": currentPlace.street,
+      "city": currentPlace.city,
+      "country": currentPlace.country,
+      "latitude": currentPlace.latitude,
+      "longitude": currentPlace.longitude,
+      "themes": [themeController.text],
+      "reviews": [],
+      "official": false
+    };
+    String body = json.encode(data);
+    print(body);
+    var response = await http.post(
+      "https://eskaps.herokuapp.com/eskaps/",
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) Navigator.pop(context);
   }
 
   void cancel(BuildContext context) {
     print("cancel");
     Navigator.pop(context);
   }
-
-  Place currentPlace;
 
   @override
   Widget build(BuildContext context) {
