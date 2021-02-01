@@ -45,7 +45,7 @@ class EskapAdd extends StatelessWidget {
       body: body,
     );
     print(response.statusCode);
-    if (response.statusCode == 200) Navigator.pop(context);
+    if (response.statusCode == 200) showAlertDialog(context);
   }
 
   void cancel(BuildContext context) {
@@ -183,6 +183,41 @@ class EskapAdd extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget continueButton = FlatButton(
+      child: Text(
+        "Ok",
+        style: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "Ajout Escape Game",
+        style: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      content: Text(
+          "Votre Escape Game sera ajouté lorsque celui ci aura été validé"),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
