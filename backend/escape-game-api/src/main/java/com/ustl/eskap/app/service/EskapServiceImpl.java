@@ -52,17 +52,10 @@ public class EskapServiceImpl implements EskapService{
     }
 
     @Override
-    public EscapeGame setEskapToOfficial(int id) {
+    public EscapeGame setEskapToOfficial(int id, boolean official) {
         EscapeGame escapeGame = getEskap(id);
-        if (escapeGame != null) {
-            Boolean isOfficial = escapeGame.getOfficial();
-            if (!isOfficial) {
-                escapeGame.setOfficial(!isOfficial);
-                saveEskap(escapeGame);
-            }
-            return escapeGame;
-        }
-        return null;
+        escapeGame.setOfficial(official);
+        return saveEskap(escapeGame);
     }
 
     @Autowired

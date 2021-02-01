@@ -12,5 +12,5 @@ public interface EskapService {
     EscapeGame saveEskap(EscapeGame escapeGame);
     void deleteEskap(int id);
 
-    EscapeGame setEskapToOfficial(int id);
+    EscapeGame setEskapToOfficial(int id, boolean official);
 }

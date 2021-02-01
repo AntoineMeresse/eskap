@@ -59,8 +59,13 @@ public class EskapController {
         return this.eskapService.saveEskap(eskap);
     }
 
-    @PutMapping("/setofficial/{id}")
-    public EscapeGame putEskap(@PathVariable int id){
-        return this.eskapService.setEskapToOfficial(id);
+    @PutMapping("/addofficial/{id}")
+    public EscapeGame addOfficialEskap(@PathVariable int id){
+        return this.eskapService.setEskapToOfficial(id, true);
+    }
+
+    @PutMapping("/deleteofficial/{id}")
+    public EscapeGame removeOfficial(@PathVariable int id){
+        return this.eskapService.setEskapToOfficial(id, false);
     }
 }
