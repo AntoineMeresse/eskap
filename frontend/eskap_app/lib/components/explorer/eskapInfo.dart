@@ -8,33 +8,30 @@ class EskapInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Test",
-      home: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                topBar(context),
-                Image.network(
-                    "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg"),
-                Text(
-                  eg.name ?? null,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              topBar(context),
+              Image.network(
+                  "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg"),
+              Text(
+                eg.name ?? null,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 ),
-                Text(
-                  eg.addressToString() ?? "Null",
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 20,
-                  ),
+              ),
+              Text(
+                eg.addressToString() ?? "Null",
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 20,
                 ),
-                Text(eg.toString()),
-              ],
-            ),
+              ),
+              Text(eg.toString()),
+            ],
           ),
         ),
       ),

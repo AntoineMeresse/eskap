@@ -9,9 +9,10 @@ import 'eskapAdd.dart';
 class EskapList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final eskapbloc = BlocProvider.of<EskapBloc>(context);
+    //ignore: close_sinks
+    final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     return Scaffold(
-      body: EskapListBloc(),
+      body: EskapListBloc(eskapbloc: eskapbloc),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -29,12 +30,11 @@ class EskapList extends StatelessWidget {
   }
 }
 
-class EskapListBloc extends StatefulWidget {
-  @override
-  _EskapListBlocState createState() => _EskapListBlocState();
-}
+class EskapListBloc extends StatelessWidget {
+  final EskapBloc eskapbloc;
 
-class _EskapListBlocState extends State<EskapListBloc> {
+  const EskapListBloc({Key key, @required this.eskapbloc}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
@@ -53,7 +53,8 @@ class _EskapListBlocState extends State<EskapListBloc> {
           return ListView.builder(
               itemCount: state.eskaps.length,
               itemBuilder: (BuildContext context, int index) {
-                return EskapWidget(eg: state.eskaps[index]);
+                return EskapWidget(
+                    eg: state.eskaps[index], eskapbloc: eskapbloc);
               });
         }
       }
@@ -64,8 +65,10 @@ class _EskapListBlocState extends State<EskapListBloc> {
 
 class EskapWidget extends StatelessWidget {
   final EscapeGame eg;
+  final EskapBloc eskapbloc;
 
-  const EskapWidget({Key key, @required this.eg}) : super(key: key);
+  const EskapWidget({Key key, @required this.eg, @required this.eskapbloc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +92,7 @@ class EskapWidget extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => BlocProvider.value(
-                        value: BlocProvider.of<EskapBloc>(context),
+                        value: eskapbloc,
                         child: EskapInfo(eg: eg),
                       )));
         }
