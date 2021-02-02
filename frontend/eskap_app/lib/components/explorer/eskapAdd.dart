@@ -160,8 +160,10 @@ class EskapAdd extends StatelessWidget {
                   price: double.parse(priceController.text),
                   imgurl: "",
                   description: descriptionController.text,
-                  number: int.parse(currentPlace.number),
-                  street: currentPlace.street,
+                  number: currentPlace.number != ""
+                      ? int.parse(currentPlace.number)
+                      : null,
+                  street: currentPlace.street ?? "",
                   city: currentPlace.city,
                   country: currentPlace.country,
                   latitude: currentPlace.latitude,
