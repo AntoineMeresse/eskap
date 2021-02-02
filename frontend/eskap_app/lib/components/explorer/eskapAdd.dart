@@ -18,7 +18,7 @@ class EskapAdd extends StatelessWidget {
 
   static const double sidePadding = 30;
   static const padding =
-      EdgeInsets.only(top: 10, left: sidePadding, right: sidePadding);
+      EdgeInsets.only(top: 20, left: sidePadding, right: sidePadding);
 
   void cancel(BuildContext context) {
     print("cancel");
@@ -40,6 +40,7 @@ class EskapAdd extends StatelessWidget {
                   prix(context),
                   themes(context),
                   difficulty(context),
+                  textadd(context),
                   buttons(context),
                 ],
               ),
@@ -147,13 +148,12 @@ class EskapAdd extends StatelessWidget {
               cancel(context);
             },
             child: Text(
-              "Cancel",
+              "Retour",
               style: TextStyle(color: Colors.red),
             ),
           ),
           TextButton(
             onPressed: () {
-              print("add");
               EscapeGame eg = EscapeGame(
                   name: nameController.text,
                   difficulty: difficultyController.text,
@@ -171,47 +171,19 @@ class EskapAdd extends StatelessWidget {
                   themes: [themeController.text],
                   reviews: [],
                   isFav: false);
-              BlocProvider.of<EskapBloc>(context).add(EskapCreate(eg));
+              BlocProvider.of<EskapBloc>(context).add(EskapCreate(eg, context));
             },
-            child: Text("Add"),
+            child: Text("Ajouter"),
           )
         ],
       ),
     );
   }
 
-  showAlertDialog(BuildContext context) {
-    Widget continueButton = FlatButton(
-      child: Text(
-        "Ok",
-        style: TextStyle(
-          color: Colors.black,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: Text(
-        "Ajout Escape Game",
-        style: TextStyle(
-          color: Colors.black,
-        ),
-      ),
-      content: Text(
-          "Votre Escape Game sera ajouté lorsque celui ci aura été validé"),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+  Widget textadd(BuildContext context) {
+    return Container(
+        padding: padding,
+        child: Text(
+            "Votre Escape Game sera ajouté aux escapes games certifiés lorsque celui ci aura été validé 😁"));
   }
 }

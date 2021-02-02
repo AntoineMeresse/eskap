@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:eskap_app/models/escapeGame.dart';
+import 'package:flutter/material.dart';
 
 abstract class EskapEvent extends Equatable {
   @override
@@ -22,6 +23,7 @@ class EskapRemoveFav extends EskapEvent {
 
 class EskapCreate extends EskapEvent {
   final EscapeGame eskap;
+  final BuildContext context;
 
-  EskapCreate(this.eskap);
+  EskapCreate(this.eskap, this.context);
 }

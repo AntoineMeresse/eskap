@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
@@ -83,6 +84,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           hasReachedMax: true,
           favs: favs,
         );
+        Navigator.pop(event.context);
         return;
       } else {
         print("Erreur");
