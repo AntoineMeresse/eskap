@@ -88,6 +88,8 @@ class _EskapMapState extends State<EskapMap> {
   }
 
   Widget eskapBloc() {
+    //ignore: close_sinks
+    final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
       if (state is EskapSuccess) {
         Set<Marker> res = {};
@@ -104,7 +106,10 @@ class _EskapMapState extends State<EskapMap> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EskapInfo(eg: eskap)));
+                            builder: (context) => BlocProvider.value(
+                                  value: eskapbloc,
+                                  child: EskapInfo(eg: eskap),
+                                )));
                   }
                 },
               ),
