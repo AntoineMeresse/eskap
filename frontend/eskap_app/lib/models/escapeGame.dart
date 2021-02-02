@@ -81,8 +81,20 @@ class EscapeGame {
         country: eskap['country'],
         latitude: eskap['latitude'],
         longitude: eskap['longitude'],
-        //themes: eskap['themes'],
+        themes: themesFromJson(eskap['themes']),
         //reviews: eskap['reviews'],
         official: eskap['official']);
+  }
+
+  static List<String> themesFromJson(themes) {
+    List<String> res = [];
+    for (var theme in themes) {
+      res.add(theme.toString());
+    }
+    return res;
+  }
+
+  String themesToString() {
+    return themes.join(' ,');
   }
 }

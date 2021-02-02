@@ -45,7 +45,7 @@ class EskapInfo extends StatelessWidget {
             children: [
               eskapInfoContainer(eskapAddress()),
               eskapInfoContainer(eskapPrice()),
-              //eskapInfoContainer(eskapThemes()),
+              eskapInfoContainer(eskapThemes()),
               eskapInfoContainer(eskapDescription()),
               eskapInfoContainer(eskapDifficulty()),
             ],
@@ -154,8 +154,8 @@ class EskapInfo extends StatelessWidget {
   }
 
   Widget eskapThemes() {
-    if (eg.themes != null) {
-      return Text('Themes : ${eg.themes.toString()}');
+    if (eg.themes.length > 0) {
+      return Text('Thème(s) : ${eg.themesToString()}');
     }
     return null;
   }
