@@ -82,7 +82,7 @@ class EscapeGame {
         latitude: eskap['latitude'],
         longitude: eskap['longitude'],
         themes: themesFromJson(eskap['themes']),
-        //reviews: eskap['reviews'],
+        reviews: reviewsFromJson(eskap['reviews']),
         official: eskap['official']);
   }
 
@@ -96,5 +96,20 @@ class EscapeGame {
 
   String themesToString() {
     return themes.join(' ,');
+  }
+
+  static List<Review> reviewsFromJson(reviews) {
+    List<Review> res = [];
+    for (var review in reviews) {
+      res.add(Review.fromJson(review));
+    }
+    return res;
+  }
+
+  double averageRate() {
+    double res = 0;
+    if (reviews.length == 0) return res;
+    for (var review in reviews) res += review.rate;
+    return res / (reviews.length);
   }
 }

@@ -16,4 +16,13 @@ class Review extends Equatable {
 
   @override
   List<Object> get props => throw UnimplementedError();
+
+  static Review fromJson(review) {
+    return Review(
+        reviewId: review['reviewId'],
+        userId: review['userId'],
+        text: review['text'],
+        rate: review['rate'],
+        date: review['date']);
+  }
 }

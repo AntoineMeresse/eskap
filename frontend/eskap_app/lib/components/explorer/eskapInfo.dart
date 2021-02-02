@@ -101,25 +101,22 @@ class EskapInfo extends StatelessWidget {
   }
 
   Widget eskapRate() {
-    // Loop throw review to know the rate
-    double rate = 4.5;
-    if (true) {
-      return Container(
-          child: Row(
+    double rate = eg.averageRate();
+    return Container(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('$rate'),
+          Text(rate > 0 ? '$rate' : 'Pas de notes encore'),
           eskapRateStar(rate),
         ],
-      ));
-    }
-    return null;
+      ),
+    );
   }
 
   Widget eskapRateStar(double rate) {
     return RatingBar.builder(
       initialRating: rate,
-      minRating: 1,
+      minRating: 0,
       ignoreGestures: true,
       direction: Axis.horizontal,
       allowHalfRating: true,
