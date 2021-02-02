@@ -8,6 +8,9 @@ class EskapInfo extends StatelessWidget {
 
   const EskapInfo({Key key, @required this.eg}) : super(key: key);
 
+  static const padding = EdgeInsets.only(top: 30, left: 0, right: 0);
+  static const paddingEskapInfoContainer = EdgeInsets.only(top: 10);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +38,26 @@ class EskapInfo extends StatelessWidget {
         eskapImage(),
         eskapName(),
         eskapRate(),
-        eskapAddress(),
+        Container(
+          padding: padding,
+          child: Column(
+            children: [
+              eskapInfoContainer(eskapAddress()),
+              eskapInfoContainer(eskapPrice()),
+              //eskapInfoContainer(eskapThemes()),
+              eskapInfoContainer(eskapDescription()),
+              eskapInfoContainer(eskapDifficulty()),
+            ],
+          ),
+        ),
       ],
+    );
+  }
+
+  Widget eskapInfoContainer(Widget widget) {
+    return Container(
+      padding: paddingEskapInfoContainer,
+      child: widget,
     );
   }
 
@@ -92,5 +113,35 @@ class EskapInfo extends StatelessWidget {
         fontSize: 20,
       ),
     );
+  }
+
+  Widget eskapPrice() {
+    if (eg.price != null) {
+      return Text('Prix : ${eg.price} / €');
+    }
+    return null;
+  }
+
+  Widget eskapThemes() {
+    if (eg.themes != null) {
+      return Text('Themes : ${eg.themes.toString()}');
+    }
+    return null;
+  }
+
+  Widget eskapDescription() {
+    if (eg.description != null) {
+      return Container(
+        child: Text('Description : ${eg.description}'),
+      );
+    }
+    return null;
+  }
+
+  Widget eskapDifficulty() {
+    if (eg.difficulty != null) {
+      return Text('Difficulté : ${eg.difficulty}');
+    }
+    return null;
   }
 }
