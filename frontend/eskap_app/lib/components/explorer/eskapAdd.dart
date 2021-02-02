@@ -1,10 +1,11 @@
+import 'package:eskap_app/bloc/bloc.dart';
+import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/place.dart';
 import 'package:eskap_app/models/suggestion.dart';
 import 'package:eskap_app/services/place_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
-import "dart:convert";
-import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EskapAdd extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -19,35 +20,6 @@ class EskapAdd extends StatelessWidget {
   static const padding =
       EdgeInsets.only(top: 10, left: sidePadding, right: sidePadding);
 
-  void add(BuildContext context) async {
-    print("add");
-    Map data = {
-      "name": nameController.text,
-      "difficulty": difficultyController.text,
-      "price": double.parse(priceController.text),
-      "imgurl": "",
-      "description": descriptionController.text,
-      "number": currentPlace.number,
-      "street": currentPlace.street,
-      "city": currentPlace.city,
-      "country": currentPlace.country,
-      "latitude": currentPlace.latitude,
-      "longitude": currentPlace.longitude,
-      "themes": [themeController.text],
-      "reviews": [],
-      "official": false
-    };
-    String body = json.encode(data);
-    print(body);
-    var response = await http.post(
-      "https://eskaps.herokuapp.com/eskaps/",
-      headers: {"Content-Type": "application/json"},
-      body: body,
-    );
-    print(response.statusCode);
-    if (response.statusCode == 200) showAlertDialog(context);
-  }
-
   void cancel(BuildContext context) {
     print("cancel");
     Navigator.pop(context);
@@ -55,25 +27,29 @@ class EskapAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Ajouter un Escape Game",
-      home: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                name(context),
-                address(context),
-                description(context),
-                prix(context),
-                themes(context),
-                difficulty(context),
-                buttons(context),
-              ],
+    return Scaffold(
+      body: BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
+        if (state is EskapSuccess) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  name(context),
+                  address(context),
+                  description(context),
+                  prix(context),
+                  themes(context),
+                  difficulty(context),
+                  buttons(context),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+        }
+        return Center(
+          child: Text("Unknow"),
+        );
+      }),
     );
   }
 
@@ -177,7 +153,23 @@ class EskapAdd extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              add(context);
+              print("add");
+              EscapeGame eg = EscapeGame(
+                  name: nameController.text,
+                  difficulty: difficultyController.text,
+                  price: double.parse(priceController.text),
+                  imgurl: "",
+                  description: descriptionController.text,
+                  number: int.parse(currentPlace.number),
+                  street: currentPlace.street,
+                  city: currentPlace.city,
+                  country: currentPlace.country,
+                  latitude: currentPlace.latitude,
+                  longitude: currentPlace.longitude,
+                  themes: [themeController.text],
+                  reviews: [],
+                  isFav: false);
+              BlocProvider.of<EskapBloc>(context).add(EskapCreate(eg));
             },
             child: Text("Add"),
           )

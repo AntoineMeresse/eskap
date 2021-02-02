@@ -66,6 +66,28 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         return;
       }
     }
+    if (event is EskapCreate) {
+      print("Escape Create");
+      EscapeGame eg = event.eskap;
+      String body = json.encode(eg.toJson());
+      var response = await httpClient.post(
+        '$url/eskaps/',
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+      if (response.statusCode == 200) {
+        final favs = await _fetchFavs();
+        final eskaps = await _fetchEskap(favs);
+        yield EskapSuccess(
+          eskaps: eskaps,
+          hasReachedMax: true,
+          favs: favs,
+        );
+        return;
+      } else {
+        print("Erreur");
+      }
+    }
   }
 
   bool _hasReachedMax(EskapState state) =>
@@ -77,23 +99,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       final data = json.decode(response.body) as List;
       print(data);
       return data.map((eskap) {
-        return EscapeGame(
-          id: eskap['id'],
-          name: eskap['name'],
-          difficulty: eskap['difficulty'],
-          price: eskap['price'],
-          imgurl: eskap['imgurl'],
-          description: eskap['description'],
-          number: eskap['number'],
-          street: eskap['street'],
-          city: eskap['city'],
-          country: eskap['country'],
-          latitude: eskap['latitude'],
-          longitude: eskap['longitude'],
-          //themes: eskap['themes'],
-          //reviews: eskap['reviews'],
-          isFav: favs.contains(eskap['id']),
-        );
+        EscapeGame res = EscapeGame.fromJson(eskap);
+        res.isFav = favs.contains(eskap['id']);
+        return res;
       }).toList();
     } else {
       throw Exception("Error fetching eskap list");

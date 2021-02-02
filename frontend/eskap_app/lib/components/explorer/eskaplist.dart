@@ -9,12 +9,18 @@ import 'eskapAdd.dart';
 class EskapList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final eskapbloc = BlocProvider.of<EskapBloc>(context);
     return Scaffold(
       body: EskapListBloc(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => EskapAdd()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                        value: eskapbloc,
+                        child: EskapAdd(),
+                      )));
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.black,
@@ -79,8 +85,13 @@ class EskapWidget extends StatelessWidget {
       ),
       onTap: () {
         if (eg != null) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EskapInfo(eg: eg)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                        value: BlocProvider.of<EskapBloc>(context),
+                        child: EskapInfo(eg: eg),
+                      )));
         }
       },
     );

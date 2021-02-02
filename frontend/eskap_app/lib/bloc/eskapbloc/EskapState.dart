@@ -10,6 +10,8 @@ abstract class EskapState extends Equatable {
 
 class EskapInitial extends EskapState {}
 
+class EskapAdded extends EskapState {}
+
 class EskapFailure extends EskapState {}
 
 class EskapSuccess extends EskapState {

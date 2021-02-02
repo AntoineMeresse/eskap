@@ -18,6 +18,8 @@ class EscapeGame {
   final List<String> themes;
   final List<Review> reviews;
 
+  bool official;
+
   bool isFav;
 
   EscapeGame({
@@ -35,6 +37,7 @@ class EscapeGame {
     this.longitude,
     this.themes,
     this.reviews,
+    this.official,
     this.isFav,
   });
 
@@ -47,21 +50,39 @@ class EscapeGame {
     return 'Address : $number $street $city $country';
   }
 
-  /*
-  @override
-  List<Object> get props => [
-        id,
-        name,
-        difficulty,
-        number,
-        street,
-        city,
-        country,
-        latitude,
-        longitude,
-        themes,
-        reviews,
-        isFav
-      ];
-      */
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "difficulty": difficulty,
+        "price": price,
+        "imgurl": imgurl,
+        "description": description,
+        "number": number,
+        "street": street,
+        "city": city,
+        "country": country,
+        "latitude": latitude,
+        "longitude": longitude,
+        "themes": themes,
+        "reviews": reviews,
+        "official": isFav
+      };
+
+  static EscapeGame fromJson(eskap) {
+    return EscapeGame(
+        id: eskap['id'],
+        name: eskap['name'],
+        difficulty: eskap['difficulty'],
+        price: eskap['price'],
+        imgurl: eskap['imgurl'],
+        description: eskap['description'],
+        number: eskap['number'],
+        street: eskap['street'],
+        city: eskap['city'],
+        country: eskap['country'],
+        latitude: eskap['latitude'],
+        longitude: eskap['longitude'],
+        //themes: eskap['themes'],
+        //reviews: eskap['reviews'],
+        official: eskap['official']);
+  }
 }
