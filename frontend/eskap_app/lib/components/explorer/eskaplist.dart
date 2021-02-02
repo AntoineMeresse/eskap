@@ -12,7 +12,7 @@ class EskapList extends StatelessWidget {
     //ignore: close_sinks
     final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     return Scaffold(
-      body: EskapListBloc(eskapbloc: eskapbloc),
+      body: EskapListBloc(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -31,9 +31,7 @@ class EskapList extends StatelessWidget {
 }
 
 class EskapListBloc extends StatelessWidget {
-  final EskapBloc eskapbloc;
-
-  const EskapListBloc({Key key, @required this.eskapbloc}) : super(key: key);
+  const EskapListBloc({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +51,7 @@ class EskapListBloc extends StatelessWidget {
           return ListView.builder(
               itemCount: state.eskaps.length,
               itemBuilder: (BuildContext context, int index) {
-                return EskapWidget(
-                    eg: state.eskaps[index], eskapbloc: eskapbloc);
+                return EskapWidget(eg: state.eskaps[index]);
               });
         }
       }
@@ -65,13 +62,13 @@ class EskapListBloc extends StatelessWidget {
 
 class EskapWidget extends StatelessWidget {
   final EscapeGame eg;
-  final EskapBloc eskapbloc;
 
-  const EskapWidget({Key key, @required this.eg, @required this.eskapbloc})
-      : super(key: key);
+  const EskapWidget({Key key, @required this.eg}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //ignore: close_sinks
+    final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     return ListTile(
       leading: Icon(Icons.home),
       title: Text(eg.name),

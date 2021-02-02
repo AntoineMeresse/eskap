@@ -1,5 +1,7 @@
+import 'package:eskap_app/bloc/bloc.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EskapInfo extends StatelessWidget {
   final EscapeGame eg;
@@ -9,32 +11,45 @@ class EskapInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              topBar(context),
-              Image.network(
-                  "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg"),
-              Text(
-                eg.name ?? null,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),
+      body: BlocBuilder<EskapBloc, EskapState>(
+        builder: (context, state) {
+          if (state is EskapSuccess) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: infos(context),
               ),
-              Text(
-                eg.addressToString() ?? "Null",
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 20,
-                ),
-              ),
-              Text(eg.toString()),
-            ],
+            );
+          }
+          return Center(
+            child: Text("Chargement impossible des données"),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget infos(context) {
+    return Column(
+      children: [
+        topBar(context),
+        Image.network(
+            "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg"),
+        Text(
+          eg.name ?? null,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
           ),
         ),
-      ),
+        Text(
+          eg.addressToString() ?? "Null",
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            fontSize: 20,
+          ),
+        ),
+        Text(eg.toString()),
+      ],
     );
   }
 
@@ -49,7 +64,11 @@ class EskapInfo extends StatelessWidget {
       IconButton(
         icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
-          //todo
+          if (eg.isFav) {
+            BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
+          } else {
+            BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
+          }
         },
       )
     ]);
