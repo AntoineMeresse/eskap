@@ -2,6 +2,7 @@ import 'package:eskap_app/bloc/bloc.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class EskapInfo extends StatelessWidget {
   final EscapeGame eg;
@@ -100,8 +101,38 @@ class EskapInfo extends StatelessWidget {
   }
 
   Widget eskapRate() {
-    return Container(
-      child: Text("rate"),
+    // Loop throw review to know the rate
+    double rate = 4.5;
+    if (true) {
+      return Container(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('$rate'),
+          eskapRateStar(rate),
+        ],
+      ));
+    }
+    return null;
+  }
+
+  Widget eskapRateStar(double rate) {
+    return RatingBar.builder(
+      initialRating: rate,
+      minRating: 1,
+      ignoreGestures: true,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemSize: 23,
+      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {
+        //
+      },
     );
   }
 
