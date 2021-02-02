@@ -1,6 +1,7 @@
 package com.ustl.eskap.app.controller;
 
 import com.ustl.eskap.app.bo.eskap.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.Review;
 import com.ustl.eskap.app.service.EskapService;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,5 +68,15 @@ public class EskapController {
     @PutMapping("/deleteofficial/{id}")
     public EscapeGame removeOfficial(@PathVariable int id){
         return this.eskapService.setEskapToOfficial(id, false);
+    }
+
+    @PutMapping("/{id}/reviews/")
+    public EscapeGame addReview(@PathVariable int id, @RequestBody Review review) {
+        return this.eskapService.addReview(id, review);
+    }
+
+    @PutMapping("/{id}/reviews/{reviewId}")
+    public EscapeGame deleteReview(@PathVariable int id, @PathVariable int reviewId) {
+        return this.eskapService.deleteReview(id, reviewId);
     }
 }

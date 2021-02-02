@@ -1,6 +1,7 @@
 package com.ustl.eskap.app.service;
 
 import com.ustl.eskap.app.bo.eskap.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.Review;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface EskapService {
     void deleteEskap(int id);
 
     EscapeGame setEskapToOfficial(int id, boolean official);
+    EscapeGame addReview(int id, Review review);
+    EscapeGame deleteReview(int id, int reviewId);
 }

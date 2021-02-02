@@ -1,6 +1,7 @@
 package com.ustl.eskap.app.service;
 
 import com.ustl.eskap.app.bo.eskap.EscapeGame;
+import com.ustl.eskap.app.bo.eskap.Review;
 import com.ustl.eskap.app.repository.EskapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,39 @@ public class EskapServiceImpl implements EskapService{
     public EscapeGame setEskapToOfficial(int id, boolean official) {
         EscapeGame escapeGame = getEskap(id);
         escapeGame.setOfficial(official);
+        return saveEskap(escapeGame);
+    }
+
+    /** Method to generate an id */
+    public int reviewId(List<Review> reviews) {
+        int id = 0;
+        for (Review r : reviews) {
+            if (r.getReviewId() > id) id = r.getReviewId();
+        }
+        return id+1;
+    }
+
+    @Override
+    public EscapeGame addReview(int id, Review review) {
+        EscapeGame escapeGame = getEskap(id);
+        int reviewId = reviewId(escapeGame.getReviews());
+        review.setReviewId(reviewId);
+        escapeGame.getReviews().add(review);
+        return saveEskap(escapeGame);
+    }
+
+    @Override
+    public EscapeGame deleteReview(int id, int reviewId) {
+        EscapeGame escapeGame = getEskap(id);
+        List<Review> reviews = escapeGame.getReviews();
+        if (reviews.size() >= 1) {
+            for (int i = 0; i < reviews.size(); i ++) {
+                if (reviews.get(i).getReviewId() == reviewId) {
+                    reviews.remove(i);
+                    return saveEskap(escapeGame);
+                }
+            }
+        }
         return saveEskap(escapeGame);
     }
 

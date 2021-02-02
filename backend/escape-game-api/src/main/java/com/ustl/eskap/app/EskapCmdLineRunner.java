@@ -17,8 +17,8 @@ public class EskapCmdLineRunner {
     @Autowired
     public CommandLineRunner demo(EskapRepository repository) {
         return (args) -> {
-            var review = new Review(1,"1","review 1",4.5,"01/29/2021");
-            var review2 = new Review(2,"1","review 2",4.0,"01/29/2021");
+            var review = new Review(0,"1","review 1",4.5,"01/29/2021");
+            var review2 = new Review(1,"1","review 2",4.0,"01/29/2021");
 
             List<String> theme1 = List.of("Sea");
             List<String> theme2 = List.of("Jail");
@@ -26,7 +26,7 @@ public class EskapCmdLineRunner {
             EscapeGame eg1 = new EscapeGame(
                     1, "Eskap Lille", "easy", 20.0, "", "Eskap Game From Lille",
                     1, "rue", "Lille","France",50.630206,3.04584,
-                    theme1, List.of(review), true);
+                    theme1, List.of(review, review2), true);
 
             EscapeGame eg2 = new EscapeGame(
                     2, "Eskap Paris", "medium", 30.0, "", "Eskap Game From Paris",
