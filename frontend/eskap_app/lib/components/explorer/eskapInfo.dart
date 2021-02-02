@@ -32,23 +32,10 @@ class EskapInfo extends StatelessWidget {
     return Column(
       children: [
         topBar(context),
-        Image.network(
-            "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg"),
-        Text(
-          eg.name ?? null,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
-        ),
-        Text(
-          eg.addressToString() ?? "Null",
-          style: TextStyle(
-            fontStyle: FontStyle.italic,
-            fontSize: 20,
-          ),
-        ),
-        Text(eg.toString()),
+        eskapImage(),
+        eskapName(),
+        eskapRate(),
+        eskapAddress(),
       ],
     );
   }
@@ -72,5 +59,38 @@ class EskapInfo extends StatelessWidget {
         },
       )
     ]);
+  }
+
+  Widget eskapImage() {
+    String imgURL = eg.imgurl != ""
+        ? eg.imgurl
+        : "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg";
+    return Image.network(imgURL);
+  }
+
+  Widget eskapName() {
+    return Text(
+      eg.name ?? null,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 30,
+      ),
+    );
+  }
+
+  Widget eskapRate() {
+    return Container(
+      child: Text("rate"),
+    );
+  }
+
+  Widget eskapAddress() {
+    return Text(
+      eg.addressToString() ?? "Null",
+      style: TextStyle(
+        fontStyle: FontStyle.italic,
+        fontSize: 20,
+      ),
+    );
   }
 }
