@@ -1,5 +1,6 @@
 import 'package:eskap_app/bloc/bloc.dart';
 import 'package:eskap_app/models/escapeGame.dart';
+import 'package:eskap_app/models/review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -250,6 +251,12 @@ class _EskapInfoState extends State<EskapInfo> {
                 child: TextButton(
                   onPressed: () {
                     print('$reviewRate | ${reviewController.text}');
+                    Review r = Review(
+                      rate: reviewRate,
+                      text: reviewController.text.trim(),
+                    );
+                    BlocProvider.of<EskapBloc>(context)
+                        .add(EskapCreateReview(r, widget.eg.id));
                   },
                   child: Text(
                     "Envoyer",

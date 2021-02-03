@@ -1,11 +1,9 @@
-import 'package:equatable/equatable.dart';
-
-class Review extends Equatable {
-  final int reviewId;
-  final String userId;
-  final String text;
-  final double rate;
-  final String date;
+class Review {
+  int reviewId;
+  String userId;
+  String text;
+  double rate;
+  String date;
 
   Review({this.reviewId, this.userId, this.text, this.rate, this.date});
 
@@ -13,9 +11,6 @@ class Review extends Equatable {
   String toString() {
     return 'Review : $reviewId | $userId | $text | $rate | $date';
   }
-
-  @override
-  List<Object> get props => throw UnimplementedError();
 
   static Review fromJson(review) {
     return Review(
@@ -25,4 +20,7 @@ class Review extends Equatable {
         rate: review['rate'],
         date: review['date']);
   }
+
+  Map<String, dynamic> toJson() =>
+      {"userId": userId, "text": text, "rate": rate, "date": date};
 }

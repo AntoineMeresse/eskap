@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:eskap_app/models/review.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
@@ -90,6 +91,20 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         print("Erreur");
       }
     }
+
+    if (event is EskapCreateReview) {
+      int responseCode = await _addReview(event.review, event.eskapId);
+      if (responseCode == 200) {
+        final favs = await _fetchFavs();
+        final eskaps = await _fetchEskap(favs);
+        yield EskapSuccess(
+          eskaps: eskaps,
+          hasReachedMax: true,
+          favs: favs,
+        );
+        return;
+      }
+    }
   }
 
   bool _hasReachedMax(EskapState state) =>
@@ -142,5 +157,18 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     } else {
       throw Exception("Error fetching fav list");
     }
+  }
+
+  Future<int> _addReview(Review review, int eskapId) async {
+    review.userId = userId;
+    review.date = DateTime.now().toString();
+    String body = json.encode(review.toJson());
+    print(body);
+    var response = await httpClient.put(
+      '$url/eskaps/$eskapId/reviews/',
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+    return response.statusCode;
   }
 }
