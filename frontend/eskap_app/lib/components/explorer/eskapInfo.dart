@@ -4,13 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class EskapInfo extends StatelessWidget {
+class EskapInfo extends StatefulWidget {
   final EscapeGame eg;
+  EskapInfo({Key key, @required this.eg}) : super(key: key);
 
-  const EskapInfo({Key key, @required this.eg}) : super(key: key);
+  @override
+  _EskapInfoState createState() => _EskapInfoState();
+}
 
+class _EskapInfoState extends State<EskapInfo> {
   static const padding = EdgeInsets.only(top: 30, left: 0, right: 0);
   static const paddingEskapInfoContainer = EdgeInsets.only(top: 10);
+
+  double reviewRate = 2.5;
+  bool showReview = false;
+  final TextEditingController reviewController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +57,9 @@ class EskapInfo extends StatelessWidget {
               eskapInfoContainer(context, eskapDescription()),
               eskapInfoContainer(context, eskapDifficulty()),
               divider(),
-              eskapInfoContainer(context, eskapAddReview(), size: 0.80),
+              reviewContainer(),
+              eskapInfoContainer(context, eskapAddReview(), size: 0.90),
+              divider(),
             ],
           ),
         ),
@@ -75,12 +85,13 @@ class EskapInfo extends StatelessWidget {
         },
       ),
       IconButton(
-        icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
+        icon: Icon(widget.eg.isFav ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
-          if (eg.isFav) {
-            BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
+          if (widget.eg.isFav) {
+            BlocProvider.of<EskapBloc>(context)
+                .add(EskapRemoveFav(widget.eg.id));
           } else {
-            BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
+            BlocProvider.of<EskapBloc>(context).add(EskapAddFav(widget.eg.id));
           }
         },
       )
@@ -88,15 +99,15 @@ class EskapInfo extends StatelessWidget {
   }
 
   Widget eskapImage() {
-    String imgURL = eg.imgurl != ""
-        ? eg.imgurl
+    String imgURL = widget.eg.imgurl != ""
+        ? widget.eg.imgurl
         : "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg";
     return Image.network(imgURL);
   }
 
   Widget eskapName() {
     return Text(
-      eg.name ?? null,
+      widget.eg.name ?? null,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 30,
@@ -105,7 +116,7 @@ class EskapInfo extends StatelessWidget {
   }
 
   Widget eskapRate() {
-    double rate = eg.averageRate();
+    double rate = widget.eg.averageRate();
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -132,14 +143,17 @@ class EskapInfo extends StatelessWidget {
         color: Colors.amber,
       ),
       onRatingUpdate: (rating) {
-        //
+        setState(() {
+          reviewRate = rating;
+          print(reviewRate);
+        });
       },
     );
   }
 
   Widget eskapAddress() {
     return Text(
-      eg.addressToString() ?? "Null",
+      widget.eg.addressToString() ?? "Null",
       style: TextStyle(
         fontStyle: FontStyle.italic,
         fontSize: 20,
@@ -148,31 +162,31 @@ class EskapInfo extends StatelessWidget {
   }
 
   Widget eskapPrice() {
-    if (eg.price != null) {
-      return Text('Prix : ${eg.price} / €');
+    if (widget.eg.price != null) {
+      return Text('Prix : ${widget.eg.price} / €');
     }
     return null;
   }
 
   Widget eskapThemes() {
-    if (eg.themes.length > 0) {
-      return Text('Thème(s) : ${eg.themesToString()}');
+    if (widget.eg.themes.length > 0) {
+      return Text('Thème(s) : ${widget.eg.themesToString()}');
     }
     return null;
   }
 
   Widget eskapDescription() {
-    if (eg.description != null) {
+    if (widget.eg.description != null) {
       return Container(
-        child: Text('Description : ${eg.description}'),
+        child: Text('Description : ${widget.eg.description}'),
       );
     }
     return null;
   }
 
   Widget eskapDifficulty() {
-    if (eg.difficulty != null) {
-      return Text('Difficulté : ${eg.difficulty}');
+    if (widget.eg.difficulty != null) {
+      return Text('Difficulté : ${widget.eg.difficulty}');
     }
     return null;
   }
@@ -184,28 +198,70 @@ class EskapInfo extends StatelessWidget {
     );
   }
 
-  Widget eskapAddReview() {
-    return Column(
-      children: [
-        eskapRateStar(rate: 3, clickable: true),
-        TextField(
-          minLines: 1,
-          maxLines: 3,
-          maxLength: 500,
-          decoration: InputDecoration(
-            labelText: "Commentaire",
+  Widget reviewContainer() {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          showReview = !showReview;
+        });
+      },
+      child: Row(
+        children: [
+          Icon(showReview ? Icons.expand_less : Icons.expand_more),
+          Text(
+            "Noter cet Escape Game",
+            style: TextStyle(
+              fontStyle: !showReview ? FontStyle.normal : FontStyle.italic,
+              fontSize: 20,
+            ),
           ),
-        ),
-        TextButton(
-          onPressed: () {
-            //
-          },
-          child: Text(
-            "Envoyer",
-            style: TextStyle(color: Colors.red),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
+  }
+
+  Widget eskapAddReview() {
+    if (showReview) {
+      return Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('$reviewRate'),
+              eskapRateStar(rate: reviewRate, clickable: true),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 8,
+                child: TextField(
+                  minLines: 1,
+                  maxLines: 3,
+                  maxLength: 250,
+                  decoration: InputDecoration(
+                    labelText: "Commentaire",
+                  ),
+                  controller: reviewController,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: TextButton(
+                  onPressed: () {
+                    print('$reviewRate | ${reviewController.text}');
+                  },
+                  child: Text(
+                    "Envoyer",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
+      );
+    }
+    return null;
   }
 }
