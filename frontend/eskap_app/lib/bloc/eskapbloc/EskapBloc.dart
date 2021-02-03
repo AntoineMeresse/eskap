@@ -33,7 +33,6 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           );
           return;
         }
-        // Here, if want to load 20 by 20
       } catch (_) {
         yield EskapFailure();
       }
@@ -153,21 +152,6 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
   }
 
-  List<EscapeGame> replaceIsFavEskap(
-      List<EscapeGame> eskaps, int id, bool newState) {
-    var eskapsCpy = [...eskaps];
-    for (int i = 0; i < eskapsCpy.length; i++) {
-      if (id == eskapsCpy[i].id) {
-        print(i);
-        //eskapsCpy[i].isFav = newState;
-        EscapeGame newEscape =
-            EscapeGame.updateEscapeFromPrevious(eskapsCpy[i], isFav: newState);
-        eskapsCpy[i] = newEscape;
-      }
-    }
-    return eskapsCpy;
-  }
-
   Future<List<int>> _updateFav(String userId, int eskapId, bool add) async {
     String op = add ? "add" : "delete";
     String request = '$url/users/$userId/favs/$op/$eskapId';
@@ -194,37 +178,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     return response;
   }
 
-  List<EscapeGame> addReviewEskap(
-      List<EscapeGame> eskaps, int id, Review review) {
-    var eskapsCpy = [...eskaps];
-    for (int i = 0; i < eskapsCpy.length; i++) {
-      if (id == eskapsCpy[i].id) {
-        //eskapsCpy[i].reviews = [...eskapsCpy[i].reviews, review];
-        eskapsCpy[i] =
-            EscapeGame.updateEscapeFromPrevious(eskapsCpy[i], review: review);
-      }
-    }
-    return eskapsCpy;
-  }
-
   Future<int> _removeReview(int reviewId, int eskapId) async {
     var urlremove = '$url/eskaps/$eskapId/reviews/$reviewId';
     print(urlremove);
     var response = await httpClient.put(urlremove);
     return response.statusCode;
-  }
-
-  List<EscapeGame> removeReviewEskap(
-      List<EscapeGame> eskaps, int id, int reviewId) {
-    var eskapsCpy = [...eskaps];
-    for (int i = 0; i < eskapsCpy.length; i++) {
-      if (id == eskapsCpy[i].id) {
-        for (int j = 0; j < eskapsCpy[i].reviews.length; j++) {
-          if (eskapsCpy[i].reviews[j].reviewId == reviewId)
-            eskapsCpy[i].reviews.removeAt(j);
-        }
-      }
-    }
-    return eskapsCpy;
   }
 }
