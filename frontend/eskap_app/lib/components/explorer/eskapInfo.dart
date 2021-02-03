@@ -43,11 +43,13 @@ class EskapInfo extends StatelessWidget {
           padding: padding,
           child: Column(
             children: [
-              eskapInfoContainer(eskapAddress()),
-              eskapInfoContainer(eskapPrice()),
-              eskapInfoContainer(eskapThemes()),
-              eskapInfoContainer(eskapDescription()),
-              eskapInfoContainer(eskapDifficulty()),
+              eskapInfoContainer(context, eskapAddress()),
+              eskapInfoContainer(context, eskapPrice()),
+              eskapInfoContainer(context, eskapThemes()),
+              eskapInfoContainer(context, eskapDescription()),
+              eskapInfoContainer(context, eskapDifficulty()),
+              divider(),
+              eskapInfoContainer(context, eskapAddReview(), size: 0.80),
             ],
           ),
         ),
@@ -55,10 +57,12 @@ class EskapInfo extends StatelessWidget {
     );
   }
 
-  Widget eskapInfoContainer(Widget widget) {
+  Widget eskapInfoContainer(BuildContext context, Widget widget,
+      {double size: 1}) {
     return Container(
       padding: paddingEskapInfoContainer,
-      child: widget,
+      child: Center(child: widget),
+      width: MediaQuery.of(context).size.width * size,
     );
   }
 
@@ -107,17 +111,17 @@ class EskapInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(rate > 0 ? '$rate' : 'Pas de notes encore'),
-          eskapRateStar(rate),
+          eskapRateStar(rate: rate),
         ],
       ),
     );
   }
 
-  Widget eskapRateStar(double rate) {
+  Widget eskapRateStar({double rate = 3, bool clickable = false}) {
     return RatingBar.builder(
       initialRating: rate,
       minRating: 0,
-      ignoreGestures: true,
+      ignoreGestures: !clickable,
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 5,
@@ -171,5 +175,37 @@ class EskapInfo extends StatelessWidget {
       return Text('Difficulté : ${eg.difficulty}');
     }
     return null;
+  }
+
+  Widget divider() {
+    return Divider(
+      thickness: 3,
+      height: 25,
+    );
+  }
+
+  Widget eskapAddReview() {
+    return Column(
+      children: [
+        eskapRateStar(rate: 3, clickable: true),
+        TextField(
+          minLines: 1,
+          maxLines: 3,
+          maxLength: 500,
+          decoration: InputDecoration(
+            labelText: "Commentaire",
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            //
+          },
+          child: Text(
+            "Envoyer",
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ],
+    );
   }
 }
