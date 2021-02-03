@@ -22,12 +22,23 @@ class _EskapInfoState extends State<EskapInfo> {
   bool showReviews = false;
   final TextEditingController reviewController = TextEditingController();
 
+  EscapeGame eg;
+
+  void resetForm() {
+    setState(() {
+      reviewRate = 2.5;
+    });
+    reviewController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<EskapBloc, EskapState>(
         builder: (context, state) {
           if (state is EskapSuccess) {
+            for (var eskap in state.eskaps)
+              if (eskap.id == widget.eg.id) eg = eskap;
             return SafeArea(
               child: SingleChildScrollView(
                 child: infos(context, state),
@@ -91,13 +102,12 @@ class _EskapInfoState extends State<EskapInfo> {
         },
       ),
       IconButton(
-        icon: Icon(widget.eg.isFav ? Icons.favorite : Icons.favorite_border),
+        icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
-          if (widget.eg.isFav) {
-            BlocProvider.of<EskapBloc>(context)
-                .add(EskapRemoveFav(widget.eg.id));
+          if (eg.isFav) {
+            BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
           } else {
-            BlocProvider.of<EskapBloc>(context).add(EskapAddFav(widget.eg.id));
+            BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
           }
         },
       )
@@ -105,15 +115,15 @@ class _EskapInfoState extends State<EskapInfo> {
   }
 
   Widget eskapImage() {
-    String imgURL = widget.eg.imgurl != ""
-        ? widget.eg.imgurl
+    String imgURL = eg.imgurl != ""
+        ? eg.imgurl
         : "https://cdn.pixabay.com/photo/2016/01/22/11/50/live-escape-game-1155620_960_720.jpg";
     return Image.network(imgURL);
   }
 
   Widget eskapName() {
     return Text(
-      widget.eg.name ?? null,
+      eg.name ?? null,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 30,
@@ -122,8 +132,8 @@ class _EskapInfoState extends State<EskapInfo> {
   }
 
   Widget eskapRate() {
-    double rate = widget.eg.averageRate();
-    int nbReviews = widget.eg.reviews.length;
+    double rate = eg.averageRate();
+    int nbReviews = eg.reviews.length;
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -162,7 +172,7 @@ class _EskapInfoState extends State<EskapInfo> {
 
   Widget eskapAddress() {
     return Text(
-      widget.eg.addressToString() ?? "Null",
+      eg.addressToString() ?? "Null",
       style: TextStyle(
         fontStyle: FontStyle.italic,
         fontSize: 20,
@@ -171,31 +181,31 @@ class _EskapInfoState extends State<EskapInfo> {
   }
 
   Widget eskapPrice() {
-    if (widget.eg.price != null) {
-      return Text('Prix : ${widget.eg.price} / €');
+    if (eg.price != null) {
+      return Text('Prix : ${eg.price} / €');
     }
     return null;
   }
 
   Widget eskapThemes() {
-    if (widget.eg.themes.length > 0) {
-      return Text('Thème(s) : ${widget.eg.themesToString()}');
+    if (eg.themes.length > 0) {
+      return Text('Thème(s) : ${eg.themesToString()}');
     }
     return null;
   }
 
   Widget eskapDescription() {
-    if (widget.eg.description != null) {
+    if (eg.description != null) {
       return Container(
-        child: Text('Description : ${widget.eg.description}'),
+        child: Text('Description : ${eg.description}'),
       );
     }
     return null;
   }
 
   Widget eskapDifficulty() {
-    if (widget.eg.difficulty != null) {
-      return Text('Difficulté : ${widget.eg.difficulty}');
+    if (eg.difficulty != null) {
+      return Text('Difficulté : ${eg.difficulty}');
     }
     return null;
   }
@@ -210,11 +220,10 @@ class _EskapInfoState extends State<EskapInfo> {
   Widget addReviewContainer() {
     return InkWell(
       onTap: () {
+        resetForm();
         setState(() {
           showAddReview = !showAddReview;
-          reviewRate = 2.5;
         });
-        reviewController.clear();
       },
       child: Row(
         children: [
@@ -268,10 +277,8 @@ class _EskapInfoState extends State<EskapInfo> {
                         text: reviewText,
                       );
                       BlocProvider.of<EskapBloc>(context)
-                          .add(EskapCreateReview(r, widget.eg.id));
-                      setState(() {
-                        showAddReview = false;
-                      });
+                          .add(EskapCreateReview(r, eg.id));
+                      resetForm();
                     }
                   },
                   child: Text(
@@ -312,24 +319,24 @@ class _EskapInfoState extends State<EskapInfo> {
 
   Widget eskapDisplayAllReviews(context, state) {
     if (showReviews) {
-      if (widget.eg.reviews.isEmpty)
+      if (eg.reviews.isEmpty)
         return Center(child: Text('Pas de reviews'));
       else {
         return SizedBox(
           height: 200,
           child: ListView.builder(
-              itemCount: widget.eg.reviews.length,
+              itemCount: eg.reviews.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   subtitle: Text(
-                    '"${widget.eg.reviews[index].text.trim()}"',
+                    '"${eg.reviews[index].text.trim()}"',
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                  title: eskapRateStar(
-                      rate: widget.eg.reviews[index].rate, itemSize: 15),
-                  trailing: widget.eg.reviews[index].isOwner
+                  title:
+                      eskapRateStar(rate: eg.reviews[index].rate, itemSize: 15),
+                  trailing: eg.reviews[index].isOwner
                       ? IconButton(
                           icon: Icon(
                             Icons.delete,
@@ -338,11 +345,7 @@ class _EskapInfoState extends State<EskapInfo> {
                           onPressed: () {
                             BlocProvider.of<EskapBloc>(context).add(
                                 EskapDeleteReview(
-                                    widget.eg.reviews[index].reviewId,
-                                    widget.eg.id));
-                            setState(() {
-                              showReviews = false;
-                            });
+                                    eg.reviews[index].reviewId, eg.id));
                           },
                         )
                       : null,

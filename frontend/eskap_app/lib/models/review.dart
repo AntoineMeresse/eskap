@@ -1,11 +1,13 @@
-class Review {
-  int reviewId;
-  String userId;
-  String text;
-  double rate;
-  String date;
+import 'package:equatable/equatable.dart';
 
-  bool isOwner;
+class Review extends Equatable {
+  final int reviewId;
+  final String userId;
+  final String text;
+  final double rate;
+  final String date;
+
+  final bool isOwner;
 
   Review(
       {this.reviewId,
@@ -33,4 +35,18 @@ class Review {
 
   Map<String, dynamic> toJson() =>
       {"userId": userId, "text": text, "rate": rate, "date": date};
+
+  static Review updateReviewFromPrevious(
+      Review review, String userId, String date, bool isOwner) {
+    return Review(
+        reviewId: review.reviewId,
+        userId: userId,
+        text: review.text,
+        rate: review.rate,
+        date: date,
+        isOwner: isOwner);
+  }
+
+  @override
+  List<Object> get props => [reviewId, userId, text, rate, date, isOwner];
 }

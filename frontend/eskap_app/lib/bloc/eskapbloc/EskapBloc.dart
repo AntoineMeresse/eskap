@@ -45,9 +45,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         if (!currentState.favs.contains(eskapId)) {
           try {
             final newFav = await _updateFav(userId, eskapId, true);
-            var newEskaps =
-                replaceIsFavEskap(currentState.eskaps, eskapId, true);
-            yield EskapSuccess(eskaps: newEskaps, favs: newFav);
+            final eskaps = await _fetchEskap(newFav);
+            yield EskapSuccess(eskaps: eskaps, favs: newFav);
           } catch (_) {}
         }
         return;
@@ -59,9 +58,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       if (currentState is EskapSuccess) {
         try {
           final newFav = await _updateFav(userId, eskapId, false);
-          var newEskaps =
-              replaceIsFavEskap(currentState.eskaps, eskapId, false);
-          yield EskapSuccess(eskaps: newEskaps, favs: newFav);
+          final eskaps = await _fetchEskap(newFav);
+          yield EskapSuccess(eskaps: eskaps, favs: newFav);
         } catch (_) {}
         return;
       }
@@ -98,10 +96,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           if (response.statusCode == 200) {
             var favs = currentState.favs;
             //var data = json.decode(response.body); // Change reponse type spring to int
-            var newEskaps =
-                addReviewEskap(currentState.eskaps, eskapId, review);
+            final eskaps = await _fetchEskap(favs);
             yield EskapSuccess(
-              eskaps: newEskaps,
+              eskaps: eskaps,
               favs: favs,
             );
             return;
@@ -118,12 +115,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           int responseCode = await _removeReview(reviewId, eskapId);
           print('RC ====> $responseCode');
           if (responseCode == 200) {
-            var favs = currentState.favs;
-            //var data = json.decode(response.body); // Change reponse type spring to int
-            var newEskaps =
-                removeReviewEskap(currentState.eskaps, eskapId, reviewId);
+            final favs = currentState.favs;
+            final eskaps = await _fetchEskap(favs);
             yield EskapSuccess(
-              eskaps: newEskaps,
+              eskaps: eskaps,
               favs: favs,
             );
             return;
@@ -139,8 +134,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       final data = json.decode(response.body) as List;
       print(data);
       return data.map((eskap) {
-        EscapeGame res = EscapeGame.fromJson(eskap, userId);
-        res.isFav = favs.contains(eskap['id']);
+        EscapeGame res =
+            EscapeGame.fromJson(eskap, userId, favs.contains(eskap['id']));
         return res;
       }).toList();
     } else {
@@ -164,7 +159,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     for (int i = 0; i < eskapsCpy.length; i++) {
       if (id == eskapsCpy[i].id) {
         print(i);
-        eskapsCpy[i].isFav = newState;
+        //eskapsCpy[i].isFav = newState;
+        EscapeGame newEscape =
+            EscapeGame.updateEscapeFromPrevious(eskapsCpy[i], isFav: newState);
+        eskapsCpy[i] = newEscape;
       }
     }
     return eskapsCpy;
@@ -183,16 +181,16 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   Future<Response> _addReview(Review review, int eskapId) async {
-    review.userId = userId;
-    review.date = DateTime.now().toString();
-    review.isOwner = true;
-    String body = json.encode(review.toJson());
+    Review newReview = Review.updateReviewFromPrevious(
+        review, userId, DateTime.now().toString(), true);
+    String body = json.encode(newReview.toJson());
     print(body);
     var response = await httpClient.put(
       '$url/eskaps/$eskapId/reviews/',
       headers: {"Content-Type": "application/json"},
       body: body,
     );
+    print(response.statusCode);
     return response;
   }
 
@@ -201,7 +199,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     var eskapsCpy = [...eskaps];
     for (int i = 0; i < eskapsCpy.length; i++) {
       if (id == eskapsCpy[i].id) {
-        eskapsCpy[i].reviews = [...eskapsCpy[i].reviews, review];
+        //eskapsCpy[i].reviews = [...eskapsCpy[i].reviews, review];
+        eskapsCpy[i] =
+            EscapeGame.updateEscapeFromPrevious(eskapsCpy[i], review: review);
       }
     }
     return eskapsCpy;

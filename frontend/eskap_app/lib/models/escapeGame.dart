@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:eskap_app/models/review.dart';
 
-class EscapeGame {
+class EscapeGame extends Equatable {
   final int id;
   final String name;
   final String difficulty;
@@ -16,11 +17,11 @@ class EscapeGame {
   final double longitude;
   //
   final List<String> themes;
-  List<Review> reviews;
+  final List<Review> reviews;
 
-  bool official;
+  final bool official;
 
-  bool isFav;
+  final bool isFav;
 
   EscapeGame({
     this.id,
@@ -67,7 +68,7 @@ class EscapeGame {
         "official": isFav
       };
 
-  static EscapeGame fromJson(eskap, userId) {
+  static EscapeGame fromJson(eskap, userId, bool isFav) {
     return EscapeGame(
         id: eskap['id'],
         name: eskap['name'],
@@ -83,7 +84,29 @@ class EscapeGame {
         longitude: eskap['longitude'],
         themes: themesFromJson(eskap['themes']),
         reviews: reviewsFromJson(eskap['reviews'], userId),
-        official: eskap['official']);
+        official: eskap['official'],
+        isFav: isFav);
+  }
+
+  static EscapeGame updateEscapeFromPrevious(EscapeGame eg,
+      {bool isFav, Review review}) {
+    return EscapeGame(
+        id: eg.id,
+        name: eg.name,
+        difficulty: eg.difficulty,
+        price: eg.price,
+        imgurl: eg.imgurl,
+        description: eg.description,
+        number: eg.number,
+        street: eg.street,
+        city: eg.city,
+        country: eg.country,
+        latitude: eg.latitude,
+        longitude: eg.longitude,
+        themes: eg.themes,
+        reviews: review != null ? [...eg.reviews, review] : eg.reviews,
+        official: eg.official,
+        isFav: isFav == null ? eg.isFav : isFav);
   }
 
   static List<String> themesFromJson(themes) {
@@ -112,4 +135,24 @@ class EscapeGame {
     for (var review in reviews) res += review.rate;
     return res / (reviews.length);
   }
+
+  @override
+  List<Object> get props => [
+        id,
+        name,
+        difficulty,
+        price,
+        imgurl,
+        description,
+        number,
+        street,
+        city,
+        country,
+        latitude,
+        longitude,
+        themes,
+        reviews,
+        official,
+        isFav,
+      ];
 }
