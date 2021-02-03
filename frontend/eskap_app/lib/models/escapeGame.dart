@@ -16,7 +16,7 @@ class EscapeGame {
   final double longitude;
   //
   final List<String> themes;
-  final List<Review> reviews;
+  List<Review> reviews;
 
   bool official;
 

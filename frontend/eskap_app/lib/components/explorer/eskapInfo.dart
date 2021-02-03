@@ -118,12 +118,14 @@ class _EskapInfoState extends State<EskapInfo> {
 
   Widget eskapRate() {
     double rate = widget.eg.averageRate();
+    int nbReviews = widget.eg.reviews.length;
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(rate > 0 ? '$rate' : 'Pas de notes encore'),
+          Text(rate > 0 ? '${rate.toStringAsFixed(2)}' : 'Pas de notes encore'),
           eskapRateStar(rate: rate),
+          Text('( $nbReviews )'),
         ],
       ),
     );
@@ -204,7 +206,9 @@ class _EskapInfoState extends State<EskapInfo> {
       onTap: () {
         setState(() {
           showReview = !showReview;
+          reviewRate = 2.5;
         });
+        reviewController.clear();
       },
       child: Row(
         children: [
@@ -259,6 +263,9 @@ class _EskapInfoState extends State<EskapInfo> {
                       );
                       BlocProvider.of<EskapBloc>(context)
                           .add(EskapCreateReview(r, widget.eg.id));
+                      setState(() {
+                        showReview = false;
+                      });
                     }
                   },
                   child: Text(

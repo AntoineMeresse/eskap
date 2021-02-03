@@ -89,15 +89,22 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
 
     if (event is EskapCreateReview) {
-      int responseCode = await _addReview(event.review, event.eskapId);
-      if (responseCode == 200) {
-        final favs = await _fetchFavs();
-        final eskaps = await _fetchEskap(favs);
-        yield EskapSuccess(
-          eskaps: eskaps,
-          favs: favs,
-        );
-        return;
+      Review review = event.review;
+      int eskapId = event.eskapId;
+      if (currentState is EskapSuccess) {
+        try {
+          int responseCode = await _addReview(review, eskapId);
+          if (responseCode == 200) {
+            var favs = currentState.favs;
+            var newEskaps =
+                addReviewEskap(currentState.eskaps, eskapId, review);
+            yield EskapSuccess(
+              eskaps: newEskaps,
+              favs: favs,
+            );
+            return;
+          }
+        } catch (_) {}
       }
     }
   }
@@ -162,5 +169,16 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       body: body,
     );
     return response.statusCode;
+  }
+
+  List<EscapeGame> addReviewEskap(
+      List<EscapeGame> eskaps, int id, Review review) {
+    var eskapsCpy = [...eskaps];
+    for (int i = 0; i < eskapsCpy.length; i++) {
+      if (id == eskapsCpy[i].id) {
+        eskapsCpy[i].reviews = [...eskapsCpy[i].reviews, review];
+      }
+    }
+    return eskapsCpy;
   }
 }
