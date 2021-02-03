@@ -25,7 +25,6 @@ class EskapSuccess extends EskapState {
 
   EskapSuccess copyWith({
     List<EscapeGame> eskaps,
-    bool hasReachedMax,
   }) {
     return EskapSuccess(
       eskaps: eskaps ?? this.eskaps,
