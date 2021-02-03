@@ -21,14 +21,13 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   @override
   Stream<EskapState> mapEventToState(EskapEvent event) async* {
     final currentState = state;
-    if (event is EskapFetched && !_hasReachedMax(currentState)) {
+    if (event is EskapFetched) {
       try {
         if (currentState is EskapInitial) {
           final favs = await _fetchFavs();
           final eskaps = await _fetchEskap(favs);
           yield EskapSuccess(
             eskaps: eskaps,
-            hasReachedMax: true,
             favs: favs,
           );
           return;
@@ -47,8 +46,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
             final newFav = await _updateFav(userId, eskapId, true);
             var newEskaps =
                 replaceIsFavEskap(currentState.eskaps, eskapId, true);
-            yield EskapSuccess(
-                eskaps: newEskaps, hasReachedMax: true, favs: newFav);
+            yield EskapSuccess(eskaps: newEskaps, favs: newFav);
           } catch (_) {}
         }
         return;
@@ -62,8 +60,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           final newFav = await _updateFav(userId, eskapId, false);
           var newEskaps =
               replaceIsFavEskap(currentState.eskaps, eskapId, false);
-          yield EskapSuccess(
-              eskaps: newEskaps, hasReachedMax: true, favs: newFav);
+          yield EskapSuccess(eskaps: newEskaps, favs: newFav);
         } catch (_) {}
         return;
       }
@@ -82,7 +79,6 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         final eskaps = await _fetchEskap(favs);
         yield EskapSuccess(
           eskaps: eskaps,
-          hasReachedMax: true,
           favs: favs,
         );
         Navigator.pop(event.context);
@@ -99,16 +95,12 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         final eskaps = await _fetchEskap(favs);
         yield EskapSuccess(
           eskaps: eskaps,
-          hasReachedMax: true,
           favs: favs,
         );
         return;
       }
     }
   }
-
-  bool _hasReachedMax(EskapState state) =>
-      state is EskapSuccess && state.hasReachedMax;
 
   Future<List<EscapeGame>> _fetchEskap(favs) async {
     final response = await httpClient.get('$url/eskaps/');
