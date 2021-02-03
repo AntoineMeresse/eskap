@@ -251,12 +251,15 @@ class _EskapInfoState extends State<EskapInfo> {
                 child: TextButton(
                   onPressed: () {
                     print('$reviewRate | ${reviewController.text}');
-                    Review r = Review(
-                      rate: reviewRate,
-                      text: reviewController.text.trim(),
-                    );
-                    BlocProvider.of<EskapBloc>(context)
-                        .add(EskapCreateReview(r, widget.eg.id));
+                    String reviewText = reviewController.text.trim();
+                    if (reviewText.length > 0) {
+                      Review r = Review(
+                        rate: reviewRate,
+                        text: reviewText,
+                      );
+                      BlocProvider.of<EskapBloc>(context)
+                          .add(EskapCreateReview(r, widget.eg.id));
+                    }
                   },
                   child: Text(
                     "Envoyer",
