@@ -3,6 +3,7 @@ import 'package:eskap_app/models/escapeGame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eskap_app/bloc/bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'eskapAdd.dart';
 
@@ -70,9 +71,22 @@ class EskapWidget extends StatelessWidget {
     //ignore: close_sinks
     final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     return ListTile(
-      leading: Icon(Icons.home),
       title: Text(eg.name),
-      subtitle: Text(eg.id.toString()),
+      subtitle: RatingBar.builder(
+        initialRating: eg.averageRate(),
+        minRating: 0,
+        ignoreGestures: true,
+        direction: Axis.horizontal,
+        allowHalfRating: true,
+        itemCount: 5,
+        itemSize: 25,
+        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+        itemBuilder: (context, _) => Icon(
+          Icons.star,
+          color: Colors.amber,
+        ),
+        onRatingUpdate: (rating) {},
+      ),
       trailing: IconButton(
         icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
