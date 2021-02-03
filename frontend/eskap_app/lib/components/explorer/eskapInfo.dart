@@ -29,7 +29,6 @@ class _EskapInfoState extends State<EskapInfo> {
       reviewRate = 2.5;
     });
     reviewController.clear();
-    reviewController;
   }
 
   @override
@@ -322,7 +321,7 @@ class _EskapInfoState extends State<EskapInfo> {
   Widget eskapDisplayAllReviews(context, state) {
     if (showReviews) {
       if (eg.reviews.isEmpty)
-        return Center(child: Text('Pas de reviews'));
+        return Center(child: Text("Pas d'avis pour le moment 😐"));
       else {
         return SizedBox(
           height: 200,
