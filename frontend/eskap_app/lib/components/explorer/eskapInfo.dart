@@ -29,6 +29,7 @@ class _EskapInfoState extends State<EskapInfo> {
       reviewRate = 2.5;
     });
     reviewController.clear();
+    reviewController;
   }
 
   @override
@@ -279,6 +280,7 @@ class _EskapInfoState extends State<EskapInfo> {
                       BlocProvider.of<EskapBloc>(context)
                           .add(EskapCreateReview(r, eg.id));
                       resetForm();
+                      FocusScope.of(context).unfocus();
                     }
                   },
                   child: Text(
@@ -306,7 +308,7 @@ class _EskapInfoState extends State<EskapInfo> {
         children: [
           Icon(showReviews ? Icons.expand_less : Icons.expand_more),
           Text(
-            "Avis",
+            'Avis (${eg.reviews.length})',
             style: TextStyle(
               fontStyle: !showAddReview ? FontStyle.normal : FontStyle.italic,
               fontSize: 20,
