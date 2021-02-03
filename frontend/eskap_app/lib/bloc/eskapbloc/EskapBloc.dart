@@ -115,7 +115,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       final data = json.decode(response.body) as List;
       print(data);
       return data.map((eskap) {
-        EscapeGame res = EscapeGame.fromJson(eskap);
+        EscapeGame res = EscapeGame.fromJson(eskap, userId);
         res.isFav = favs.contains(eskap['id']);
         return res;
       }).toList();

@@ -1,6 +1,7 @@
 import 'package:eskap_app/bloc/bloc.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/review.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -18,7 +19,8 @@ class _EskapInfoState extends State<EskapInfo> {
   static const paddingEskapInfoContainer = EdgeInsets.only(top: 10);
 
   double reviewRate = 2.5;
-  bool showReview = false;
+  bool showAddReview = false;
+  bool showReviews = false;
   final TextEditingController reviewController = TextEditingController();
 
   @override
@@ -29,7 +31,7 @@ class _EskapInfoState extends State<EskapInfo> {
           if (state is EskapSuccess) {
             return SafeArea(
               child: SingleChildScrollView(
-                child: infos(context),
+                child: infos(context, state),
               ),
             );
           }
@@ -41,7 +43,7 @@ class _EskapInfoState extends State<EskapInfo> {
     );
   }
 
-  Widget infos(context) {
+  Widget infos(context, state) {
     return Column(
       children: [
         topBar(context),
@@ -58,8 +60,12 @@ class _EskapInfoState extends State<EskapInfo> {
               eskapInfoContainer(context, eskapDescription()),
               eskapInfoContainer(context, eskapDifficulty()),
               divider(),
-              reviewContainer(),
+              addReviewContainer(),
               eskapInfoContainer(context, eskapAddReview(), size: 0.90),
+              divider(),
+              allReviewsContainer(),
+              eskapInfoContainer(
+                  context, eskapDisplayAllReviews(context, state)),
               divider(),
             ],
           ),
@@ -131,7 +137,8 @@ class _EskapInfoState extends State<EskapInfo> {
     );
   }
 
-  Widget eskapRateStar({double rate = 3, bool clickable = false}) {
+  Widget eskapRateStar(
+      {double rate = 3, bool clickable = false, double itemSize = 23}) {
     return RatingBar.builder(
       initialRating: rate,
       minRating: 0,
@@ -139,7 +146,7 @@ class _EskapInfoState extends State<EskapInfo> {
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 5,
-      itemSize: 23,
+      itemSize: itemSize,
       itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
       itemBuilder: (context, _) => Icon(
         Icons.star,
@@ -201,22 +208,22 @@ class _EskapInfoState extends State<EskapInfo> {
     );
   }
 
-  Widget reviewContainer() {
+  Widget addReviewContainer() {
     return InkWell(
       onTap: () {
         setState(() {
-          showReview = !showReview;
+          showAddReview = !showAddReview;
           reviewRate = 2.5;
         });
         reviewController.clear();
       },
       child: Row(
         children: [
-          Icon(showReview ? Icons.expand_less : Icons.expand_more),
+          Icon(showAddReview ? Icons.expand_less : Icons.expand_more),
           Text(
             "Noter cet Escape Game",
             style: TextStyle(
-              fontStyle: !showReview ? FontStyle.normal : FontStyle.italic,
+              fontStyle: !showAddReview ? FontStyle.normal : FontStyle.italic,
               fontSize: 20,
             ),
           ),
@@ -226,7 +233,7 @@ class _EskapInfoState extends State<EskapInfo> {
   }
 
   Widget eskapAddReview() {
-    if (showReview) {
+    if (showAddReview) {
       return Column(
         children: [
           Row(
@@ -264,7 +271,7 @@ class _EskapInfoState extends State<EskapInfo> {
                       BlocProvider.of<EskapBloc>(context)
                           .add(EskapCreateReview(r, widget.eg.id));
                       setState(() {
-                        showReview = false;
+                        showAddReview = false;
                       });
                     }
                   },
@@ -280,5 +287,57 @@ class _EskapInfoState extends State<EskapInfo> {
       );
     }
     return null;
+  }
+
+  Widget allReviewsContainer() {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          showReviews = !showReviews;
+        });
+      },
+      child: Row(
+        children: [
+          Icon(showReviews ? Icons.expand_less : Icons.expand_more),
+          Text(
+            "Avis",
+            style: TextStyle(
+              fontStyle: !showAddReview ? FontStyle.normal : FontStyle.italic,
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget eskapDisplayAllReviews(context, state) {
+    if (showReviews) {
+      if (widget.eg.reviews.isEmpty)
+        return Center(child: Text('Pas de reviews'));
+      else {
+        return SizedBox(
+          height: 200,
+          child: ListView.builder(
+              itemCount: widget.eg.reviews.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  subtitle: Text(widget.eg.reviews[index].text),
+                  title: eskapRateStar(
+                      rate: widget.eg.reviews[index].rate, itemSize: 15),
+                  trailing: widget.eg.reviews[index].isOwner
+                      ? IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {},
+                        )
+                      : Text(""),
+                  onTap: () {},
+                  tileColor: (index % 2 == 0) ? Colors.grey[300] : Colors.white,
+                );
+              }),
+        );
+      }
+    } else
+      return null;
   }
 }

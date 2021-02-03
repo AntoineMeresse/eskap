@@ -5,20 +5,30 @@ class Review {
   double rate;
   String date;
 
-  Review({this.reviewId, this.userId, this.text, this.rate, this.date});
+  bool isOwner;
+
+  Review(
+      {this.reviewId,
+      this.userId,
+      this.text,
+      this.rate,
+      this.date,
+      this.isOwner});
 
   @override
   String toString() {
-    return 'Review : $reviewId | $userId | $text | $rate | $date';
+    return 'Review : $reviewId | $userId | $text | $rate | $date | ${isOwner.toString()}';
   }
 
-  static Review fromJson(review) {
+  static Review fromJson(review, userId) {
+    var isOwner = (userId == review['userId']) ? true : false;
     return Review(
         reviewId: review['reviewId'],
         userId: review['userId'],
         text: review['text'],
         rate: review['rate'],
-        date: review['date']);
+        date: review['date'],
+        isOwner: isOwner);
   }
 
   Map<String, dynamic> toJson() =>

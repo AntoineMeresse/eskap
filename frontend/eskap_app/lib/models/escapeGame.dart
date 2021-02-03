@@ -67,7 +67,7 @@ class EscapeGame {
         "official": isFav
       };
 
-  static EscapeGame fromJson(eskap) {
+  static EscapeGame fromJson(eskap, userId) {
     return EscapeGame(
         id: eskap['id'],
         name: eskap['name'],
@@ -82,7 +82,7 @@ class EscapeGame {
         latitude: eskap['latitude'],
         longitude: eskap['longitude'],
         themes: themesFromJson(eskap['themes']),
-        reviews: reviewsFromJson(eskap['reviews']),
+        reviews: reviewsFromJson(eskap['reviews'], userId),
         official: eskap['official']);
   }
 
@@ -98,10 +98,10 @@ class EscapeGame {
     return themes.join(' ,');
   }
 
-  static List<Review> reviewsFromJson(reviews) {
+  static List<Review> reviewsFromJson(reviews, userId) {
     List<Review> res = [];
     for (var review in reviews) {
-      res.add(Review.fromJson(review));
+      res.add(Review.fromJson(review, userId));
     }
     return res;
   }
