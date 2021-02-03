@@ -321,7 +321,12 @@ class _EskapInfoState extends State<EskapInfo> {
               itemCount: widget.eg.reviews.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  subtitle: Text(widget.eg.reviews[index].text),
+                  subtitle: Text(
+                    '"${widget.eg.reviews[index].text.trim()}"',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
                   title: eskapRateStar(
                       rate: widget.eg.reviews[index].rate, itemSize: 15),
                   trailing: widget.eg.reviews[index].isOwner
