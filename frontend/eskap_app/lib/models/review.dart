@@ -17,7 +17,7 @@ class Review {
 
   @override
   String toString() {
-    return 'Review : $reviewId | $userId | $text | $rate | $date | ${isOwner.toString()}';
+    return 'Review : $reviewId | $userId | $text | $rate | $date | ${isOwner.toString}';
   }
 
   static Review fromJson(review, userId) {

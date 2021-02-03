@@ -1,7 +1,6 @@
 import 'package:eskap_app/bloc/bloc.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/review.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -327,10 +326,21 @@ class _EskapInfoState extends State<EskapInfo> {
                       rate: widget.eg.reviews[index].rate, itemSize: 15),
                   trailing: widget.eg.reviews[index].isOwner
                       ? IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red[900],
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<EskapBloc>(context).add(
+                                EskapDeleteReview(
+                                    widget.eg.reviews[index].reviewId,
+                                    widget.eg.id));
+                            setState(() {
+                              showReviews = false;
+                            });
+                          },
                         )
-                      : Text(""),
+                      : null,
                   onTap: () {},
                   tileColor: (index % 2 == 0) ? Colors.grey[300] : Colors.white,
                 );

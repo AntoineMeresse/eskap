@@ -35,3 +35,10 @@ class EskapCreateReview extends EskapEvent {
 
   EskapCreateReview(this.review, this.eskapId);
 }
+
+class EskapDeleteReview extends EskapEvent {
+  final int reviewId;
+  final int eskapId;
+
+  EskapDeleteReview(this.reviewId, this.eskapId);
+}

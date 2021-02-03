@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:eskap_app/models/review.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
@@ -93,11 +94,34 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       int eskapId = event.eskapId;
       if (currentState is EskapSuccess) {
         try {
-          int responseCode = await _addReview(review, eskapId);
-          if (responseCode == 200) {
+          Response response = await _addReview(review, eskapId);
+          if (response.statusCode == 200) {
             var favs = currentState.favs;
+            //var data = json.decode(response.body); // Change reponse type spring to int
             var newEskaps =
                 addReviewEskap(currentState.eskaps, eskapId, review);
+            yield EskapSuccess(
+              eskaps: newEskaps,
+              favs: favs,
+            );
+            return;
+          }
+        } catch (_) {}
+      }
+    }
+
+    if (event is EskapDeleteReview) {
+      int reviewId = event.reviewId;
+      int eskapId = event.eskapId;
+      if (currentState is EskapSuccess) {
+        try {
+          int responseCode = await _removeReview(reviewId, eskapId);
+          print('RC ====> $responseCode');
+          if (responseCode == 200) {
+            var favs = currentState.favs;
+            //var data = json.decode(response.body); // Change reponse type spring to int
+            var newEskaps =
+                removeReviewEskap(currentState.eskaps, eskapId, reviewId);
             yield EskapSuccess(
               eskaps: newEskaps,
               favs: favs,
@@ -158,9 +182,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
   }
 
-  Future<int> _addReview(Review review, int eskapId) async {
+  Future<Response> _addReview(Review review, int eskapId) async {
     review.userId = userId;
     review.date = DateTime.now().toString();
+    review.isOwner = true;
     String body = json.encode(review.toJson());
     print(body);
     var response = await httpClient.put(
@@ -168,7 +193,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       headers: {"Content-Type": "application/json"},
       body: body,
     );
-    return response.statusCode;
+    return response;
   }
 
   List<EscapeGame> addReviewEskap(
@@ -177,6 +202,27 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     for (int i = 0; i < eskapsCpy.length; i++) {
       if (id == eskapsCpy[i].id) {
         eskapsCpy[i].reviews = [...eskapsCpy[i].reviews, review];
+      }
+    }
+    return eskapsCpy;
+  }
+
+  Future<int> _removeReview(int reviewId, int eskapId) async {
+    var urlremove = '$url/eskaps/$eskapId/reviews/$reviewId';
+    print(urlremove);
+    var response = await httpClient.put(urlremove);
+    return response.statusCode;
+  }
+
+  List<EscapeGame> removeReviewEskap(
+      List<EscapeGame> eskaps, int id, int reviewId) {
+    var eskapsCpy = [...eskaps];
+    for (int i = 0; i < eskapsCpy.length; i++) {
+      if (id == eskapsCpy[i].id) {
+        for (int j = 0; j < eskapsCpy[i].reviews.length; j++) {
+          if (eskapsCpy[i].reviews[j].reviewId == reviewId)
+            eskapsCpy[i].reviews.removeAt(j);
+        }
       }
     }
     return eskapsCpy;
