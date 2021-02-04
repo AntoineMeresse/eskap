@@ -49,3 +49,7 @@ class EskapFilterEvent extends EskapEvent {
 
   EskapFilterEvent(this.filter);
 }
+
+class EskapFilterClearEvent extends EskapEvent {
+  EskapFilterClearEvent();
+}

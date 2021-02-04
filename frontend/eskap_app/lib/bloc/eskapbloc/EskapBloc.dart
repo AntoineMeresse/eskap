@@ -146,6 +146,24 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         } catch (_) {}
       }
     }
+
+    if (event is EskapFilterClearEvent) {
+      if (currentState is EskapSuccess) {
+        try {
+          final favs = currentState.favs;
+          final eskaps = currentState.eskaps;
+          final filter = null;
+          final eskapsFiltered = null;
+          yield EskapSuccess(
+            favs: favs,
+            eskaps: eskaps,
+            filter: filter,
+            eskapFiltered: eskapsFiltered,
+          );
+          return;
+        } catch (_) {}
+      }
+    }
   }
 
   Future<List<EscapeGame>> _fetchEskap(favs) async {

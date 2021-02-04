@@ -27,6 +27,13 @@ class _EskapFilterState extends State<EskapFilter> {
       _currentRangeValues =
           RangeValues(widget.filter.minPrice, widget.filter.maxPrice);
     });
+    print(widget.filter.toString());
+    cityController.text = widget.filter.city;
+    nameController.text = widget.filter.name;
+    themeController.text =
+        (widget.filter.themes == null || widget.filter.themes.isEmpty)
+            ? ""
+            : widget.filter.themes.join(",");
   }
 
   @override
@@ -55,8 +62,9 @@ class _EskapFilterState extends State<EskapFilter> {
           stringFilter(cityController, "Ville"),
           Text("Nom Escape Game"),
           stringFilter(nameController, "Nom"),
-          Text("Theme"),
-          stringFilter(themeController, "Theme"),
+          Text("Theme(s)"),
+          stringFilter(themeController, "Themes",
+              hint: "Séparer par des virgules"),
           filterButtons(),
         ],
       ),
@@ -103,21 +111,44 @@ class _EskapFilterState extends State<EskapFilter> {
   }
 
   Widget filterButtons() {
-    return TextButton(
-      child: Text("Filtrer"),
-      onPressed: () {
-        List<String> themes = themeController.text.split(',');
-        themes = themes.map((theme) => theme.toLowerCase().trim()).toList();
-        Filter filter = Filter(
-            city: cityController.text.trim().toLowerCase(),
-            minPrice: _currentRangeValues.start,
-            maxPrice: _currentRangeValues.end,
-            name: nameController.text.trim().toLowerCase(),
-            themes: themes);
-        widget.setCurrentFilter(filter);
-        BlocProvider.of<EskapBloc>(context).add(EskapFilterEvent(filter));
-        Navigator.pop(context);
-      },
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextButton(
+          child: Text(
+            "Reinitialiser",
+            style: TextStyle(color: Colors.red),
+          ),
+          onPressed: () {
+            Filter filter = Filter(
+              city: "",
+              minPrice: 0,
+              maxPrice: 100,
+              name: "",
+              themes: [],
+            );
+            widget.setCurrentFilter(filter);
+            BlocProvider.of<EskapBloc>(context).add(EskapFilterClearEvent());
+            Navigator.pop(context);
+          },
+        ),
+        TextButton(
+          child: Text("Filtrer"),
+          onPressed: () {
+            List<String> themes = themeController.text.split(',');
+            themes = themes.map((theme) => theme.toLowerCase().trim()).toList();
+            Filter filter = Filter(
+                city: cityController.text.trim().toLowerCase(),
+                minPrice: _currentRangeValues.start,
+                maxPrice: _currentRangeValues.end,
+                name: nameController.text.trim().toLowerCase(),
+                themes: themes);
+            widget.setCurrentFilter(filter);
+            BlocProvider.of<EskapBloc>(context).add(EskapFilterEvent(filter));
+            Navigator.pop(context);
+          },
+        )
+      ],
     );
   }
 }
