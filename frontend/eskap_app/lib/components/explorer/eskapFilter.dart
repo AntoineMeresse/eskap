@@ -106,11 +106,14 @@ class _EskapFilterState extends State<EskapFilter> {
     return TextButton(
       child: Text("Filtrer"),
       onPressed: () {
+        List<String> themes = themeController.text.split(',');
+        themes = themes.map((theme) => theme.toLowerCase().trim()).toList();
         Filter filter = Filter(
-          city: cityController.text.trim().toLowerCase(),
-          minPrice: _currentRangeValues.start,
-          maxPrice: _currentRangeValues.end,
-        );
+            city: cityController.text.trim().toLowerCase(),
+            minPrice: _currentRangeValues.start,
+            maxPrice: _currentRangeValues.end,
+            name: nameController.text.trim().toLowerCase(),
+            themes: themes);
         widget.setCurrentFilter(filter);
         BlocProvider.of<EskapBloc>(context).add(EskapFilterEvent(filter));
         Navigator.pop(context);

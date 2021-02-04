@@ -211,7 +211,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     for (var eskap in eskaps) {
       bool cityF = filterCity(eskap, filter);
       bool priceF = filterPrice(eskap, filter);
-      if (cityF && priceF) {
+      bool nameF = filterName(eskap, filter);
+      bool themeF = true; //filterThemes(eskap, filter);
+      if (cityF && priceF && nameF && themeF) {
         res.add(eskap);
       }
     }
@@ -230,5 +232,23 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       return false;
     else if (filter.maxPrice < eskap.price) return false;
     return true;
+  }
+
+  bool filterName(EscapeGame eskap, Filter filter) {
+    if (filter.name == "")
+      return true;
+    else if (eskap.name.toLowerCase().contains(filter.name)) return true;
+    return false;
+  }
+
+  bool filterThemes(EscapeGame eskap, Filter filter) {
+    if (filter.themes.isEmpty)
+      return true;
+    else {
+      for (var theme in filter.themes) {
+        if (eskap.themes.contains(theme)) return true;
+      }
+    }
+    return false;
   }
 }
