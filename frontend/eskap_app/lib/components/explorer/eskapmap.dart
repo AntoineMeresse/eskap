@@ -3,6 +3,7 @@ import 'package:eskap_app/components/explorer/topbar.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/place.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -18,7 +19,7 @@ class EskapMap extends StatefulWidget {
 
 class _EskapMapState extends State<EskapMap> {
   GoogleMapController mapController;
-  Location location = new Location();
+  Location location;
 
   Place currentPlace;
   double zoom;
@@ -29,6 +30,7 @@ class _EskapMapState extends State<EskapMap> {
   void initState() {
     super.initState();
     loadEskapIcon();
+    getLocationPermission();
     zoom = 5;
     currentPlace = Place(
         address: "France",
@@ -75,10 +77,22 @@ class _EskapMapState extends State<EskapMap> {
     mapController = controller;
   }
 
+  getLocationPermission() async {
+    location = new Location();
+    try {
+      location.requestPermission(); //to lunch location permission popup
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        print('Permission denied');
+      }
+    }
+  }
+
   Widget eskapMap(Set<Marker> markers) {
     return Container(
       child: GoogleMap(
         myLocationEnabled: true,
+        myLocationButtonEnabled: true,
         onMapCreated: _onMapCreated,
         markers: markers,
         initialCameraPosition: CameraPosition(

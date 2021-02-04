@@ -15,6 +15,10 @@ class EskapFilter extends StatefulWidget {
 class _EskapFilterState extends State<EskapFilter> {
   RangeValues _currentRangeValues = RangeValues(0, 100);
   final TextEditingController cityController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController themeController = TextEditingController();
+
+  static const padding = EdgeInsets.only(bottom: 20);
 
   @override
   void initState() {
@@ -43,15 +47,16 @@ class _EskapFilterState extends State<EskapFilter> {
     return Container(
       child: Column(
         children: [
-          currentLocation(),
-          divider(),
-          Text("Ville"),
-          cityFilter(),
-          divider(),
           Text(
               "Prix : ${_currentRangeValues.start.round()} - ${_currentRangeValues.end.round()} €"),
           priceRangeSlider(),
           divider(),
+          Text("Ville"),
+          stringFilter(cityController, "Ville"),
+          Text("Nom Escape Game"),
+          stringFilter(nameController, "Nom"),
+          Text("Theme"),
+          stringFilter(themeController, "Theme"),
           filterButtons(),
         ],
       ),
@@ -65,26 +70,15 @@ class _EskapFilterState extends State<EskapFilter> {
     );
   }
 
-  Widget currentLocation() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Me géolocaliser"),
-        IconButton(
-          color: Colors.blueAccent,
-          icon: Icon(Icons.gps_fixed),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
-
-  Widget cityFilter() {
+  Widget stringFilter(TextEditingController controller, String label,
+      {String hint = ""}) {
     return Container(
+      padding: padding,
       child: TextField(
-        controller: cityController,
+        controller: controller,
         decoration: InputDecoration(
-          labelText: "Ville",
+          labelText: label,
+          hintText: hint,
         ),
       ),
     );
