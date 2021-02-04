@@ -76,15 +76,15 @@ class _EskapMapState extends State<EskapMap> {
 
   Widget eskapMap(Set<Marker> markers) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.70,
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          markers: markers,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(currentPlace.latitude, currentPlace.longitude),
-            zoom: zoom,
-          ),
-        ));
+      child: GoogleMap(
+        onMapCreated: _onMapCreated,
+        markers: markers,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(currentPlace.latitude, currentPlace.longitude),
+          zoom: zoom,
+        ),
+      ),
+    );
   }
 
   Widget eskapBloc() {
@@ -128,7 +128,7 @@ class _EskapMapState extends State<EskapMap> {
     return Container(
       child: Column(children: [
         TopBar(setCurrentPlace: setCurrentPlace),
-        eskapBloc(),
+        Expanded(child: eskapBloc()),
         //Text(currentPlace.toString()),
       ]),
     );

@@ -47,9 +47,10 @@ class _HomeState extends State<Home> {
         index: _widgetIndex,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.black,
         onTap: onTabTapped,
         currentIndex: _currentIndex,
-        showSelectedLabels: false, // Hide labels
+        showSelectedLabels: true, // Hide labels
         showUnselectedLabels: false, // Hide labels
         items: [
           new BottomNavigationBarItem(
@@ -59,12 +60,12 @@ class _HomeState extends State<Home> {
             activeIcon: _map
                 ? Icon(Icons.explore_rounded, color: Colors.black)
                 : Icon(Icons.list_alt, color: Colors.black),
-            label: 'Explorer',
+            label: _map ? 'Carte' : "Liste",
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outline, color: Colors.black),
             activeIcon: Icon(Icons.favorite, color: Colors.black),
-            label: 'Favorite',
+            label: 'Favoris',
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.person_outline, color: Colors.black),

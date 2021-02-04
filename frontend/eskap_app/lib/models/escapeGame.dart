@@ -48,7 +48,7 @@ class EscapeGame extends Equatable {
   }
 
   String addressToString() {
-    return 'Address : $number $street $city $country';
+    return 'Addresse : $number $street $city $country';
   }
 
   Map<String, dynamic> toJson() => {

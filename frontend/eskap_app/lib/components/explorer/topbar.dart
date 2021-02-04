@@ -24,7 +24,7 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.075,
+        height: MediaQuery.of(context).size.height * 0.065,
         child: Container(
           child: Column(
             children: [
