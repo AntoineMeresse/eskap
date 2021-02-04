@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:eskap_app/models/filter.dart';
 import 'package:eskap_app/models/review.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -129,6 +130,21 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     if (event is EskapFilterEvent) {
       print("====> Filter <====");
       print(event.filter.toString());
+      if (currentState is EskapSuccess) {
+        try {
+          final favs = currentState.favs;
+          final eskaps = currentState.eskaps;
+          final filter = event.filter;
+          final eskapsFiltered = filterEskaps(eskaps, filter);
+          yield EskapSuccess(
+            favs: favs,
+            eskaps: eskaps,
+            filter: filter,
+            eskapFiltered: eskapsFiltered,
+          );
+          return;
+        } catch (_) {}
+      }
     }
   }
 
@@ -188,5 +204,31 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     print(urlremove);
     var response = await httpClient.put(urlremove);
     return response.statusCode;
+  }
+
+  List<EscapeGame> filterEskaps(List<EscapeGame> eskaps, Filter filter) {
+    List<EscapeGame> res = [];
+    for (var eskap in eskaps) {
+      bool cityF = filterCity(eskap, filter);
+      bool priceF = filterPrice(eskap, filter);
+      if (cityF && priceF) {
+        res.add(eskap);
+      }
+    }
+    return res;
+  }
+
+  bool filterCity(EscapeGame eskap, Filter filter) {
+    if (filter.city == "")
+      return true;
+    else if (eskap.city.toLowerCase().contains(filter.city)) return true;
+    return false;
+  }
+
+  bool filterPrice(EscapeGame eskap, Filter filter) {
+    if (filter.minPrice > eskap.price)
+      return false;
+    else if (filter.maxPrice < eskap.price) return false;
+    return true;
   }
 }

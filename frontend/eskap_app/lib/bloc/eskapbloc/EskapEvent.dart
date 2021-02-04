@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:eskap_app/models/escapeFilter.dart';
+import 'package:eskap_app/models/filter.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/review.dart';
 import 'package:flutter/material.dart';

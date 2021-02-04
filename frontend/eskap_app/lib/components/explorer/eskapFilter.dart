@@ -1,5 +1,5 @@
 import 'package:eskap_app/bloc/bloc.dart';
-import 'package:eskap_app/models/escapeFilter.dart';
+import 'package:eskap_app/models/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
