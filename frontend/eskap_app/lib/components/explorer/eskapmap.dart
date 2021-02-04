@@ -1,5 +1,6 @@
 import 'package:eskap_app/components/explorer/eskapInfo.dart';
 import 'package:eskap_app/components/explorer/topbar.dart';
+import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -93,7 +94,9 @@ class _EskapMapState extends State<EskapMap> {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
       if (state is EskapSuccess) {
         Set<Marker> res = {};
-        state.eskaps.forEach(
+        List<EscapeGame> egs =
+            state.filter == null ? state.eskaps : state.eskapFiltered;
+        egs.forEach(
           (eskap) => res.add(
             Marker(
               markerId: MarkerId(eskap.id.toString()),

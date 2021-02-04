@@ -46,13 +46,15 @@ class EskapListBloc extends StatelessWidget {
         return Center(child: Text('Failed to fetch datas'));
       }
       if (state is EskapSuccess) {
-        if (state.eskaps.isEmpty)
+        List<EscapeGame> egs =
+            state.filter == null ? state.eskaps : state.eskapFiltered;
+        if (egs.isEmpty)
           return Center(child: Text('No data'));
         else {
           return ListView.builder(
-              itemCount: state.eskaps.length,
+              itemCount: egs.length,
               itemBuilder: (BuildContext context, int index) {
-                return EskapWidget(eg: state.eskaps[index]);
+                return EskapWidget(eg: egs[index]);
               });
         }
       }
