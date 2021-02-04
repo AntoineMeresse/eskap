@@ -30,51 +30,59 @@ class _TopBarState extends State<TopBar> {
             children: [
               Row(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 6, right: 5),
-                    width: MediaQuery.of(context).size.width * 0.80,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.search,
-                          color: Colors.black,
-                        ),
-                        hintText: searchText,
-                        border: InputBorder.none,
-                      ),
-                      readOnly: true, // On peut écrire ou non
-                      onTap: () async {
-                        final sessionToken = Uuid().v4();
-                        final Suggestion result = await showSearch(
-                            context: context,
-                            delegate: AddressSearch(sessionToken));
-                        if (result != null) {
-                          print("======================================");
-                          //print(result);
-                          final place = await PlaceApiProvider()
-                              .getPlaceDetailFromCompleteAdress(
-                                  result.description);
-                          setSearchText(place.address);
-                          widget.setCurrentPlace(place);
-                        }
-                      },
-                    ),
-                  ),
-                  VerticalDivider(
-                    thickness: 2,
-                    color: Colors.black,
-                  ),
-                  IconButton(
-                    icon: new Icon(Icons.sort),
-                    onPressed: () {
-                      print("Button pressed");
-                    },
-                  ),
+                  searchBar(),
+                  divider(),
+                  filterButton(),
                 ],
                 // )
               ),
             ],
           ),
         ));
+  }
+
+  Widget searchBar() {
+    return Container(
+      margin: const EdgeInsets.only(left: 6, right: 5),
+      width: MediaQuery.of(context).size.width * 0.80,
+      child: TextField(
+        decoration: InputDecoration(
+          icon: Icon(
+            Icons.search,
+            color: Colors.black,
+          ),
+          hintText: searchText,
+          border: InputBorder.none,
+        ),
+        readOnly: true, // On peut écrire ou non
+        onTap: () async {
+          final sessionToken = Uuid().v4();
+          final Suggestion result = await showSearch(
+              context: context, delegate: AddressSearch(sessionToken));
+          if (result != null) {
+            final place = await PlaceApiProvider()
+                .getPlaceDetailFromCompleteAdress(result.description);
+            setSearchText(place.address);
+            widget.setCurrentPlace(place);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget divider() {
+    return VerticalDivider(
+      thickness: 2,
+      color: Colors.black,
+    );
+  }
+
+  Widget filterButton() {
+    return IconButton(
+      icon: new Icon(Icons.sort),
+      onPressed: () {
+        print("Button pressed");
+      },
+    );
   }
 }
