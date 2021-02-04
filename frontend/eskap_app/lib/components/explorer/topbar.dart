@@ -19,11 +19,13 @@ class TopBar extends StatefulWidget {
 
 class _TopBarState extends State<TopBar> {
   String searchText = "";
-  Filter filter = Filter();
 
-  void setFilter(Filter filter) {
+  Filter filter = Filter(city: "", minPrice: 0, maxPrice: 100);
+
+  void saveCurrentFilter(Filter newfilter) {
+    print("update filter");
     setState(() {
-      filter = filter;
+      filter = newfilter;
     });
   }
 
@@ -110,9 +112,11 @@ class _TopBarState extends State<TopBar> {
       ),
       content: SingleChildScrollView(
         child: BlocProvider.value(
-          value: eskapbloc,
-          child: EskapFilter(),
-        ),
+            value: eskapbloc,
+            child: EskapFilter(
+              filter: filter,
+              setCurrentFilter: saveCurrentFilter,
+            )),
       ),
     );
 
