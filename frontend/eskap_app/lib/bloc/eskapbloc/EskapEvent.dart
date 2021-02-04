@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:eskap_app/models/escapeFilter.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/review.dart';
 import 'package:flutter/material.dart';
@@ -41,4 +42,10 @@ class EskapDeleteReview extends EskapEvent {
   final int eskapId;
 
   EskapDeleteReview(this.reviewId, this.eskapId);
+}
+
+class EskapFilterEvent extends EskapEvent {
+  final Filter filter;
+
+  EskapFilterEvent(this.filter);
 }

@@ -1,4 +1,7 @@
+import 'package:eskap_app/bloc/bloc.dart';
+import 'package:eskap_app/models/escapeFilter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EskapFilter extends StatefulWidget {
   final RangeValues currentRangeValues;
@@ -17,6 +20,16 @@ class _EskapFilterState extends State<EskapFilter> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        child: BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
+      if (state is EskapSuccess) {
+        return insideBlocBuilder();
+      }
+      return Center(child: Text("Data not loaded yet"));
+    }));
+  }
+
+  Widget insideBlocBuilder() {
+    return Container(
       child: Column(
         children: [
           Text("Ville"),
@@ -26,6 +39,7 @@ class _EskapFilterState extends State<EskapFilter> {
               "Prix : ${_currentRangeValues.start.round()} - ${_currentRangeValues.end.round()} €"),
           priceRangeSlider(),
           divider(),
+          filterButtons(),
         ],
       ),
     );
@@ -63,6 +77,20 @@ class _EskapFilterState extends State<EskapFilter> {
         setState(() {
           _currentRangeValues = values;
         });
+      },
+    );
+  }
+
+  Widget filterButtons() {
+    return TextButton(
+      child: Text("Test"),
+      onPressed: () {
+        Filter filter = Filter(
+          city: cityController.text.trim().toLowerCase(),
+          minPrice: _currentRangeValues.start,
+          maxPrice: _currentRangeValues.end,
+        );
+        BlocProvider.of<EskapBloc>(context).add(EskapFilterEvent(filter));
       },
     );
   }

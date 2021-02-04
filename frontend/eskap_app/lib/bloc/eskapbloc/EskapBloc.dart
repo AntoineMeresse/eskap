@@ -125,6 +125,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         } catch (_) {}
       }
     }
+
+    if (event is EskapFilterEvent) {
+      print("====> Filter <====");
+      print(event.filter.toString());
+    }
   }
 
   Future<List<EscapeGame>> _fetchEskap(favs) async {

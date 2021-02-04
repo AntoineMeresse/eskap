@@ -1,7 +1,10 @@
+import 'package:eskap_app/bloc/bloc.dart';
+import 'package:eskap_app/models/escapeFilter.dart';
 import 'package:eskap_app/models/suggestion.dart';
 import 'package:eskap_app/services/place_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import 'eskapFilter.dart';
@@ -16,6 +19,13 @@ class TopBar extends StatefulWidget {
 
 class _TopBarState extends State<TopBar> {
   String searchText = "";
+  Filter filter = Filter();
+
+  void setFilter(Filter filter) {
+    setState(() {
+      filter = filter;
+    });
+  }
 
   void setSearchText(String newText) {
     setState(() {
@@ -89,6 +99,8 @@ class _TopBarState extends State<TopBar> {
   }
 
   showAlertDialog(BuildContext context) {
+    //ignore: close_sinks
+    final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     AlertDialog alert = AlertDialog(
       title: Text(
         "Filtre(s)",
@@ -96,7 +108,12 @@ class _TopBarState extends State<TopBar> {
           color: Colors.black,
         ),
       ),
-      content: EskapFilter(),
+      content: SingleChildScrollView(
+        child: BlocProvider.value(
+          value: eskapbloc,
+          child: EskapFilter(),
+        ),
+      ),
     );
 
     showDialog(
