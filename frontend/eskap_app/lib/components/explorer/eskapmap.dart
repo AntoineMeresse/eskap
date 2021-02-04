@@ -30,7 +30,7 @@ class _EskapMapState extends State<EskapMap> {
   void initState() {
     super.initState();
     loadEskapIcon();
-    getLocationPermission();
+    //getLocationPermission();
     zoom = 5;
     currentPlace = Place(
         address: "France",
