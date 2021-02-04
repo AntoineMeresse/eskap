@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
 import 'package:uuid/uuid.dart';
 
+import 'eskapFilter.dart';
+
 class TopBar extends StatefulWidget {
   final setCurrentPlace;
   TopBar({Key key, this.setCurrentPlace}) : super(key: key);
@@ -81,7 +83,26 @@ class _TopBarState extends State<TopBar> {
     return IconButton(
       icon: new Icon(Icons.sort),
       onPressed: () {
-        print("Button pressed");
+        showAlertDialog(context);
+      },
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "Filtre(s)",
+        style: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      content: EskapFilter(),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
       },
     );
   }
