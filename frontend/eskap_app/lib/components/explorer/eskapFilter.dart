@@ -43,6 +43,8 @@ class _EskapFilterState extends State<EskapFilter> {
     return Container(
       child: Column(
         children: [
+          currentLocation(),
+          divider(),
           Text("Ville"),
           cityFilter(),
           divider(),
@@ -60,6 +62,20 @@ class _EskapFilterState extends State<EskapFilter> {
     return Divider(
       thickness: 3,
       height: 40,
+    );
+  }
+
+  Widget currentLocation() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Me géolocaliser"),
+        IconButton(
+          color: Colors.blueAccent,
+          icon: Icon(Icons.gps_fixed),
+          onPressed: () {},
+        ),
+      ],
     );
   }
 

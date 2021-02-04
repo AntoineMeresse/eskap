@@ -78,6 +78,7 @@ class _EskapMapState extends State<EskapMap> {
   Widget eskapMap(Set<Marker> markers) {
     return Container(
       child: GoogleMap(
+        myLocationEnabled: true,
         onMapCreated: _onMapCreated,
         markers: markers,
         initialCameraPosition: CameraPosition(
