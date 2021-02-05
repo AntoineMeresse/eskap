@@ -11,10 +11,13 @@ class AddressSearch extends SearchDelegate<Suggestion> {
   PlaceApiProvider apiClient;
 
   @override
+  String get searchFieldLabel => 'Rechercher';
+
+  @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        tooltip: 'Clear',
+        tooltip: 'Effacer',
         icon: Icon(Icons.clear),
         onPressed: () {
           query = '';
@@ -26,7 +29,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      tooltip: 'Back',
+      tooltip: 'Retour',
       icon: Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
@@ -46,7 +49,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
       builder: (context, snapshot) => query == ''
           ? Container(
               padding: EdgeInsets.all(16.0),
-              child: Text('Enter your address'),
+              child: Text('Entrer une addresse'),
             )
           : snapshot.hasData
               ? ListView.builder(
@@ -59,7 +62,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
                   ),
                   itemCount: snapshot.data.length,
                 )
-              : Container(child: Text('Loading...')),
+              : Container(child: Text('Chargement...')),
     );
   }
 }

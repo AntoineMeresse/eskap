@@ -71,9 +71,8 @@ class _TopBarState extends State<TopBar> {
         ),
         readOnly: true, // On peut écrire ou non
         onTap: () async {
-          final sessionToken = Uuid().v4();
-          final Suggestion result = await showSearch(
-              context: context, delegate: AddressSearch(sessionToken));
+          final Suggestion result =
+              await showSearch(context: context, delegate: AddressSearch(null));
           if (result != null) {
             final place = await PlaceApiProvider()
                 .getPlaceDetailFromCompleteAdress(result.description);

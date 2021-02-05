@@ -74,9 +74,8 @@ class EskapAdd extends StatelessWidget {
         decoration: InputDecoration(labelText: "Addresse"),
         readOnly: true, // On peut écrire ou non
         onTap: () async {
-          final sessionToken = "";
-          final Suggestion result = await showSearch(
-              context: context, delegate: AddressSearch(sessionToken));
+          final Suggestion result =
+              await showSearch(context: context, delegate: AddressSearch(null));
           if (result != null) {
             final place = await PlaceApiProvider()
                 .getPlaceDetailFromCompleteAdress(result.description);
