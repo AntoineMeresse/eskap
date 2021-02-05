@@ -19,8 +19,9 @@ class _EskapAddState extends State<EskapAdd> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController themeController = TextEditingController();
-  final TextEditingController difficultyController = TextEditingController();
+  final TextEditingController urlImageController = TextEditingController();
   Place currentPlace;
+  String _selectedDifficulty;
 
   static const double sidePadding = 30;
   static const padding =
@@ -47,13 +48,14 @@ class _EskapAddState extends State<EskapAdd> {
                         color: Colors.black,
                       ),
                       onPressed: () => cancel(context)),
-                  name(context),
-                  address(context),
-                  description(context),
-                  prix(context),
-                  themes(context),
-                  difficulty(context),
-                  textadd(context),
+                  name(),
+                  address(),
+                  description(),
+                  urlImage(),
+                  prix(),
+                  themes(),
+                  difficulty(),
+                  textadd(),
                   buttons(context),
                 ],
               ),
@@ -67,7 +69,7 @@ class _EskapAddState extends State<EskapAdd> {
     );
   }
 
-  Widget name(BuildContext context) {
+  Widget name() {
     return Container(
       padding: padding,
       child: TextField(
@@ -79,7 +81,7 @@ class _EskapAddState extends State<EskapAdd> {
     );
   }
 
-  Widget address(BuildContext context) {
+  Widget address() {
     return Container(
       padding: padding,
       child: TextField(
@@ -102,7 +104,7 @@ class _EskapAddState extends State<EskapAdd> {
     );
   }
 
-  Widget description(BuildContext context) {
+  Widget description() {
     return Container(
       padding: padding,
       child: TextField(
@@ -114,7 +116,7 @@ class _EskapAddState extends State<EskapAdd> {
     );
   }
 
-  Widget prix(BuildContext context) {
+  Widget prix() {
     return Container(
       padding: padding,
       child: TextField(
@@ -130,25 +132,46 @@ class _EskapAddState extends State<EskapAdd> {
     );
   }
 
-  Widget themes(BuildContext context) {
+  Widget themes() {
     return Container(
       padding: padding,
       child: TextField(
         controller: themeController,
         decoration: InputDecoration(
-          labelText: "Theme",
+          labelText: "Themes",
+          hintText: "Séparer par des virgules",
         ),
       ),
     );
   }
 
-  Widget difficulty(BuildContext context) {
-    return Container(
-      padding: padding,
-      child: TextField(
-        controller: difficultyController,
-        decoration: InputDecoration(
-          labelText: "Difficulté",
+  Widget difficulty() {
+    return Center(
+      child: Container(
+        padding: padding,
+        child: DropdownButton<String>(
+          isExpanded: true,
+          hint: Text("Choisir difficulté"),
+          value: _selectedDifficulty,
+          items: [
+            DropdownMenuItem(
+              child: Text("Facile 🙂"),
+              value: "facile",
+            ),
+            DropdownMenuItem(
+              child: Text("Moyen 🧐"),
+              value: "moyen",
+            ),
+            DropdownMenuItem(
+              child: Text("Difficile 😈"),
+              value: "difficile",
+            ),
+          ],
+          onChanged: (String value) {
+            setState(() {
+              _selectedDifficulty = value;
+            });
+          },
         ),
       ),
     );
@@ -173,10 +196,10 @@ class _EskapAddState extends State<EskapAdd> {
             onPressed: () {
               EscapeGame eg = EscapeGame(
                   name: nameController.text,
-                  difficulty: difficultyController.text,
+                  difficulty: _selectedDifficulty ?? "facile",
                   price:
                       double.parse(priceController.text.replaceAll(",", '.')),
-                  imgurl: "",
+                  imgurl: urlImageController.text.trim(),
                   description: descriptionController.text,
                   number: currentPlace.number != ""
                       ? int.parse(currentPlace.number)
@@ -186,7 +209,10 @@ class _EskapAddState extends State<EskapAdd> {
                   country: currentPlace.country,
                   latitude: currentPlace.latitude,
                   longitude: currentPlace.longitude,
-                  themes: [themeController.text],
+                  themes: themeController.text
+                      .replaceAll(" ", "")
+                      .toLowerCase()
+                      .split(","),
                   reviews: [],
                   official: false,
                   isFav: false,
@@ -200,10 +226,23 @@ class _EskapAddState extends State<EskapAdd> {
     );
   }
 
-  Widget textadd(BuildContext context) {
+  Widget textadd() {
     return Container(
         padding: padding,
         child: Text(
             "Votre Escape Game sera ajouté aux escapes games certifiés lorsque celui ci aura été validé 😁"));
+  }
+
+  Widget urlImage() {
+    return Container(
+      padding: padding,
+      child: TextField(
+        controller: urlImageController,
+        decoration: InputDecoration(
+          labelText: "Image",
+          hintText: "Entrer une Url d'image",
+        ),
+      ),
+    );
   }
 }
