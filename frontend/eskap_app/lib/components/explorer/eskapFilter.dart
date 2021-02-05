@@ -17,6 +17,7 @@ class _EskapFilterState extends State<EskapFilter> {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController themeController = TextEditingController();
+  int _selectedEskaps = 0;
 
   static const padding = EdgeInsets.only(bottom: 20);
 
@@ -54,6 +55,9 @@ class _EskapFilterState extends State<EskapFilter> {
     return Container(
       child: Column(
         children: [
+          Text("Escape Games"),
+          dropdown(),
+          divider(),
           Text(
               "Prix : ${_currentRangeValues.start.round()} - ${_currentRangeValues.end.round()} €"),
           priceRangeSlider(),
@@ -149,6 +153,32 @@ class _EskapFilterState extends State<EskapFilter> {
           },
         )
       ],
+    );
+  }
+
+  Widget dropdown() {
+    return DropdownButton(
+      hint: Text("Select all"),
+      value: _selectedEskaps,
+      items: [
+        DropdownMenuItem(
+          child: Text("Tous"),
+          value: 0,
+        ),
+        DropdownMenuItem(
+          child: Text("Certifiés"),
+          value: 1,
+        ),
+        DropdownMenuItem(
+          child: Text("Pas encore certifiés"),
+          value: 2,
+        ),
+      ],
+      onChanged: (value) {
+        setState(() {
+          _selectedEskaps = value;
+        });
+      },
     );
   }
 }
