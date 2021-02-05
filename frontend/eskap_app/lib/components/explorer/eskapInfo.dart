@@ -101,17 +101,51 @@ class _EskapInfoState extends State<EskapInfo> {
           Navigator.pop(context);
         },
       ),
-      IconButton(
-        icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
-        onPressed: () {
-          if (eg.isFav) {
-            BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
-          } else {
-            BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
-          }
-        },
-      )
+      Row(
+        children: [
+          doneButton(),
+          favButton(),
+        ],
+      ),
     ]);
+  }
+
+  Widget doneButton() {
+    return FlatButton(
+      splashColor: Colors.grey[100],
+      onPressed: () {
+        if (eg.isFav) {
+          BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
+        } else {
+          BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
+        }
+      },
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: !eg.isFav ? Colors.grey : Colors.green,
+            radius: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text("Fait"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget favButton() {
+    return IconButton(
+      icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
+      onPressed: () {
+        if (eg.isFav) {
+          BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
+        } else {
+          BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
+        }
+      },
+    );
   }
 
   Widget eskapImage() {
