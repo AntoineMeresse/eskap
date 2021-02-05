@@ -73,7 +73,12 @@ class EskapWidget extends StatelessWidget {
     //ignore: close_sinks
     final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     return ListTile(
-      title: Text(eg.name),
+      title: Row(
+        children: [
+          Text(eg.name),
+          if (eg.official) (Icon(Icons.verified_outlined)),
+        ],
+      ),
       subtitle: RatingBar.builder(
         initialRating: eg.averageRate(),
         minRating: 0,
