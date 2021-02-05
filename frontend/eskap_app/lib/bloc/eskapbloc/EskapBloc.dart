@@ -98,9 +98,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       print("This item is going to be deleted from ( $eskapId )");
       if (currentState is EskapSuccess) {
         try {
-          print(currentState.user.doneList.toString());
           final user = await _updateFavDone(userId, eskapId, false, "done");
-          print(currentState.user.doneList.toString());
           final eskaps = await _fetchEskap(user);
           yield EskapSuccess(
               eskaps: eskaps,
@@ -274,6 +272,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   List<EscapeGame> filterEskaps(List<EscapeGame> eskaps, Filter filter) {
+    if (filter == null) return null;
     List<EscapeGame> res = [];
     for (var eskap in eskaps) {
       bool cityF = filterCity(eskap, filter);
