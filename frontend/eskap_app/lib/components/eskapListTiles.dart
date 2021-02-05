@@ -131,7 +131,10 @@ class EskapWidget extends StatelessWidget {
 
   Widget favIcon(BuildContext context) {
     return IconButton(
-      icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
+      icon: Icon(
+        eg.isFav ? Icons.favorite : Icons.favorite_border,
+        color: eg.isFav ? Colors.deepOrange : Colors.black,
+      ),
       onPressed: () {
         if (eg.isFav) {
           showAlertDialog(context);
