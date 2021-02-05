@@ -28,7 +28,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       try {
         if (currentState is EskapInitial) {
           final user = await _fetchUser();
-          final eskaps = await _fetchEskap(user.favList);
+          final eskaps = await _fetchEskap(user);
           yield EskapSuccess(
             user: user,
             eskaps: eskaps,
@@ -43,24 +43,49 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       var eskapId = event.eskapId;
       print("This item is going to be added to fav ( $eskapId )");
       if (currentState is EskapSuccess) {
-        if (!currentState.user.favList.contains(eskapId)) {
-          try {
-            final user = await _updateFav(userId, eskapId, true);
-            final eskaps = await _fetchEskap(user.favList);
-            yield EskapSuccess(eskaps: eskaps, user: user);
-            return;
-          } catch (_) {}
-        }
+        try {
+          final user = await _updateFavDone(userId, eskapId, true, "favs");
+          final eskaps = await _fetchEskap(user);
+          yield EskapSuccess(eskaps: eskaps, user: user);
+          return;
+        } catch (_) {}
+        return;
+      }
+    }
+    if (event is EskapAddDone) {
+      var eskapId = event.eskapId;
+      if (currentState is EskapSuccess) {
+        try {
+          final user = await _updateFavDone(userId, eskapId, true, "done");
+          final eskaps = await _fetchEskap(user);
+          yield EskapSuccess(eskaps: eskaps, user: user);
+          return;
+        } catch (_) {}
         return;
       }
     }
     if (event is EskapRemoveFav) {
       var eskapId = event.eskapId;
-      print("This item is going to be deleted to fav ( $eskapId )");
+      print("This item is going to be deleted from fav ( $eskapId )");
       if (currentState is EskapSuccess) {
         try {
-          final user = await _updateFav(userId, eskapId, false);
-          final eskaps = await _fetchEskap(user.favList);
+          final user = await _updateFavDone(userId, eskapId, false, "favs");
+          final eskaps = await _fetchEskap(user);
+          yield EskapSuccess(eskaps: eskaps, user: user);
+          return;
+        } catch (_) {}
+        return;
+      }
+    }
+    if (event is EskapRemoveDone) {
+      var eskapId = event.eskapId;
+      print("This item is going to be deleted from ( $eskapId )");
+      if (currentState is EskapSuccess) {
+        try {
+          print(currentState.user.doneList.toString());
+          final user = await _updateFavDone(userId, eskapId, false, "done");
+          print(currentState.user.doneList.toString());
+          final eskaps = await _fetchEskap(user);
           yield EskapSuccess(eskaps: eskaps, user: user);
           return;
         } catch (_) {}
@@ -80,7 +105,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           );
           if (response.statusCode == 200) {
             final user = currentState.user;
-            final eskaps = await _fetchEskap(user.favList);
+            final eskaps = await _fetchEskap(user);
             yield EskapSuccess(
               eskaps: eskaps,
               user: user,
@@ -102,7 +127,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           Response response = await _addReview(review, eskapId);
           if (response.statusCode == 200) {
             final user = currentState.user;
-            final eskaps = await _fetchEskap(user.favList);
+            final eskaps = await _fetchEskap(user);
             yield EskapSuccess(
               eskaps: eskaps,
               user: user,
@@ -122,7 +147,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           print('RC ====> $responseCode');
           if (responseCode == 200) {
             final user = currentState.user;
-            final eskaps = await _fetchEskap(user.favList);
+            final eskaps = await _fetchEskap(user);
             yield EskapSuccess(
               eskaps: eskaps,
               user: user,
@@ -172,15 +197,18 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
   }
 
-  Future<List<EscapeGame>> _fetchEskap(favs) async {
+  Future<List<EscapeGame>> _fetchEskap(User user) async {
     final response = await httpClient.get('$url/eskaps/');
     print(response.statusCode);
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       print(data);
       return data.map((eskap) {
-        EscapeGame res =
-            EscapeGame.fromJson(eskap, userId, favs.contains(eskap['id']));
+        EscapeGame res = EscapeGame.fromJson(
+            eskap,
+            userId,
+            user.favList.contains(eskap['id']),
+            user.doneList.contains(eskap['id']));
         return res;
       }).toList();
     } else {
@@ -188,9 +216,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
   }
 
-  Future<User> _updateFav(String userId, int eskapId, bool add) async {
+  Future<User> _updateFavDone(
+      String userId, int eskapId, bool add, String listname) async {
     String op = add ? "add" : "delete";
-    String request = '$url/users/$userId/favs/$op/$eskapId';
+    String request = '$url/users/$userId/$listname/$op/$eskapId';
+    print(request);
     final response = await httpClient.put(request);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);

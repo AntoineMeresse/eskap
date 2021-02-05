@@ -22,6 +22,7 @@ class EscapeGame extends Equatable {
   final bool official;
 
   final bool isFav;
+  final bool isDone;
 
   EscapeGame({
     this.id,
@@ -40,6 +41,7 @@ class EscapeGame extends Equatable {
     this.reviews,
     this.official,
     this.isFav,
+    this.isDone,
   });
 
   @override
@@ -65,10 +67,10 @@ class EscapeGame extends Equatable {
         "longitude": longitude,
         "themes": themes,
         "reviews": reviews,
-        "official": isFav
+        "official": official,
       };
 
-  static EscapeGame fromJson(eskap, userId, bool isFav) {
+  static EscapeGame fromJson(eskap, userId, bool isFav, bool isDone) {
     return EscapeGame(
         id: eskap['id'],
         name: eskap['name'],
@@ -85,28 +87,31 @@ class EscapeGame extends Equatable {
         themes: themesFromJson(eskap['themes']),
         reviews: reviewsFromJson(eskap['reviews'], userId),
         official: eskap['official'],
-        isFav: isFav);
+        isFav: isFav,
+        isDone: isDone);
   }
 
   static EscapeGame updateEscapeFromPrevious(EscapeGame eg,
-      {bool isFav, Review review}) {
+      {bool isFav, bool isDone, Review review}) {
     return EscapeGame(
-        id: eg.id,
-        name: eg.name,
-        difficulty: eg.difficulty,
-        price: eg.price,
-        imgurl: eg.imgurl,
-        description: eg.description,
-        number: eg.number,
-        street: eg.street,
-        city: eg.city,
-        country: eg.country,
-        latitude: eg.latitude,
-        longitude: eg.longitude,
-        themes: eg.themes,
-        reviews: review != null ? [...eg.reviews, review] : eg.reviews,
-        official: eg.official,
-        isFav: isFav == null ? eg.isFav : isFav);
+      id: eg.id,
+      name: eg.name,
+      difficulty: eg.difficulty,
+      price: eg.price,
+      imgurl: eg.imgurl,
+      description: eg.description,
+      number: eg.number,
+      street: eg.street,
+      city: eg.city,
+      country: eg.country,
+      latitude: eg.latitude,
+      longitude: eg.longitude,
+      themes: eg.themes,
+      reviews: review != null ? [...eg.reviews, review] : eg.reviews,
+      official: eg.official,
+      isFav: isFav == null ? eg.isFav : isFav,
+      isDone: isDone == null ? eg.isDone : isDone,
+    );
   }
 
   static List<String> themesFromJson(themes) {

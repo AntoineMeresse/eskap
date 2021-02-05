@@ -28,7 +28,7 @@ class User extends Equatable {
     return User(
       firstname: user['firstname'],
       lastname: user['lastname'],
-      doneList: favFromJson(user['favlist']),
+      doneList: favFromJson(user['donelist']),
       favList: doneFromJson(user['favlist']),
     );
   }

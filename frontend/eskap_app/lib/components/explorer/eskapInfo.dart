@@ -114,16 +114,16 @@ class _EskapInfoState extends State<EskapInfo> {
     return FlatButton(
       splashColor: Colors.grey[100],
       onPressed: () {
-        if (eg.isFav) {
-          BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
+        if (eg.isDone) {
+          BlocProvider.of<EskapBloc>(context).add(EskapRemoveDone(eg.id));
         } else {
-          BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
+          BlocProvider.of<EskapBloc>(context).add(EskapAddDone(eg.id));
         }
       },
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: !eg.isFav ? Colors.grey : Colors.green,
+            backgroundColor: !eg.isDone ? Colors.grey : Colors.green,
             radius: 10,
           ),
           Padding(

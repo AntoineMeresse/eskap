@@ -53,3 +53,15 @@ class EskapFilterEvent extends EskapEvent {
 class EskapFilterClearEvent extends EskapEvent {
   EskapFilterClearEvent();
 }
+
+class EskapAddDone extends EskapEvent {
+  final int eskapId;
+
+  EskapAddDone(this.eskapId);
+}
+
+class EskapRemoveDone extends EskapEvent {
+  final int eskapId;
+
+  EskapRemoveDone(this.eskapId);
+}
