@@ -28,12 +28,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       try {
         if (currentState is EskapInitial) {
           final user = await _fetchUser();
-          final favs = user.favList;
-          final eskaps = await _fetchEskap(favs);
+          final eskaps = await _fetchEskap(user.favList);
           yield EskapSuccess(
             user: user,
             eskaps: eskaps,
-            favs: favs,
           );
           return;
         }
@@ -45,11 +43,12 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       var eskapId = event.eskapId;
       print("This item is going to be added to fav ( $eskapId )");
       if (currentState is EskapSuccess) {
-        if (!currentState.favs.contains(eskapId)) {
+        if (!currentState.user.favList.contains(eskapId)) {
           try {
-            final newFav = await _updateFav(userId, eskapId, true);
-            final eskaps = await _fetchEskap(newFav);
-            yield EskapSuccess(eskaps: eskaps, favs: newFav);
+            final user = await _updateFav(userId, eskapId, true);
+            final eskaps = await _fetchEskap(user.favList);
+            yield EskapSuccess(eskaps: eskaps, user: user);
+            return;
           } catch (_) {}
         }
         return;
@@ -60,34 +59,39 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       print("This item is going to be deleted to fav ( $eskapId )");
       if (currentState is EskapSuccess) {
         try {
-          final newFav = await _updateFav(userId, eskapId, false);
-          final eskaps = await _fetchEskap(newFav);
-          yield EskapSuccess(eskaps: eskaps, favs: newFav);
+          final user = await _updateFav(userId, eskapId, false);
+          final eskaps = await _fetchEskap(user.favList);
+          yield EskapSuccess(eskaps: eskaps, user: user);
+          return;
         } catch (_) {}
         return;
       }
     }
     if (event is EskapCreate) {
       print("Escape Create");
-      EscapeGame eg = event.eskap;
-      String body = json.encode(eg.toJson());
-      var response = await httpClient.post(
-        '$url/eskaps/',
-        headers: {"Content-Type": "application/json"},
-        body: body,
-      );
-      if (response.statusCode == 200) {
-        final favs = await _fetchFavs();
-        final eskaps = await _fetchEskap(favs);
-        yield EskapSuccess(
-          eskaps: eskaps,
-          favs: favs,
-        );
-        Navigator.pop(event.context);
+      if (currentState is EskapSuccess) {
+        try {
+          EscapeGame eg = event.eskap;
+          String body = json.encode(eg.toJson());
+          var response = await httpClient.post(
+            '$url/eskaps/',
+            headers: {"Content-Type": "application/json"},
+            body: body,
+          );
+          if (response.statusCode == 200) {
+            final user = currentState.user;
+            final eskaps = await _fetchEskap(user.favList);
+            yield EskapSuccess(
+              eskaps: eskaps,
+              user: user,
+            );
+            Navigator.pop(event.context);
+            return;
+          }
+        } catch (_) {}
         return;
-      } else {
-        print("Erreur");
       }
+      return;
     }
 
     if (event is EskapCreateReview) {
@@ -97,12 +101,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         try {
           Response response = await _addReview(review, eskapId);
           if (response.statusCode == 200) {
-            var favs = currentState.favs;
-            //var data = json.decode(response.body); // Change reponse type spring to int
-            final eskaps = await _fetchEskap(favs);
+            final user = currentState.user;
+            final eskaps = await _fetchEskap(user.favList);
             yield EskapSuccess(
               eskaps: eskaps,
-              favs: favs,
+              user: user,
             );
             return;
           }
@@ -118,11 +121,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           int responseCode = await _removeReview(reviewId, eskapId);
           print('RC ====> $responseCode');
           if (responseCode == 200) {
-            final favs = currentState.favs;
-            final eskaps = await _fetchEskap(favs);
+            final user = currentState.user;
+            final eskaps = await _fetchEskap(user.favList);
             yield EskapSuccess(
               eskaps: eskaps,
-              favs: favs,
+              user: user,
             );
             return;
           }
@@ -135,15 +138,15 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       print(event.filter.toString());
       if (currentState is EskapSuccess) {
         try {
-          final favs = currentState.favs;
+          final user = currentState.user;
           final eskaps = currentState.eskaps;
           final filter = event.filter;
           final eskapsFiltered = filterEskaps(eskaps, filter);
           yield EskapSuccess(
-            favs: favs,
             eskaps: eskaps,
             filter: filter,
             eskapFiltered: eskapsFiltered,
+            user: user,
           );
           return;
         } catch (_) {}
@@ -153,15 +156,15 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     if (event is EskapFilterClearEvent) {
       if (currentState is EskapSuccess) {
         try {
-          final favs = currentState.favs;
+          final user = currentState.user;
           final eskaps = currentState.eskaps;
           final filter = null;
           final eskapsFiltered = null;
           yield EskapSuccess(
-            favs: favs,
             eskaps: eskaps,
             filter: filter,
             eskapFiltered: eskapsFiltered,
+            user: user,
           );
           return;
         } catch (_) {}
@@ -184,23 +187,17 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     }
   }
 
-  Future<List<int>> _fetchFavs() async {
-    final response = await httpClient.get('$url/users/$userId/favs');
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
-      return data.cast<int>();
-    } else {
-      throw Exception("Error fetching fav list");
-    }
-  }
-
-  Future<List<int>> _updateFav(String userId, int eskapId, bool add) async {
+  Future<User> _updateFav(String userId, int eskapId, bool add) async {
     String op = add ? "add" : "delete";
     String request = '$url/users/$userId/favs/$op/$eskapId';
     final response = await httpClient.put(request);
     if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
-      return data.cast<int>();
+      // To modify
+      print("===========+>");
+      print(response.body);
+      User res = await _fetchUser();
+      print(res.favList.toString());
+      return res;
     } else {
       throw Exception("Error fetching fav list");
     }

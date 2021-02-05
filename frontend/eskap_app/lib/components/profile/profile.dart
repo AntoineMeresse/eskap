@@ -1,5 +1,4 @@
 import 'package:eskap_app/bloc/bloc.dart';
-import 'package:eskap_app/models/user.dart';
 import 'package:eskap_app/services/authentification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

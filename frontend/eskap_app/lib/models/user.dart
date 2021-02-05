@@ -28,8 +28,24 @@ class User extends Equatable {
     return User(
       firstname: user['firstname'],
       lastname: user['lastname'],
-      doneList: [],
-      favList: [],
+      doneList: favFromJson(user['favlist']),
+      favList: doneFromJson(user['favlist']),
     );
+  }
+
+  static List<int> favFromJson(favs) {
+    List<int> res = [];
+    for (var fav in favs) {
+      res.add(fav);
+    }
+    return res;
+  }
+
+  static List<int> doneFromJson(dones) {
+    List<int> res = [];
+    for (var done in dones) {
+      res.add(done);
+    }
+    return res;
   }
 }

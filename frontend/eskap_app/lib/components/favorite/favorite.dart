@@ -17,7 +17,7 @@ class Favorite extends StatelessWidget {
         return Center(child: Text('Failed to fetch datas'));
       }
       if (state is EskapSuccess) {
-        if (state.favs.isEmpty)
+        if (state.user.favList.isEmpty)
           return Center(child: Text('No favorites escaps'));
         else {
           return ListView.builder(

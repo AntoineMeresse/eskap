@@ -18,14 +18,12 @@ class EskapFailure extends EskapState {}
 
 class EskapSuccess extends EskapState {
   final List<EscapeGame> eskaps;
-  final List<int> favs;
   final Filter filter;
   final List<EscapeGame> eskapFiltered;
   final User user;
 
   const EskapSuccess({
     this.eskaps,
-    this.favs,
     this.filter,
     this.eskapFiltered,
     this.user,
@@ -40,7 +38,7 @@ class EskapSuccess extends EskapState {
   }
 
   @override
-  List<Object> get props => [eskaps, favs, filter, eskapFiltered, user];
+  List<Object> get props => [eskaps, filter, eskapFiltered, user];
 
   @override
   String toString() =>
