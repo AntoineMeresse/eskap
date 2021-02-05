@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EskapAdd extends StatelessWidget {
+class EskapAdd extends StatefulWidget {
+  @override
+  _EskapAddState createState() => _EskapAddState();
+}
+
+class _EskapAddState extends State<EskapAdd> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -80,8 +85,9 @@ class EskapAdd extends StatelessWidget {
             final place = await PlaceApiProvider()
                 .getPlaceDetailFromCompleteAdress(result.description);
             addressController.text = (place.address);
-            currentPlace = place;
-            print(currentPlace.toString());
+            setState(() {
+              currentPlace = place;
+            });
           }
         },
       ),
