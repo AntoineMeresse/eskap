@@ -46,12 +46,22 @@ public class UserController {
     }
 
     @PutMapping("/{id}/favs/add/{eskapId}")
-    public List<Integer> addFavEskap(@PathVariable String id,@PathVariable int eskapId) {
+    public User addFavEskap(@PathVariable String id,@PathVariable int eskapId) {
         return this.userService.favEskap(id,eskapId,true);
     }
 
     @PutMapping("/{id}/favs/delete/{eskapId}")
-    public List<Integer> deleteFavEskap(@PathVariable String id,@PathVariable int eskapId) {
+    public User deleteFavEskap(@PathVariable String id,@PathVariable int eskapId) {
         return this.userService.favEskap(id,eskapId,false);
+    }
+
+    @PutMapping("/{id}/done/add/{eskapId}")
+    public User addDoneEskap(@PathVariable String id,@PathVariable int eskapId) {
+        return this.userService.doneEskap(id,eskapId,true);
+    }
+
+    @PutMapping("/{id}/done/delete/{eskapId}")
+    public User deleteDoneEskap(@PathVariable String id,@PathVariable int eskapId) {
+        return this.userService.doneEskap(id,eskapId,false);
     }
 }

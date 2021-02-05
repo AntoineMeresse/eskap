@@ -10,5 +10,6 @@ public interface UserService {
     List<Integer> getFavEskapFromUser(String id);
     User saveUser(User user);
 
-    List<Integer> favEskap(String id, int eskapId, boolean add);
+    User favEskap(String id, int eskapId, boolean add);
+    User doneEskap(String id, int eskapId, boolean add);
 }

@@ -59,20 +59,9 @@ public class EskapServiceImpl implements EskapService{
         return saveEskap(escapeGame);
     }
 
-    /** Method to generate an id */
-    public int reviewId(List<Review> reviews) {
-        int id = 0;
-        for (Review r : reviews) {
-            if (r.getReviewId() > id) id = r.getReviewId();
-        }
-        return id+1;
-    }
-
     @Override
     public EscapeGame addReview(int id, Review review) {
         EscapeGame escapeGame = getEskap(id);
-        int reviewId = reviewId(escapeGame.getReviews());
-        review.setReviewId(reviewId);
         escapeGame.getReviews().add(review);
         return saveEskap(escapeGame);
     }
