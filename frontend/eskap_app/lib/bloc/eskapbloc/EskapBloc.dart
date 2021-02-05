@@ -46,7 +46,13 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         try {
           final user = await _updateFavDone(userId, eskapId, true, "favs");
           final eskaps = await _fetchEskap(user);
-          yield EskapSuccess(eskaps: eskaps, user: user);
+          final filter = currentState.filter;
+          final eskapsFiltered = filterEskaps(eskaps, filter);
+          yield EskapSuccess(
+              eskaps: eskaps,
+              user: user,
+              filter: currentState.filter,
+              eskapFiltered: eskapsFiltered);
           return;
         } catch (_) {}
         return;
@@ -58,7 +64,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         try {
           final user = await _updateFavDone(userId, eskapId, true, "done");
           final eskaps = await _fetchEskap(user);
-          yield EskapSuccess(eskaps: eskaps, user: user);
+          yield EskapSuccess(
+              eskaps: eskaps,
+              user: user,
+              filter: currentState.filter,
+              eskapFiltered: currentState.eskapFiltered);
           return;
         } catch (_) {}
         return;
@@ -71,7 +81,13 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
         try {
           final user = await _updateFavDone(userId, eskapId, false, "favs");
           final eskaps = await _fetchEskap(user);
-          yield EskapSuccess(eskaps: eskaps, user: user);
+          final filter = currentState.filter;
+          final eskapsFiltered = filterEskaps(eskaps, filter);
+          yield EskapSuccess(
+              eskaps: eskaps,
+              user: user,
+              filter: currentState.filter,
+              eskapFiltered: eskapsFiltered);
           return;
         } catch (_) {}
         return;
@@ -86,7 +102,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
           final user = await _updateFavDone(userId, eskapId, false, "done");
           print(currentState.user.doneList.toString());
           final eskaps = await _fetchEskap(user);
-          yield EskapSuccess(eskaps: eskaps, user: user);
+          yield EskapSuccess(
+              eskaps: eskaps,
+              user: user,
+              filter: currentState.filter,
+              eskapFiltered: currentState.eskapFiltered);
           return;
         } catch (_) {}
         return;
@@ -107,9 +127,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
             final user = currentState.user;
             final eskaps = await _fetchEskap(user);
             yield EskapSuccess(
-              eskaps: eskaps,
-              user: user,
-            );
+                eskaps: eskaps,
+                user: user,
+                filter: currentState.filter,
+                eskapFiltered: currentState.eskapFiltered);
             Navigator.pop(event.context);
             return;
           }
@@ -129,9 +150,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
             final user = currentState.user;
             final eskaps = await _fetchEskap(user);
             yield EskapSuccess(
-              eskaps: eskaps,
-              user: user,
-            );
+                eskaps: eskaps,
+                user: user,
+                filter: currentState.filter,
+                eskapFiltered: currentState.eskapFiltered);
             return;
           }
         } catch (_) {}
@@ -149,9 +171,10 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
             final user = currentState.user;
             final eskaps = await _fetchEskap(user);
             yield EskapSuccess(
-              eskaps: eskaps,
-              user: user,
-            );
+                eskaps: eskaps,
+                user: user,
+                filter: currentState.filter,
+                eskapFiltered: currentState.eskapFiltered);
             return;
           }
         } catch (_) {}
@@ -181,8 +204,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     if (event is EskapFilterClearEvent) {
       if (currentState is EskapSuccess) {
         try {
-          final user = currentState.user;
-          final eskaps = currentState.eskaps;
+          final user = await _fetchUser();
+          final eskaps = await _fetchEskap(user);
           final filter = null;
           final eskapsFiltered = null;
           yield EskapSuccess(
@@ -220,7 +243,6 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       String userId, int eskapId, bool add, String listname) async {
     String op = add ? "add" : "delete";
     String request = '$url/users/$userId/$listname/$op/$eskapId';
-    print(request);
     final response = await httpClient.put(request);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
