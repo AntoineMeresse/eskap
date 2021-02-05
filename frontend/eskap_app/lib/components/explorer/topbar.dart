@@ -20,8 +20,8 @@ class TopBar extends StatefulWidget {
 class _TopBarState extends State<TopBar> {
   String searchText = "";
 
-  Filter filter =
-      Filter(city: "", minPrice: 0, maxPrice: 100, name: "", themes: "");
+  Filter filter = Filter(
+      city: "", minPrice: 0, maxPrice: 100, name: "", themes: "", eskapList: 0);
 
   void saveCurrentFilter(Filter newfilter) {
     print("update filter");

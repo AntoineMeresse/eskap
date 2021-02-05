@@ -231,7 +231,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       bool priceF = filterPrice(eskap, filter);
       bool nameF = filterName(eskap, filter);
       bool themeF = true; //filterThemes(eskap, filter);
-      if (cityF && priceF && nameF && themeF) {
+      bool stateF = filterEskapState(eskap, filter);
+      if (cityF && priceF && nameF && themeF && stateF) {
         res.add(eskap);
       }
     }
@@ -261,6 +262,15 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
 
   bool filterThemes(EscapeGame eskap, Filter filter) {
     // Todo
+    return false;
+  }
+
+  bool filterEskapState(EscapeGame eskap, Filter filter) {
+    if (filter.eskapList == 0)
+      return true;
+    else if (filter.eskapList == 1 && eskap.official)
+      return true;
+    else if (filter.eskapList == 2 && !eskap.official) return true;
     return false;
   }
 }

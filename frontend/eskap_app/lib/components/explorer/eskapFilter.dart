@@ -27,6 +27,7 @@ class _EskapFilterState extends State<EskapFilter> {
     setState(() {
       _currentRangeValues =
           RangeValues(widget.filter.minPrice, widget.filter.maxPrice);
+      _selectedEskaps = widget.filter.eskapList;
     });
     print(widget.filter.toString());
     cityController.text = widget.filter.city;
@@ -127,6 +128,7 @@ class _EskapFilterState extends State<EskapFilter> {
               maxPrice: 100,
               name: "",
               themes: "",
+              eskapList: 0,
             );
             widget.setCurrentFilter(filter);
             BlocProvider.of<EskapBloc>(context).add(EskapFilterClearEvent());
@@ -141,7 +143,8 @@ class _EskapFilterState extends State<EskapFilter> {
                 minPrice: _currentRangeValues.start,
                 maxPrice: _currentRangeValues.end,
                 name: nameController.text.trim().toLowerCase(),
-                themes: themeController.text.trim().toLowerCase());
+                themes: themeController.text.trim().toLowerCase(),
+                eskapList: _selectedEskaps);
             widget.setCurrentFilter(filter);
             BlocProvider.of<EskapBloc>(context).add(EskapFilterEvent(filter));
             Navigator.pop(context);
