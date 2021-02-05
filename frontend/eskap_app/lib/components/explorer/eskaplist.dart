@@ -59,6 +59,11 @@ class EskapWidget extends StatelessWidget {
 
   const EskapWidget({Key key, @required this.eg}) : super(key: key);
 
+  static const TextStyle bold = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
+
   @override
   Widget build(BuildContext context) {
     //ignore: close_sinks
@@ -69,6 +74,7 @@ class EskapWidget extends StatelessWidget {
           children: [
             title(),
             theme(),
+            price(),
           ],
         ),
         subtitle: rateAndLocation(),
@@ -104,16 +110,26 @@ class EskapWidget extends StatelessWidget {
     );
   }
 
+  Widget price() {
+    return Container(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+        child: Row(
+          children: [
+            Text("Prix : ", style: bold),
+            Text('${eg.price} €'),
+          ],
+        ));
+  }
+
   Widget theme() {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: Row(
-        children: [
-          Text("Thème(s) :"),
-          Text("Theme list"),
-        ],
-      ),
-    );
+        padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+        child: Row(
+          children: [
+            Text(eg.themes.length > 1 ? "Thèmes :" : "Thème :", style: bold),
+            Text(' ${eg.themes.join(",")}'),
+          ],
+        ));
   }
 
   Widget rateAndLocation() {
@@ -128,13 +144,10 @@ class EskapWidget extends StatelessWidget {
         ),
         Text(
           " | ",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+          style: bold,
         ),
         Icon(Icons.location_pin),
-        Text('${eg.city}, ${eg.country}'),
+        Text('${eg.city}'),
       ],
     );
   }
@@ -155,7 +168,7 @@ class EskapWidget extends StatelessWidget {
       allowHalfRating: true,
       itemCount: 5,
       itemSize: 15,
-      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+      itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
       itemBuilder: (context, _) => Icon(
         Icons.star,
         color: Colors.amber,
