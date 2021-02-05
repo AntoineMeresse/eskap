@@ -134,10 +134,57 @@ class EskapWidget extends StatelessWidget {
       icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
       onPressed: () {
         if (eg.isFav) {
-          BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
+          showAlertDialog(context);
         } else {
           BlocProvider.of<EskapBloc>(context).add(EskapAddFav(eg.id));
         }
+      },
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = FlatButton(
+      child: Text(
+        "Annuler",
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text(
+        "Confirmer",
+        style: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      onPressed: () {
+        BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "Supprimer",
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      ),
+      content: Text("Voulez vous retirer cet Escape Game de vos favoris ?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
       },
     );
   }
