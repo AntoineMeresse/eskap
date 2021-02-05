@@ -36,16 +36,13 @@ class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-    if (firebaseUser != null) {
-      print("----------> User id : " + firebaseUser.uid);
-      return Scaffold(
-          body: SafeArea(
-        child: HomeWithEskapBloc(firebaseUser.uid),
-      ));
-    }
     return Scaffold(
-        body: SafeArea(
-      child: AuthentificationScreen(),
-    ));
+      resizeToAvoidBottomPadding: false,
+      body: SafeArea(
+        child: firebaseUser != null
+            ? HomeWithEskapBloc(firebaseUser.uid)
+            : AuthentificationScreen(),
+      ),
+    );
   }
 }
