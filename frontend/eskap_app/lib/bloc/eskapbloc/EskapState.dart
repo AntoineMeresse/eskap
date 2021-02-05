@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:eskap_app/models/filter.dart';
+import 'package:eskap_app/models/user.dart';
 
 abstract class EskapState extends Equatable {
   const EskapState();
@@ -20,12 +21,14 @@ class EskapSuccess extends EskapState {
   final List<int> favs;
   final Filter filter;
   final List<EscapeGame> eskapFiltered;
+  final User user;
 
   const EskapSuccess({
     this.eskaps,
     this.favs,
     this.filter,
     this.eskapFiltered,
+    this.user,
   });
 
   EskapSuccess copyWith({
@@ -37,7 +40,7 @@ class EskapSuccess extends EskapState {
   }
 
   @override
-  List<Object> get props => [eskaps, favs, filter, eskapFiltered];
+  List<Object> get props => [eskaps, favs, filter, eskapFiltered, user];
 
   @override
   String toString() =>

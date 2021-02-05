@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:eskap_app/models/filter.dart';
 import 'package:eskap_app/models/review.dart';
+import 'package:eskap_app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
@@ -26,9 +27,11 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     if (event is EskapFetched) {
       try {
         if (currentState is EskapInitial) {
-          final favs = await _fetchFavs();
+          final user = await _fetchUser();
+          final favs = user.favList;
           final eskaps = await _fetchEskap(favs);
           yield EskapSuccess(
+            user: user,
             eskaps: eskaps,
             favs: favs,
           );
@@ -278,5 +281,16 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
       return true;
     else if (filter.eskapList == 2 && !eskap.official) return true;
     return false;
+  }
+
+  Future<User> _fetchUser() async {
+    String userUrl = '$url/users/$userId';
+    final response = await httpClient.get('$userUrl');
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return User.fromJson(data);
+    } else {
+      throw Exception("Error fetching User");
+    }
   }
 }
