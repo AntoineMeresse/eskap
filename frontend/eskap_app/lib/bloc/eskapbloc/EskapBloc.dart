@@ -260,13 +260,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   bool filterThemes(EscapeGame eskap, Filter filter) {
-    if (filter.themes.isEmpty)
-      return true;
-    else {
-      for (var theme in filter.themes) {
-        if (eskap.themes.contains(theme)) return true;
-      }
-    }
+    // Todo
     return false;
   }
 }

@@ -31,10 +31,7 @@ class _EskapFilterState extends State<EskapFilter> {
     print(widget.filter.toString());
     cityController.text = widget.filter.city;
     nameController.text = widget.filter.name;
-    themeController.text =
-        (widget.filter.themes == null || widget.filter.themes.isEmpty)
-            ? ""
-            : widget.filter.themes.join(",");
+    themeController.text = widget.filter.themes;
   }
 
   @override
@@ -129,7 +126,7 @@ class _EskapFilterState extends State<EskapFilter> {
               minPrice: 0,
               maxPrice: 100,
               name: "",
-              themes: [],
+              themes: "",
             );
             widget.setCurrentFilter(filter);
             BlocProvider.of<EskapBloc>(context).add(EskapFilterClearEvent());
@@ -139,14 +136,12 @@ class _EskapFilterState extends State<EskapFilter> {
         TextButton(
           child: Text("Filtrer"),
           onPressed: () {
-            List<String> themes = themeController.text.split(',');
-            themes = themes.map((theme) => theme.toLowerCase().trim()).toList();
             Filter filter = Filter(
                 city: cityController.text.trim().toLowerCase(),
                 minPrice: _currentRangeValues.start,
                 maxPrice: _currentRangeValues.end,
                 name: nameController.text.trim().toLowerCase(),
-                themes: themes);
+                themes: themeController.text.trim().toLowerCase());
             widget.setCurrentFilter(filter);
             BlocProvider.of<EskapBloc>(context).add(EskapFilterEvent(filter));
             Navigator.pop(context);
