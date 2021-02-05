@@ -5,7 +5,6 @@ import 'package:eskap_app/services/place_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/uuid.dart';
 
 import 'eskapAdd.dart';
 import 'eskapFilter.dart';

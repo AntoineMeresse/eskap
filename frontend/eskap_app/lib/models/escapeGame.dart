@@ -86,7 +86,7 @@ class EscapeGame extends Equatable {
         longitude: eskap['longitude'],
         themes: themesFromJson(eskap['themes']),
         reviews: reviewsFromJson(eskap['reviews'], userId),
-        official: eskap['official'],
+        official: eskap['official'] ?? false,
         isFav: isFav,
         isDone: isDone);
   }

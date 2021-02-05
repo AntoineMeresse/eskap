@@ -5,6 +5,7 @@ import 'package:eskap_app/models/suggestion.dart';
 import 'package:eskap_app/services/place_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eskap_app/components/address_search.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EskapAdd extends StatefulWidget {
@@ -38,7 +39,14 @@ class _EskapAddState extends State<EskapAdd> {
           return SafeArea(
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                      ),
+                      onPressed: () => cancel(context)),
                   name(context),
                   address(context),
                   description(context),
@@ -111,6 +119,10 @@ class _EskapAddState extends State<EskapAdd> {
       padding: padding,
       child: TextField(
         controller: priceController,
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow((RegExp("[.,0-9]")))
+        ],
         decoration: InputDecoration(
           labelText: "Prix  (€ / personne)",
         ),
@@ -162,7 +174,8 @@ class _EskapAddState extends State<EskapAdd> {
               EscapeGame eg = EscapeGame(
                   name: nameController.text,
                   difficulty: difficultyController.text,
-                  price: double.parse(priceController.text),
+                  price:
+                      double.parse(priceController.text.replaceAll(",", '.')),
                   imgurl: "",
                   description: descriptionController.text,
                   number: currentPlace.number != ""
@@ -175,7 +188,9 @@ class _EskapAddState extends State<EskapAdd> {
                   longitude: currentPlace.longitude,
                   themes: [themeController.text],
                   reviews: [],
-                  isFav: false);
+                  official: false,
+                  isFav: false,
+                  isDone: false);
               BlocProvider.of<EskapBloc>(context).add(EskapCreate(eg, context));
             },
             child: Text("Ajouter"),
