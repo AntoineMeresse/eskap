@@ -18,12 +18,7 @@ class Profile extends StatelessWidget {
                 child: Text(state.user.getInitialLetters()),
               ),
               Text("${state.user.getName()}"),
-              RaisedButton(
-                onPressed: () {
-                  context.read<AuthenticationService>().signOut();
-                },
-                child: Text("Sign out"),
-              ),
+              lougoutButton(context),
               Divider(),
               stats(state.user.doneList, state.user.favList),
             ],
@@ -31,7 +26,7 @@ class Profile extends StatelessWidget {
         );
       }
       return Center(
-        child: CircularProgressIndicator(),
+        child: lougoutButton(context),
       );
     });
   }
@@ -42,6 +37,15 @@ class Profile extends StatelessWidget {
         Text("Escape games déjà fait : ${doneList.length}"),
         Text("Escape games en favoris : ${favList.length}"),
       ],
+    );
+  }
+
+  Widget lougoutButton(BuildContext context) {
+    return RaisedButton(
+      onPressed: () {
+        context.read<AuthenticationService>().signOut();
+      },
+      child: Text("Sign out"),
     );
   }
 }

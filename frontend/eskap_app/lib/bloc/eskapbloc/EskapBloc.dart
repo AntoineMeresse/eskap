@@ -174,6 +174,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
 
   Future<List<EscapeGame>> _fetchEskap(favs) async {
     final response = await httpClient.get('$url/eskaps/');
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       print(data);
@@ -192,12 +193,8 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     String request = '$url/users/$userId/favs/$op/$eskapId';
     final response = await httpClient.put(request);
     if (response.statusCode == 200) {
-      // To modify
-      print("===========+>");
-      print(response.body);
-      User res = await _fetchUser();
-      print(res.favList.toString());
-      return res;
+      final data = json.decode(response.body);
+      return User.fromJson(data);
     } else {
       throw Exception("Error fetching fav list");
     }
