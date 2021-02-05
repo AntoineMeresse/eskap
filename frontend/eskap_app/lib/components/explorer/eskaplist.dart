@@ -1,31 +1,22 @@
 import 'package:eskap_app/components/explorer/eskapInfo.dart';
+import 'package:eskap_app/components/explorer/topbar.dart';
 import 'package:eskap_app/models/escapeGame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eskap_app/bloc/bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'eskapAdd.dart';
-
 class EskapList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //ignore: close_sinks
-    final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
-    return Scaffold(
-      body: EskapListBloc(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                        value: eskapbloc,
-                        child: EskapAdd(),
-                      )));
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.black,
+    return Container(
+      child: Column(
+        children: [
+          TopBar(),
+          Expanded(
+            child: EskapListBloc(),
+          )
+        ],
       ),
     );
   }

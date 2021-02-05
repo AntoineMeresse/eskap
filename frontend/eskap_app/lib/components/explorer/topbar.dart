@@ -7,6 +7,7 @@ import 'package:eskap_app/components/address_search.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import 'eskapAdd.dart';
 import 'eskapFilter.dart';
 
 class TopBar extends StatefulWidget {
@@ -39,21 +40,20 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.065,
         child: Container(
-          child: Column(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  searchBar(),
-                  divider(),
-                  filterButton(),
-                ],
-                // )
-              ),
+              widget.setCurrentPlace != null ? searchBar() : addEskapButton(),
+              filterButton(),
             ],
+            // )
           ),
-        ));
+        ],
+      ),
+    ));
   }
 
   Widget searchBar() {
@@ -82,13 +82,6 @@ class _TopBarState extends State<TopBar> {
           }
         },
       ),
-    );
-  }
-
-  Widget divider() {
-    return VerticalDivider(
-      thickness: 2,
-      color: Colors.black,
     );
   }
 
@@ -127,5 +120,21 @@ class _TopBarState extends State<TopBar> {
         return alert;
       },
     );
+  }
+
+  Widget addEskapButton() {
+    //ignore: close_sinks
+    final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
+    return TextButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                        value: eskapbloc,
+                        child: EskapAdd(),
+                      )));
+        },
+        child: Text("Ajouter un escape game"));
   }
 }
