@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {
+  final padding = EdgeInsets.fromLTRB(0, 10, 0, 0);
+  final styleText = TextStyle(fontSize: 20);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
@@ -12,14 +15,15 @@ class Profile extends StatelessWidget {
         return Center(
           child: Column(
             children: [
-              CircleAvatar(
-                radius: 70,
-                backgroundColor: Colors.blue,
-                child: Text(state.user.getInitialLetters()),
+              Padding(
+                child: avatar(state.user.getInitialLetters()),
+                padding: padding,
               ),
-              Text("${state.user.getName()}"),
-              lougoutButton(context),
-              Divider(),
+              Padding(child: Text("${state.user.getName()}"), padding: padding),
+              Padding(child: lougoutButton(context), padding: padding),
+              Divider(
+                thickness: 3,
+              ),
               stats(state.user.doneList, state.user.favList),
             ],
           ),
@@ -31,11 +35,30 @@ class Profile extends StatelessWidget {
     });
   }
 
+  Widget avatar(String text) {
+    return CircleAvatar(
+      radius: 50,
+      backgroundColor: Colors.blue,
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 30),
+      ),
+    );
+  }
+
   Widget stats(List<int> doneList, List<int> favList) {
     return Column(
       children: [
-        Text("Escape games déjà fait : ${doneList.length}"),
-        Text("Escape games en favoris : ${favList.length}"),
+        Padding(
+          child: Text("Escape games déjà fait : ${doneList.length}",
+              style: styleText),
+          padding: padding,
+        ),
+        Padding(
+          child: Text("Escape games en favoris : ${favList.length}",
+              style: styleText),
+          padding: padding,
+        ),
       ],
     );
   }
