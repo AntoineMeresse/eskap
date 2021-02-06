@@ -115,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
             Text(
-              'Déjà un compte ? Onglet "Se connecter"',
+              'Déjà un compte ? Onglet "Connexion"',
               textAlign: TextAlign.center,
             )
           ],

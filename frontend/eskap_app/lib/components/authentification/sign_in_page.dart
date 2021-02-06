@@ -74,7 +74,7 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
             Text(
-              'Déjà un compte ? Onglet "Inscription"',
+              'Pas de compte ? Onglet "Inscription"',
               textAlign: TextAlign.center,
             )
           ],

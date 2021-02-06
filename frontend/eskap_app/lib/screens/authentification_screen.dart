@@ -10,7 +10,7 @@ class AuthentificationScreen extends StatelessWidget {
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Tab(text: "Se connecter"),
+              Tab(text: "Connexion"),
               Tab(text: "Inscription"),
             ],
           ),
