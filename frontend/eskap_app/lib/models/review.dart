@@ -33,13 +33,18 @@ class Review extends Equatable {
         isOwner: isOwner);
   }
 
-  Map<String, dynamic> toJson() =>
-      {"userId": userId, "text": text, "rate": rate, "date": date};
+  Map<String, dynamic> toJson() => {
+        "reviewId": reviewId,
+        "userId": userId,
+        "text": text,
+        "rate": rate,
+        "date": date,
+      };
 
   static Review updateReviewFromPrevious(
-      Review review, String userId, String date, bool isOwner) {
+      Review review, String userId, String date, bool isOwner, int reviewId) {
     return Review(
-        reviewId: review.reviewId,
+        reviewId: reviewId,
         userId: userId,
         text: review.text,
         rate: review.rate,

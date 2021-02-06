@@ -251,8 +251,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   Future<Response> _addReview(Review review, int eskapId) async {
-    Review newReview = Review.updateReviewFromPrevious(
-        review, userId, DateTime.now().toString(), true);
+    var actualTime = DateTime.now();
+    Review newReview = Review.updateReviewFromPrevious(review, userId,
+        actualTime.toString(), true, actualTime.millisecondsSinceEpoch);
     String body = json.encode(newReview.toJson());
     print(body);
     var response = await httpClient.put(
