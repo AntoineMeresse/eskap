@@ -18,7 +18,10 @@ class User extends Equatable {
   }
 
   String getInitialLetters() {
-    return '${firstname[0]} ${lastname[0]}'.toUpperCase();
+    if (firstname.isNotEmpty && lastname.isNotEmpty)
+      return '${firstname[0]} ${lastname[0]}'.toUpperCase();
+    else
+      return "";
   }
 
   @override

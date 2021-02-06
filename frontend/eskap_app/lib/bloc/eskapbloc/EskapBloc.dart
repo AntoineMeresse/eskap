@@ -329,13 +329,17 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   Future<User> _fetchUser() async {
-    String userUrl = '$url/users/$userId';
-    final response = await httpClient.get('$userUrl');
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return User.fromJson(data);
-    } else {
-      throw Exception("Error fetching User");
+    try {
+      String userUrl = '$url/users/$userId';
+      final response = await httpClient.get('$userUrl');
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return User.fromJson(data);
+      } else {
+        throw Exception("Error fetching User");
+      }
+    } catch (_) {
+      return User(doneList: [], favList: [], firstname: "", lastname: "");
     }
   }
 }
