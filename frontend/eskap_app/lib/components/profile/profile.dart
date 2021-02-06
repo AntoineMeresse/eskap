@@ -68,7 +68,7 @@ class Profile extends StatelessWidget {
       onPressed: () {
         context.read<AuthenticationService>().signOut();
       },
-      child: Text("Sign out"),
+      child: Text("Déconnexion"),
     );
   }
 }
