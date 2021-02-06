@@ -10,8 +10,8 @@ class AuthentificationScreen extends StatelessWidget {
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Tab(text: "Sign In"),
-              Tab(text: "Sign Up"),
+              Tab(text: "Se connecter"),
+              Tab(text: "Inscription"),
             ],
           ),
           title: Text('Eskap App'),

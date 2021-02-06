@@ -27,6 +27,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         home: AuthenticationWrapper(),
+        theme: ThemeData(
+          primaryColor: Colors.grey[800],
+          fontFamily: "Roboto",
+        ),
       ),
     );
   }
