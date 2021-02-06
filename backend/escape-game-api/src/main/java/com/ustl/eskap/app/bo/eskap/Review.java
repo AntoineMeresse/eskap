@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Review {
 
-    private int reviewId;
+    private long reviewId;
     private String userId;
     private String text;
     private double rate;
@@ -15,7 +15,7 @@ public class Review {
 
     }
 
-    public Review(int reviewId, String userId, String text, double rate, String date) {
+    public Review(long reviewId, String userId, String text, double rate, String date) {
         this.reviewId = reviewId;
         this.userId = userId;
         this.text = text;
@@ -23,11 +23,11 @@ public class Review {
         this.date = date;
     }
 
-    public int getReviewId() {
+    public long getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(int reviewId) {
+    public void setReviewId(long reviewId) {
         this.reviewId = reviewId;
     }
 

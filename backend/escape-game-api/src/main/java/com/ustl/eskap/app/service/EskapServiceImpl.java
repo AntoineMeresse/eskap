@@ -67,7 +67,7 @@ public class EskapServiceImpl implements EskapService{
     }
 
     @Override
-    public EscapeGame deleteReview(int id, int reviewId) {
+    public EscapeGame deleteReview(int id, long reviewId) {
         EscapeGame escapeGame = getEskap(id);
         List<Review> reviews = escapeGame.getReviews();
         if (reviews.size() >= 1) {

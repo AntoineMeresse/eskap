@@ -15,5 +15,5 @@ public interface EskapService {
 
     EscapeGame setEskapToOfficial(int id, boolean official);
     EscapeGame addReview(int id, Review review);
-    EscapeGame deleteReview(int id, int reviewId);
+    EscapeGame deleteReview(int id, long reviewId);
 }

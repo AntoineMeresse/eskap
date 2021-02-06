@@ -76,7 +76,7 @@ public class EskapController {
     }
 
     @PutMapping("/{id}/reviews/{reviewId}")
-    public EscapeGame deleteReview(@PathVariable int id, @PathVariable int reviewId) {
+    public EscapeGame deleteReview(@PathVariable int id, @PathVariable long reviewId) {
         return this.eskapService.deleteReview(id, reviewId);
     }
 }
