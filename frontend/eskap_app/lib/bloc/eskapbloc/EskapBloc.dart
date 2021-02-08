@@ -295,11 +295,19 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     return false;
   }
 
+  // EG 19 35
+  // FI 18 36
+
   bool filterPrice(EscapeGame eskap, Filter filter) {
-    if (filter.minPrice > eskap.minprice)
-      return false;
-    else if (filter.maxPrice < eskap.minprice) return false;
-    return true;
+    // Filtre Min
+    if (filter.minPrice <= eskap.minprice && filter.maxPrice >= eskap.minprice)
+      return true;
+    if (filter.minPrice <= eskap.maxprice && filter.maxPrice >= eskap.maxprice)
+      return true;
+    if (filter.minPrice <= eskap.minprice && filter.maxPrice >= eskap.maxprice)
+      return true;
+    // Autre
+    return false;
   }
 
   bool filterName(EscapeGame eskap, Filter filter) {
