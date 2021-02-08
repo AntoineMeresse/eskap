@@ -4,6 +4,7 @@ import 'package:eskap_app/models/review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EskapInfo extends StatefulWidget {
   final EscapeGame eg;
@@ -15,7 +16,8 @@ class EskapInfo extends StatefulWidget {
 
 class _EskapInfoState extends State<EskapInfo> {
   static const padding = EdgeInsets.only(top: 30, left: 0, right: 0);
-  static const paddingEskapInfoContainer = EdgeInsets.only(top: 10);
+  static const paddingEskapInfoContainer =
+      EdgeInsets.symmetric(horizontal: 20, vertical: 10);
 
   double reviewRate = 2.5;
   bool showAddReview = false;
@@ -60,37 +62,41 @@ class _EskapInfoState extends State<EskapInfo> {
         eskapImage(),
         eskapName(),
         eskapRate(),
+        eskapWebsite(),
+        divider(),
         Container(
           padding: padding,
           child: Column(
             children: [
               eskapInfoContainer(context, eskapAddress()),
               eskapInfoContainer(context, eskapPrice()),
+              eskapInfoContainer(context, eskapPlayers()),
               eskapInfoContainer(context, eskapThemes()),
-              eskapInfoContainer(context, eskapDescription()),
               eskapInfoContainer(context, eskapDifficulty()),
-              divider(),
-              addReviewContainer(),
-              eskapInfoContainer(context, eskapAddReview(), size: 0.90),
-              divider(),
-              allReviewsContainer(),
-              eskapInfoContainer(
-                  context, eskapDisplayAllReviews(context, state)),
-              divider(),
+              eskapInfoContainer(context, eskapDescription()),
             ],
           ),
         ),
+        divider(),
+        addReviewContainer(),
+        eskapInfoContainer(context, eskapAddReview(), size: 0.90),
+        divider(),
+        allReviewsContainer(),
+        eskapInfoContainer(context, eskapDisplayAllReviews(context, state)),
+        divider(),
       ],
     );
   }
 
   Widget eskapInfoContainer(BuildContext context, Widget widget,
       {double size: 1}) {
-    return Container(
-      padding: paddingEskapInfoContainer,
-      child: Center(child: widget),
-      width: MediaQuery.of(context).size.width * size,
-    );
+    if (widget != null)
+      return Container(
+        padding: paddingEskapInfoContainer,
+        child: widget,
+        width: MediaQuery.of(context).size.width * size,
+      );
+    return Container();
   }
 
   Widget topBar(context) {
@@ -158,6 +164,7 @@ class _EskapInfoState extends State<EskapInfo> {
   Widget eskapName() {
     return Text(
       eg.name ?? null,
+      textAlign: TextAlign.center,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 30,
@@ -168,14 +175,19 @@ class _EskapInfoState extends State<EskapInfo> {
   Widget eskapRate() {
     double rate = eg.averageRate();
     int nbReviews = eg.reviews.length;
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(rate > 0 ? '${rate.toStringAsFixed(2)}' : 'Pas de notes encore'),
-          eskapRateStar(rate: rate),
-          Text('( $nbReviews )'),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(rate > 0
+                ? '${rate.toStringAsFixed(2)}'
+                : 'Pas de notes encore'),
+            eskapRateStar(rate: rate),
+            Text('( $nbReviews )'),
+          ],
+        ),
       ),
     );
   }
@@ -207,29 +219,63 @@ class _EskapInfoState extends State<EskapInfo> {
   Widget eskapAddress() {
     return Text(
       eg.addressToString() ?? "Null",
-      style: TextStyle(
-        fontStyle: FontStyle.italic,
-        fontSize: 20,
-      ),
     );
   }
 
   Widget eskapPrice() {
-    if (eg.minprice != null) {
-      return Text('Prix : ${eg.minprice} / €');
+    if (eg.minprice != 0 && eg.maxprice != 0) {
+      return Text(
+          'Prix : de ${eg.minprice}€ à ${eg.maxprice}€ selon le nombre de personnes');
     }
+  }
+
+  Widget eskapPlayers() {
+    if (eg.minprice != null) {
+      return Text('Personnes : de ${eg.minplayer} à ${eg.maxplayer} joueurs');
+    }
+
     return null;
+  }
+
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(),
+      borderRadius: BorderRadius.all(
+          Radius.circular(5.0) //         <--- border radius here
+          ),
+    );
+  }
+
+  List<Widget> themes(List<String> themes) {
+    List<Widget> res = [];
+    res.add(Text(themes.length > 1 ? "Thèmes : " : "Theme : "));
+    for (var theme in themes) {
+      res.add(
+        Container(
+          decoration: myBoxDecoration(),
+          margin: EdgeInsets.only(right: 10),
+          padding: EdgeInsets.all(3),
+          child: Text(toUpperFirst(theme)),
+        ),
+      );
+    }
+    return res;
   }
 
   Widget eskapThemes() {
     if (eg.themes.length > 0) {
-      return Text('Thème(s) : ${eg.themesToString()}');
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: themes(eg.themes),
+        ),
+      );
     }
     return null;
   }
 
   Widget eskapDescription() {
-    if (eg.description != null) {
+    if (eg.description != "") {
       return Container(
         child: Text('Description : ${eg.description}'),
       );
@@ -238,7 +284,7 @@ class _EskapInfoState extends State<EskapInfo> {
   }
 
   Widget eskapDifficulty() {
-    if (eg.difficulty != null) {
+    if (eg.difficulty != "") {
       return Text('Difficulté : ${eg.difficulty}');
     }
     return null;
@@ -358,7 +404,7 @@ class _EskapInfoState extends State<EskapInfo> {
         return Center(child: Text("Pas d'avis pour le moment 😐"));
       else {
         return SizedBox(
-          height: 200,
+          height: 300,
           child: ListView.builder(
               itemCount: eg.reviews.length,
               itemBuilder: (BuildContext context, int index) {
@@ -392,5 +438,29 @@ class _EskapInfoState extends State<EskapInfo> {
       }
     } else
       return null;
+  }
+
+  String toUpperFirst(String s) {
+    if (s.length >= 1) return '${s[0].toUpperCase()}${s.substring(1)}';
+    return "";
+  }
+
+  Widget eskapWebsite() {
+    if (eg.websiteurl != "") {
+      return MaterialButton(
+        color: Theme.of(context).primaryColor,
+        textColor: Colors.white,
+        onPressed: () async {
+          var url = eg.websiteurl;
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            throw 'Could not launch $url';
+          }
+        },
+        child: Text('Escape Game Website'),
+      );
+    }
+    return Container();
   }
 }
