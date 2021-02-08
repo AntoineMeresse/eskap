@@ -17,9 +17,19 @@ class _EskapAddState extends State<EskapAdd> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
+
+  final TextEditingController nbRoomController = TextEditingController();
+
+  final TextEditingController priceMinController = TextEditingController();
+  final TextEditingController priceMaxController = TextEditingController();
+
+  final TextEditingController personMinController = TextEditingController();
+  final TextEditingController personMaxController = TextEditingController();
+
   final TextEditingController themeController = TextEditingController();
+
   final TextEditingController urlImageController = TextEditingController();
+  final TextEditingController urlWebsiteController = TextEditingController();
   Place currentPlace;
   String _selectedDifficulty;
 
@@ -52,7 +62,10 @@ class _EskapAddState extends State<EskapAdd> {
                   address(),
                   description(),
                   urlImage(),
+                  urlWebsite(),
+                  roomNumber(),
                   prix(),
+                  personne(),
                   themes(),
                   difficulty(),
                   textadd(),
@@ -116,19 +129,29 @@ class _EskapAddState extends State<EskapAdd> {
     );
   }
 
-  Widget prix() {
+  Widget prixWidget(TextEditingController textEditingController, String label) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.50,
       padding: padding,
       child: TextField(
-        controller: priceController,
+        controller: textEditingController,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow((RegExp("[.,0-9]")))
         ],
         decoration: InputDecoration(
-          labelText: "Prix  (€ / personne)",
+          labelText: label,
         ),
       ),
+    );
+  }
+
+  Widget prix() {
+    return Row(
+      children: [
+        prixWidget(priceMinController, "Prix min"),
+        prixWidget(priceMaxController, "Prix max"),
+      ],
     );
   }
 
@@ -194,30 +217,49 @@ class _EskapAddState extends State<EskapAdd> {
           ),
           TextButton(
             onPressed: () {
-              EscapeGame eg = EscapeGame(
-                  name: nameController.text,
-                  difficulty: _selectedDifficulty ?? "facile",
-                  minprice:
-                      double.parse(priceController.text.replaceAll(",", '.')),
-                  imgurl: urlImageController.text.trim(),
-                  description: descriptionController.text,
-                  number: currentPlace.number != ""
-                      ? int.parse(currentPlace.number)
-                      : null,
-                  street: currentPlace.street ?? "",
-                  city: currentPlace.city,
-                  country: currentPlace.country,
-                  latitude: currentPlace.latitude,
-                  longitude: currentPlace.longitude,
-                  themes: themeController.text
-                      .replaceAll(" ", "")
-                      .toLowerCase()
-                      .split(","),
-                  reviews: [],
-                  official: false,
-                  isFav: false,
-                  isDone: false);
-              BlocProvider.of<EskapBloc>(context).add(EskapCreate(eg, context));
+              if (nameController.text != "" && currentPlace != null) {
+                EscapeGame eg = EscapeGame(
+                    name: nameController.text,
+                    difficulty: _selectedDifficulty ?? "facile",
+                    minprice: priceMinController.text != ""
+                        ? double.parse(
+                            priceMinController.text.replaceAll(",", '.'))
+                        : 0,
+                    maxprice: priceMaxController.text != ""
+                        ? double.parse(
+                            priceMaxController.text.replaceAll(",", '.'))
+                        : 0,
+                    imgurl: urlImageController.text.trim(),
+                    websiteurl: urlWebsiteController.text.trim(),
+                    roomnumber: nbRoomController.text != ""
+                        ? int.parse(nbRoomController.text)
+                        : 0,
+                    minplayer: personMinController.text != ""
+                        ? int.parse(personMinController.text)
+                        : 0,
+                    maxplayer: personMaxController.text != ""
+                        ? int.parse(personMaxController.text)
+                        : 0,
+                    description: descriptionController.text,
+                    number: currentPlace.number != ""
+                        ? int.parse(currentPlace.number)
+                        : null,
+                    street: currentPlace.street ?? "",
+                    city: currentPlace.city,
+                    country: currentPlace.country,
+                    latitude: currentPlace.latitude,
+                    longitude: currentPlace.longitude,
+                    themes: themeController.text
+                        .replaceAll(" ", "")
+                        .toLowerCase()
+                        .split(","),
+                    reviews: [],
+                    official: false,
+                    isFav: false,
+                    isDone: false);
+                BlocProvider.of<EskapBloc>(context)
+                    .add(EskapCreate(eg, context));
+              }
             },
             child: Text("Ajouter"),
           )
@@ -239,8 +281,68 @@ class _EskapAddState extends State<EskapAdd> {
       child: TextField(
         controller: urlImageController,
         decoration: InputDecoration(
-          labelText: "Image",
+          labelText: "Image URL",
           hintText: "Entrer une Url d'image",
+        ),
+      ),
+    );
+  }
+
+  Widget urlWebsite() {
+    return Container(
+      padding: padding,
+      child: TextField(
+        controller: urlWebsiteController,
+        decoration: InputDecoration(
+          labelText: "Site Web URL",
+          hintText: "Entrer l'url du site web",
+        ),
+      ),
+    );
+  }
+
+  Widget personneWidget(
+      TextEditingController textEditingController, String label) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.50,
+      padding: padding,
+      child: TextField(
+        controller: textEditingController,
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow((RegExp("[0-9]")))
+        ],
+        decoration: InputDecoration(
+          labelText: label,
+        ),
+      ),
+    );
+  }
+
+  Widget personne() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            personneWidget(personMinController, "Participants min"),
+            personneWidget(personMaxController, "Participants max"),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget roomNumber() {
+    return Container(
+      padding: padding,
+      child: TextField(
+        controller: nbRoomController,
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow((RegExp("[0-9]")))
+        ],
+        decoration: InputDecoration(
+          labelText: "Nombre de salle(s)",
         ),
       ),
     );
