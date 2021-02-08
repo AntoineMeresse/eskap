@@ -29,17 +29,29 @@ class EskapListBloc extends StatelessWidget {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
       if (state is EskapInitial) {
         return Center(
-          child: CircularProgressIndicator(),
+          child: Row(
+            children: [
+              Text("Chargement des données"),
+              CircularProgressIndicator(),
+            ],
+          ),
         );
       }
       if (state is EskapFailure) {
-        return Center(child: Text('Failed to fetch datas'));
+        return Center(child: Text("Les données n'ont pas pu être chargées."));
       }
       if (state is EskapSuccess) {
         List<EscapeGame> egs =
             state.filter == null ? state.eskaps : state.eskapFiltered;
         if (egs.isEmpty)
-          return Center(child: Text('No data'));
+          return Center(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              'Vos critères de recherches ne correspondent à aucuns escape games.',
+              textAlign: TextAlign.center,
+            ),
+          ));
         else {
           return ListView.builder(
               itemCount: egs.length,

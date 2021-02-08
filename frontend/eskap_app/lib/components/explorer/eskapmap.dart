@@ -118,7 +118,7 @@ class _EskapMapState extends State<EskapMap> {
               position: LatLng(eskap.latitude, eskap.longitude),
               infoWindow: InfoWindow(
                 title: eskap.name,
-                snippet: 'Id : ${eskap.id}',
+                snippet: eskap.addressToString(),
                 onTap: () {
                   if (eskap != null) {
                     Navigator.push(

@@ -10,15 +10,21 @@ class Favorite extends StatelessWidget {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
       if (state is EskapInitial) {
         return Center(
-          child: CircularProgressIndicator(),
+          child: Row(
+            children: [
+              Text("Chargement des données"),
+              CircularProgressIndicator(),
+            ],
+          ),
         );
       }
       if (state is EskapFailure) {
-        return Center(child: Text('Failed to fetch datas'));
+        return Center(child: Text("Les données n'ont pas pu être chargées."));
       }
       if (state is EskapSuccess) {
         if (state.user.favList.isEmpty)
-          return Center(child: Text('No favorites escaps'));
+          return Center(
+              child: Text("Vous n'avez pas encore d'escape game en favoris."));
         else {
           return ListView.builder(
               itemCount: state.eskaps.length,
