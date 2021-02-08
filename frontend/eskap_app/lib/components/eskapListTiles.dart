@@ -23,9 +23,10 @@ class EskapWidget extends StatelessWidget {
     return Card(
       child: ListTile(
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             title(),
-            theme(),
+            theme(context),
             price(),
           ],
         ),
@@ -49,9 +50,12 @@ class EskapWidget extends StatelessWidget {
   Widget title() {
     return Row(
       children: [
-        Text(
-          eg.name,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+        Expanded(
+          child: Text(
+            eg.name,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         if (eg.official)
           Container(
@@ -64,22 +68,30 @@ class EskapWidget extends StatelessWidget {
 
   Widget price() {
     return Container(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-        child: Row(
-          children: [
-            Text("Prix : ", style: bold),
-            Text('de ${eg.minprice}€ à ${eg.maxprice}€'),
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: (eg.minprice != 0 && eg.maxprice != 0)
+          ? Row(
+              children: [
+                Text("Prix : ", style: bold),
+                Text('de ${eg.minprice}€ à ${eg.maxprice}€'),
+              ],
+            )
+          : Container(),
+    );
   }
 
-  Widget theme() {
+  Widget theme(context) {
     return Container(
         padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
         child: Row(
           children: [
             Text(eg.themes.length > 1 ? "Thèmes :" : "Thème :", style: bold),
-            Text(' ${eg.themes.join(",")}'),
+            Expanded(
+              child: Text(
+                ' ${eg.themes.join(" ")}',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ));
   }
