@@ -68,7 +68,7 @@ class EskapWidget extends StatelessWidget {
         child: Row(
           children: [
             Text("Prix : ", style: bold),
-            Text('${eg.price} €'),
+            Text('de ${eg.minprice}€ à ${eg.maxprice}€'),
           ],
         ));
   }

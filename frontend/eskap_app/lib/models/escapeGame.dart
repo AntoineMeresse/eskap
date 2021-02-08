@@ -5,9 +5,20 @@ class EscapeGame extends Equatable {
   final int id;
   final String name;
   final String difficulty;
-  final double price;
+
+  final double minprice;
+  final double maxprice;
+
   final String imgurl;
+  final String websiteurl;
+
   final String description;
+
+  final int minplayer;
+  final int maxplayer;
+
+  final int roomnumber;
+
   // Address
   final int number;
   final String street;
@@ -28,9 +39,14 @@ class EscapeGame extends Equatable {
     this.id,
     this.name,
     this.difficulty,
-    this.price,
+    this.minprice,
+    this.maxprice,
     this.imgurl,
+    this.websiteurl,
     this.description,
+    this.minplayer,
+    this.maxplayer,
+    this.roomnumber,
     this.number,
     this.street,
     this.city,
@@ -57,9 +73,14 @@ class EscapeGame extends Equatable {
   Map<String, dynamic> toJson() => {
         "name": name,
         "difficulty": difficulty,
-        "price": price,
+        "minprice": minprice,
+        "maxprice": maxprice,
         "imgurl": imgurl,
+        "websiteurl": websiteurl,
         "description": description,
+        "minplayer": minplayer,
+        "maxplayer": maxplayer,
+        "roomnumber": roomnumber,
         "number": number,
         "street": street,
         "city": city,
@@ -76,9 +97,14 @@ class EscapeGame extends Equatable {
         id: eskap['id'],
         name: eskap['name'],
         difficulty: eskap['difficulty'],
-        price: eskap['price'],
+        minprice: eskap['minprice'],
+        maxprice: eskap['maxprice'],
         imgurl: eskap['imgurl'],
+        websiteurl: eskap['websiteurl'],
         description: eskap['description'],
+        minplayer: eskap['minplayer'],
+        maxplayer: eskap['maxplayer'],
+        roomnumber: eskap['roomnumber'],
         number: eskap['number'],
         street: eskap['street'],
         city: eskap['city'],
@@ -98,7 +124,7 @@ class EscapeGame extends Equatable {
       id: eg.id,
       name: eg.name,
       difficulty: eg.difficulty,
-      price: eg.price,
+      minprice: eg.minprice,
       imgurl: eg.imgurl,
       description: eg.description,
       number: eg.number,
@@ -147,9 +173,14 @@ class EscapeGame extends Equatable {
         id,
         name,
         difficulty,
-        price,
+        minprice,
+        maxprice,
         imgurl,
+        websiteurl,
         description,
+        minplayer,
+        maxplayer,
+        roomnumber,
         number,
         street,
         city,
@@ -160,5 +191,6 @@ class EscapeGame extends Equatable {
         reviews,
         official,
         isFav,
+        isDone,
       ];
 }

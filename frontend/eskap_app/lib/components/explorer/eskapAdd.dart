@@ -197,7 +197,7 @@ class _EskapAddState extends State<EskapAdd> {
               EscapeGame eg = EscapeGame(
                   name: nameController.text,
                   difficulty: _selectedDifficulty ?? "facile",
-                  price:
+                  minprice:
                       double.parse(priceController.text.replaceAll(",", '.')),
                   imgurl: urlImageController.text.trim(),
                   description: descriptionController.text,

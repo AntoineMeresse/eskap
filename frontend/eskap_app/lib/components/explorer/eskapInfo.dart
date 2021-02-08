@@ -215,8 +215,8 @@ class _EskapInfoState extends State<EskapInfo> {
   }
 
   Widget eskapPrice() {
-    if (eg.price != null) {
-      return Text('Prix : ${eg.price} / €');
+    if (eg.minprice != null) {
+      return Text('Prix : ${eg.minprice} / €');
     }
     return null;
   }

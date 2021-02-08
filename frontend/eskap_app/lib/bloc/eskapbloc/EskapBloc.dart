@@ -296,9 +296,9 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
   }
 
   bool filterPrice(EscapeGame eskap, Filter filter) {
-    if (filter.minPrice > eskap.price)
+    if (filter.minPrice > eskap.minprice)
       return false;
-    else if (filter.maxPrice < eskap.price) return false;
+    else if (filter.maxPrice < eskap.minprice) return false;
     return true;
   }
 
