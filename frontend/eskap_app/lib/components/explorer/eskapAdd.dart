@@ -86,7 +86,7 @@ class _EskapAddState extends State<EskapAdd> {
       padding: padding,
       child: TextField(
         controller: addressController,
-        decoration: InputDecoration(labelText: "Addresse"),
+        decoration: InputDecoration(labelText: "Adresse"),
         readOnly: true, // On peut écrire ou non
         onTap: () async {
           final Suggestion result =

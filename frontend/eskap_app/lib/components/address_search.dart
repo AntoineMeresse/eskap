@@ -49,7 +49,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
       builder: (context, snapshot) => query == ''
           ? Container(
               padding: EdgeInsets.all(16.0),
-              child: Text('Entrer une addresse'),
+              child: Text('Entrer une adresse'),
             )
           : snapshot.hasData
               ? ListView.builder(

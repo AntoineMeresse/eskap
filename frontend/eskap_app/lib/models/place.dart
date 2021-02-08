@@ -21,6 +21,6 @@ class Place {
 
   @override
   String toString() {
-    return 'Place{addresse: $address, lat: $latitude, Lng: $longitude, id: $id}';
+    return 'Place{adresse: $address, lat: $latitude, Lng: $longitude, id: $id}';
   }
 }

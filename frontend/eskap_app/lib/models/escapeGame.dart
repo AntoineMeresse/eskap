@@ -46,11 +46,12 @@ class EscapeGame extends Equatable {
 
   @override
   String toString() {
-    return 'EscapeGame{name : $name , addresse: $addressToString(), lat: $latitude, Lng: $longitude, id: $id}';
+    return 'EscapeGame{name : $name , adresse: $addressToString(), lat: $latitude, Lng: $longitude, id: $id}';
   }
 
   String addressToString() {
-    return 'Addresse : $number $street $city $country';
+    if (street == "" && number == 0) return 'Adresse : $city $country';
+    return 'Adresse : $number $street $city $country';
   }
 
   Map<String, dynamic> toJson() => {

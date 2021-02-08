@@ -79,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   if (!emailController.text.trim().contains("@") ||
                       emailController.text.trim().contains(" ")) {
-                    setErrorMessage("Addresse mail non valide");
+                    setErrorMessage("Adresse mail non valide");
                     return;
                   }
                   if (passwordController.text.length < 6) {
