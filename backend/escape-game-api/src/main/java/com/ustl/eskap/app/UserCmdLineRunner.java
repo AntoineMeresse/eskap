@@ -16,11 +16,6 @@ public class UserCmdLineRunner {
     @Autowired
     public CommandLineRunner userBean(UserRepository repository) {
         return (args) -> {
-
-            User u1 = new User("abcde","Antoine","Meresse",List.of(),List.of(1));
-            User u2 = new User("edcba","Imad","Abdelmouine",List.of(),List.of(2));
-            repository.save(u1);
-            repository.save(u2);
         };
     }
 }

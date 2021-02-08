@@ -4,10 +4,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name="usereskap")
 public class User {
 
     @Id
-    private String userId;
+    private String userid;
+
     private String firstname;
     private String lastname;
 
@@ -22,7 +24,7 @@ public class User {
     }
 
     public User(String id, String firstname, String lastname, List<Integer> donelist, List<Integer> favlist) {
-        this.userId = id;
+        this.userid = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.donelist = donelist;
@@ -30,11 +32,11 @@ public class User {
     }
 
     public String getId() {
-        return userId;
+        return userid;
     }
 
     public void setId(String id) {
-        this.userId = id;
+        this.userid = id;
     }
 
     public String getFirstname() {

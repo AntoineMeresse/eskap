@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUser(String id) {
-        return this.userRepository.findByUserId(id);
+        return this.userRepository.findByUserid(id);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User favEskap(String id, int eskapId, boolean add){
-        var user = this.userRepository.findByUserId(id);
+        var user = this.userRepository.findByUserid(id);
         var userFav = user.getFavlist();
         if (add) {
             if(!userFav.contains(eskapId)) userFav.add(eskapId);
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User doneEskap(String id, int eskapId, boolean add){
-        var user = this.userRepository.findByUserId(id);
+        var user = this.userRepository.findByUserid(id);
         var userDone = user.getDonelist();
         if (add) {
             if(!userDone.contains(eskapId)) userDone.add(eskapId);

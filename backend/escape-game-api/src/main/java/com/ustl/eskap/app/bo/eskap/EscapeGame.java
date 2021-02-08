@@ -13,9 +13,14 @@ public class EscapeGame {
     //EscapeGameInfos
     private String name;
     private String difficulty;
-    private double price;
+    private double minprice;
+    private double maxprice;
     private String imgurl;
+    private String websiteurl;
     private String description;
+    private int minplayer;
+    private int maxplayer;
+    private int roomnumber;
 
     // Address
     private int number;
@@ -39,15 +44,18 @@ public class EscapeGame {
 
     }
 
-    public EscapeGame(int id, String name, String difficulty, double price, String imgurl, String description,
-                      int number, String street, String city, String country, double latitude, double longitude,
-                      List<String> themes, List<Review> reviews, Boolean isOfficial) {
+    public EscapeGame(int id, String name, String difficulty, double minprice, double maxprice, String imgurl, String websiteurl, String description, int minplayer, int maxplayer, int roomnumber, int number, String street, String city, String country, double latitude, double longitude, List<String> themes, List<Review> reviews, Boolean isOfficial) {
         this.id = id;
         this.name = name;
         this.difficulty = difficulty;
-        this.price = price;
+        this.minprice = minprice;
+        this.maxprice = maxprice;
         this.imgurl = imgurl;
+        this.websiteurl = websiteurl;
         this.description = description;
+        this.minplayer = minplayer;
+        this.maxplayer = maxplayer;
+        this.roomnumber = roomnumber;
         this.number = number;
         this.street = street;
         this.city = city;
@@ -83,12 +91,20 @@ public class EscapeGame {
         this.difficulty = difficulty;
     }
 
-    public double getPrice() {
-        return price;
+    public double getMinprice() {
+        return minprice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setMinprice(double minprice) {
+        this.minprice = minprice;
+    }
+
+    public double getMaxprice() {
+        return maxprice;
+    }
+
+    public void setMaxprice(double maxprice) {
+        this.maxprice = maxprice;
     }
 
     public String getImgurl() {
@@ -99,12 +115,44 @@ public class EscapeGame {
         this.imgurl = imgurl;
     }
 
+    public String getWebsiteurl() {
+        return websiteurl;
+    }
+
+    public void setWebsiteurl(String websiteurl) {
+        this.websiteurl = websiteurl;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getMinplayer() {
+        return minplayer;
+    }
+
+    public void setMinplayer(int minplayer) {
+        this.minplayer = minplayer;
+    }
+
+    public int getMaxplayer() {
+        return maxplayer;
+    }
+
+    public void setMaxplayer(int maxplayer) {
+        this.maxplayer = maxplayer;
+    }
+
+    public int getRoomnumber() {
+        return roomnumber;
+    }
+
+    public void setRoomnumber(int roomnumber) {
+        this.roomnumber = roomnumber;
     }
 
     public int getNumber() {
