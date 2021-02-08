@@ -227,6 +227,7 @@ class _EskapInfoState extends State<EskapInfo> {
       return Text(
           'Prix : de ${eg.minprice}€ à ${eg.maxprice}€ selon le nombre de personnes');
     }
+    return null;
   }
 
   Widget eskapPlayers() {

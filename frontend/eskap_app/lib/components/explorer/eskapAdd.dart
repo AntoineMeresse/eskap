@@ -249,10 +249,12 @@ class _EskapAddState extends State<EskapAdd> {
                     country: currentPlace.country,
                     latitude: currentPlace.latitude,
                     longitude: currentPlace.longitude,
-                    themes: themeController.text
-                        .replaceAll(" ", "")
-                        .toLowerCase()
-                        .split(","),
+                    themes: (themeController.text.trim() == "")
+                        ? []
+                        : themeController.text
+                            .replaceAll(" ", "")
+                            .toLowerCase()
+                            .split(","),
                     reviews: [],
                     official: false,
                     isFav: false,
