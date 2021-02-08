@@ -222,7 +222,7 @@ class EskapBloc extends Bloc<EskapEvent, EskapState> {
     final response = await httpClient.get('$url/eskaps/');
     print(response.statusCode);
     if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
+      final data = json.decode(utf8.decode(response.bodyBytes)) as List;
       print(data);
       return data.map((eskap) {
         EscapeGame res = EscapeGame.fromJson(
