@@ -17,8 +17,8 @@ class _HomeState extends State<Home> {
   bool _map = false;
 
   final List<Widget> _widgets = [
-    EskapMap(),
     EskapList(),
+    EskapMap(),
     Favorite(),
     Profile(),
   ];
@@ -54,13 +54,13 @@ class _HomeState extends State<Home> {
         showUnselectedLabels: false, // Hide labels
         items: [
           new BottomNavigationBarItem(
-            icon: _map
+            icon: !_map
                 ? Icon(Icons.explore_outlined, color: Colors.black)
                 : Icon(Icons.list_alt_outlined, color: Colors.black),
-            activeIcon: _map
+            activeIcon: !_map
                 ? Icon(Icons.explore_rounded, color: Colors.black)
                 : Icon(Icons.list_alt, color: Colors.black),
-            label: _map ? 'Carte' : "Liste",
+            label: !_map ? 'Carte' : "Liste",
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outline, color: Colors.black),

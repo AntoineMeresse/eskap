@@ -29,10 +29,14 @@ class EskapListBloc extends StatelessWidget {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
       if (state is EskapInitial) {
         return Center(
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Chargement des données"),
-              CircularProgressIndicator(),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: CircularProgressIndicator(),
+              ),
             ],
           ),
         );
