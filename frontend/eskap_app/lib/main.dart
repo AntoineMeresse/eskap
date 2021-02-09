@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: AuthenticationWrapper(),
         theme: ThemeData(
           primaryColor: Colors.grey[800],
