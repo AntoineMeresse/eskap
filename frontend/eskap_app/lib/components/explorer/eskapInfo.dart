@@ -143,7 +143,10 @@ class _EskapInfoState extends State<EskapInfo> {
 
   Widget favButton() {
     return IconButton(
-      icon: Icon(eg.isFav ? Icons.favorite : Icons.favorite_border),
+      icon: Icon(
+        eg.isFav ? Icons.favorite : Icons.favorite_border,
+        color: eg.isFav ? Colors.deepOrange : Colors.black,
+      ),
       onPressed: () {
         if (eg.isFav) {
           BlocProvider.of<EskapBloc>(context).add(EskapRemoveFav(eg.id));
