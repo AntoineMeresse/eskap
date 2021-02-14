@@ -1,4 +1,5 @@
 import 'package:eskap_app/bloc/bloc.dart';
+import 'package:eskap_app/components/profile/appInfos.dart';
 import 'package:eskap_app/services/authentification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,21 +13,23 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EskapBloc, EskapState>(builder: (context, state) {
       if (state is EskapSuccess) {
-        return Center(
-          child: Column(
-            children: [
-              Padding(
-                child: avatar(state.user.getInitialLetters()),
-                padding: padding,
-              ),
-              Padding(child: Text("${state.user.getName()}"), padding: padding),
-              Padding(child: lougoutButton(context), padding: padding),
-              Divider(
-                thickness: 3,
-              ),
-              stats(state.user.doneList, state.user.favList),
-            ],
-          ),
+        return Column(
+          children: [
+            Padding(
+              child: avatar(state.user.getInitialLetters()),
+              padding: padding,
+            ),
+            Padding(child: Text("${state.user.getName()}"), padding: padding),
+            Padding(child: lougoutButton(context), padding: padding),
+            Divider(
+              thickness: 3,
+            ),
+            stats(state.user.doneList, state.user.favList),
+            Divider(
+              thickness: 3,
+            ),
+            AppInfos(),
+          ],
         );
       }
       return Center(
@@ -57,7 +60,7 @@ class Profile extends StatelessWidget {
         Padding(
           child: Text("Escape games en favoris : ${favList.length}",
               style: styleText),
-          padding: padding,
+          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         ),
       ],
     );
