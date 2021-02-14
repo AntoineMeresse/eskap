@@ -22,7 +22,7 @@ class EskapWidget extends StatelessWidget {
     final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
     return Card(
       elevation: 3.0,
-      margin: EdgeInsets.symmetric(vertical: 3),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       child: ListTile(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

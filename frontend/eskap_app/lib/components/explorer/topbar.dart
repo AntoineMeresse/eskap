@@ -39,6 +39,7 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.grey[200],
       child: Column(
         children: [
           Row(
@@ -122,16 +123,18 @@ class _TopBarState extends State<TopBar> {
   Widget addEskapButton() {
     //ignore: close_sinks
     final EskapBloc eskapbloc = BlocProvider.of<EskapBloc>(context);
-    return TextButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                        value: eskapbloc,
-                        child: EskapAdd(),
-                      )));
-        },
-        child: Text("Ajouter un escape game"));
+    return IconButton(
+      tooltip: "Ajouter un Escape Game",
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BlocProvider.value(
+                      value: eskapbloc,
+                      child: EskapAdd(),
+                    )));
+      },
+      icon: Icon(Icons.add_circle),
+    );
   }
 }
