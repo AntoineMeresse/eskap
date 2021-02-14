@@ -39,7 +39,6 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Container(
       child: Column(
         children: [
           Row(
@@ -52,7 +51,7 @@ class _TopBarState extends State<TopBar> {
           ),
         ],
       ),
-    ));
+    );
   }
 
   Widget searchBar() {
