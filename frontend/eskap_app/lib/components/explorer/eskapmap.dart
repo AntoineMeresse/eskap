@@ -26,6 +26,8 @@ class _EskapMapState extends State<EskapMap> {
 
   BitmapDescriptor bitmapDescriptor;
 
+  String markerPath = "assets/eskap-resize.png";
+
   @override
   void initState() {
     super.initState();
@@ -39,8 +41,8 @@ class _EskapMapState extends State<EskapMap> {
   }
 
   void loadEskapIcon() async {
-    bitmapDescriptor = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/eskap-resize.png');
+    bitmapDescriptor =
+        await BitmapDescriptor.fromAssetImage(ImageConfiguration(), markerPath);
   }
 
   void setZoom(Place place) {
