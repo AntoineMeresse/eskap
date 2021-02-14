@@ -117,27 +117,20 @@ class _EskapInfoState extends State<EskapInfo> {
   }
 
   Widget doneButton() {
-    return FlatButton(
-      splashColor: Colors.grey[100],
-      onPressed: () {
-        if (eg.isDone) {
-          BlocProvider.of<EskapBloc>(context).add(EskapRemoveDone(eg.id));
-        } else {
-          BlocProvider.of<EskapBloc>(context).add(EskapAddDone(eg.id));
-        }
-      },
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: !eg.isDone ? Colors.grey : Colors.green,
-            radius: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Text("Fait"),
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        Text("Fait"),
+        Switch(
+          value: eg.isDone,
+          onChanged: (bool _) {
+            if (eg.isDone) {
+              BlocProvider.of<EskapBloc>(context).add(EskapRemoveDone(eg.id));
+            } else {
+              BlocProvider.of<EskapBloc>(context).add(EskapAddDone(eg.id));
+            }
+          },
+        ),
+      ],
     );
   }
 
@@ -349,29 +342,26 @@ class _EskapInfoState extends State<EskapInfo> {
                   controller: reviewController,
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: TextButton(
-                  onPressed: () {
-                    print('$reviewRate | ${reviewController.text}');
-                    String reviewText = reviewController.text.trim();
-                    if (reviewText.length > 0) {
-                      Review r = Review(
-                        rate: reviewRate,
-                        text: reviewText,
-                      );
-                      BlocProvider.of<EskapBloc>(context)
-                          .add(EskapCreateReview(r, eg.id));
-                      resetForm();
-                      FocusScope.of(context).unfocus();
-                    }
-                  },
-                  child: Text(
-                    "Envoyer",
-                    style: TextStyle(color: Colors.blue),
-                  ),
+              TextButton(
+                onPressed: () {
+                  print('$reviewRate | ${reviewController.text}');
+                  String reviewText = reviewController.text.trim();
+                  if (reviewText.length > 0) {
+                    Review r = Review(
+                      rate: reviewRate,
+                      text: reviewText,
+                    );
+                    BlocProvider.of<EskapBloc>(context)
+                        .add(EskapCreateReview(r, eg.id));
+                    resetForm();
+                    FocusScope.of(context).unfocus();
+                  }
+                },
+                child: Text(
+                  "Envoyer",
+                  style: TextStyle(color: Colors.blue),
                 ),
-              )
+              ),
             ],
           ),
         ],
