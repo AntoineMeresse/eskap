@@ -54,11 +54,18 @@ dev_dependencies:
   # Icon
   flutter_launcher_icons: ^0.8.1
 
+  # Name 
+  flutter_launcher_name: ^0.0.1
+
 
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/eskap-icon.png"
+
+flutter_launcher_name:
+  name: "Eskap"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
