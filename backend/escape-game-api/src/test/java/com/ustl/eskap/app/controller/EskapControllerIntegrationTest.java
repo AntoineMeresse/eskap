@@ -28,22 +28,18 @@ public class EskapControllerIntegrationTest {
     }
 
     @Test
-    void getEskap_withId1_shouldReturnEskapLille(){
-        var eskapLille = this.testRestTemplate.getForObject("http://localhost:"+port+"/eskaps/1", EscapeGame.class);
+    void getEskap_withId1_shouldReturnEG1(){
+        var eg = this.testRestTemplate.getForObject("http://localhost:"+port+"/eskaps/1", EscapeGame.class);
 
-        assertNotNull(eskapLille);
-        assertEquals("Eskap Lille", eskapLille.getName());
-        // Add others tests
+        assertNotNull(eg);
+        assertEquals("EG1", eg.getName());
     }
 
     @Test
-    void getAllEskaps_shouldReturn5(){
+    void getAllEskaps_shouldReturn2(){
         var eskaps = this.testRestTemplate.getForObject("http://localhost:"+port+"/eskaps/", EscapeGame[].class);
 
         assertNotNull(eskaps);
-        assertEquals(5, eskaps.length);
-        // Add others tests
+        assertEquals(2, eskaps.length);
     }
-
-
 }
