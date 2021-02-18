@@ -31,34 +31,22 @@ class EskapRepositoryTest {
 
     @Test
     void testSave() {
-        List<String> themes = new ArrayList<>();
-
-        // Change this part
-        List<Review> reviews = new ArrayList<>();
-
-        /*
-        EscapeGame eg = new EscapeGame(
-                1, "Eskap Test", "Easy", 20.0, "urltest", "descriptiontest",
-                1, "rue", "Orchies","France",3.0,2.0, themes, reviews, true);
+        EscapeGame eg = new EscapeGame();
+        eg.setId(1);
+        eg.setName("Eskap Test");
 
         eskapRepository.save(eg);
 
         var saved = eskapRepository.findById(eg.getId());
         assertEquals("Eskap Test", saved.getName());
 
-         */
     }
 
     @Test
     void testDelete() {
-        List<String> themes = new ArrayList<>();
-        // Change this part
-        List<Review> reviews = new ArrayList<>();
-
-        /*
-        EscapeGame eg = new EscapeGame(
-                1, "Eskap Test", "Easy", 20.0, "urltest", "descriptiontest",
-                1, "rue", "Orchies","France",3.0,2.0, themes, reviews, true);
+        EscapeGame eg = new EscapeGame();
+        eg.setId(1);
+        eg.setName("Eskap Test");
 
         eskapRepository.save(eg);
 
@@ -68,7 +56,5 @@ class EskapRepositoryTest {
         eskapRepository.deleteById(eskaps.get(0).getId());
         eskaps = eskapRepository.findAll();
         assertEquals(0, eskaps.size());
-
-         */
     }
 }

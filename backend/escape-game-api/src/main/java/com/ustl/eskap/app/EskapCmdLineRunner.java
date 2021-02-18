@@ -17,6 +17,17 @@ public class EskapCmdLineRunner {
     @Autowired
     public CommandLineRunner demo(EskapRepository repository) {
         return (args) -> {
+
+            var eg1 = new EscapeGame();
+            eg1.setId(1);
+            eg1.setName("EG1");
+
+            var eg2 = new EscapeGame();
+            eg2.setId(2);
+            eg2.setName("EG2");
+
+            repository.save(eg1);
+            repository.save(eg2);
         };
     }
 }
