@@ -61,4 +61,40 @@ public class EskapServiceImplTest {
         eskapServ.deleteEskap(eg.getId());
         verify(eskapRepo).deleteById(eg.getId());
     }
+
+    @Test
+    void findAll_shouldCallTheRepository() {
+        var eskapRepo = mock(EskapRepository.class);
+        var eskapServ = new EskapServiceImpl(eskapRepo);
+
+        eskapServ.getAllEskaps();
+        verify(eskapRepo).findAll();
+    }
+
+    @Test
+    void findById_shouldCallTheRepository() {
+        var eskapRepo = mock(EskapRepository.class);
+        var eskapServ = new EskapServiceImpl(eskapRepo);
+
+        eskapServ.getEskap(1);
+        verify(eskapRepo).findById(1);
+    }
+
+    @Test
+    void findAllOfficial_shouldCallTheRepository() {
+        var eskapRepo = mock(EskapRepository.class);
+        var eskapServ = new EskapServiceImpl(eskapRepo);
+
+        eskapServ.getOfficialEskaps();
+        verify(eskapRepo).findAllOfficial();
+    }
+
+    @Test
+    void findAllNonOfficial_shouldCallTheRepository() {
+        var eskapRepo = mock(EskapRepository.class);
+        var eskapServ = new EskapServiceImpl(eskapRepo);
+
+        eskapServ.getNonOfficialEskaps();
+        verify(eskapRepo).findAllNonOfficial();
+    }
 }
